@@ -23,7 +23,9 @@
     </ion-slide>
     <ion-slide *ngFor="let card of lessonCards ; index as i">
       <ion-fab vertical="top" horizontal="end" slot="fixed">
-        <ion-fab-button color="ion-fab-button" disabled="true" size="small">{{card?.users3?.items[0]?.status}}
+        <!-- <ion-fab-button color="ion-fab-button" disabled="true" size="small">{{card?.users3?.items[0]?.status}} -->
+            <ion-fab-button color="ion-fab-button" disabled="true" size="small">    
+          {{(card?.users3?.items[0]?.status=="done") ? "happy" : "sad"}}
         </ion-fab-button>
       </ion-fab>
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">

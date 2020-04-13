@@ -27,6 +27,13 @@ ion-toolbar {
   --border-color: transparent;
 }
 
+// img{
+//   // height: 70vh;
+//   width: auto;
+//   margin: auto;
+//   display: block;
+// }
+
 
 
 // ion-card {
@@ -50,9 +57,10 @@ ion-toolbar {
 }
 
 .slide-image {
-  max-height: 50%;
-  max-width: 60%;
-  margin: 5px 0;
+  max-height: 5%;
+  // max-width: 60%;
+
+  margin: 2px 0;
   pointer-events: none;
 }
 ion-slides {
@@ -81,6 +89,10 @@ h2 {
 }
 h3 {
   margin-top: 0;
+}
+h4 {
+  margin-top: 0;
+  // font-size:1em;
 }
 //   ion-text{
 //   h1{

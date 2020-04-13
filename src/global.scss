@@ -39,10 +39,15 @@
 @import "theme/amplify.scss";
 
 // @import url(https://fonts.googleapis.com/css?family=Comic+Neue|Libre+Caslon+Display&display=swap);
-@import url(https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap);
+//@import url(https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans&display=swap);
+
+//@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+//'Open Sans', sans-serif;
 
 *:not(ion-icon) {
-  font-family: 'IBM Plex Sans', sans-serif!important;
+//   font-family: 'IBM Plex Sans', sans-serif!important;
+  font-family: 'Open Sans', sans-serif!important;
 }
 
 /* Core CSS required for Ionic components to work properly */

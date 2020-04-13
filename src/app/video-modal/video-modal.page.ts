@@ -31,8 +31,8 @@ export class VideoModalPage implements OnInit {
   ngOnInit() {
     this.options = {
       preload: "metadata",
-      controls: true,
-      autoplay: false,
+      controls: false,
+      autoplay: true,
       overrideNative: true,
       techOrder: ["html5"],
       html5: {
