@@ -1,0 +1,14 @@
+{
+    "trigger": true,
+    "modules": [
+        "add-to-group"
+    ],
+    "parentResource": "intuitisteu503f9258",
+    "functionName": "intuitisteu503f9258PostConfirmation",
+    "parentStack": "auth",
+    "triggerEnvs": "[]",
+    "triggerTemplate": "PostConfirmation.json.ejs",
+    "roleName": "intuitisteu503f9258PostConfirmation",
+    "skipEdit": true,
+    "resourceName": "intuitisteu503f9258PostConfirmation"
+}

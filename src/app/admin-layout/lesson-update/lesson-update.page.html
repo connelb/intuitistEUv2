@@ -1,0 +1,132 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    <ion-title>Update Lesson</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+    <div>
+        <ion-button (click)='onFileSelected($event)' fill='clear' size='small' >click
+        </ion-button>
+      </div>
+{{lessons|json}}
+  <form [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
+    <ion-item *ngIf="lessons">
+      <ion-label>Selected Lesson:</ion-label>
+
+      <!-- <ion-select [(ngModel)]="signup.state" (ionChange)="getcitylist(signup.state)" placeholder="Please Select State">
+          <ion-option *ngIf="signup.state==0" value="0" [selected]="true">Select State</ion-option>
+          <ion-option *ngFor="let state of statelist" [value]="state.state_id">{{state.state_name}}</ion-option>
+      </ion-select> -->
+      
+      <!-- <ion-item>
+          <ion-label>Gender</ion-label>
+          <ion-select placeholder="Select One">
+            <ion-select-option value="f">Female</ion-select-option>
+            <ion-select-option value="m">Male</ion-select-option>
+          </ion-select>
+        </ion-item> -->
+
+      <ion-select (ionChange)="getSelectedLesson($event)"  interface="action-sheet"  placeholder="Choose a lesson...">
+          <!-- <ion-option *ngFor="let lesson of lessons" [value]="lesson.name">{{lesson?.name}} </ion-option> -->
+          <div *ngFor="let lesson of lessons">
+            {{lesson|json}}
+        <ion-select-option  [value]="lesson.name">{{lesson?.name}} </ion-select-option>
+      </div>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf='lesson'>
+      <ion-label>Name</ion-label>
+      <ion-input type="text" name="selectedLesson" formControlName="selectedLesson"></ion-input>
+    </ion-item>
+    <!-- <ion-item>
+        <ion-label>Name</ion-label>
+        <ion-input type="text" name="name" formControlName="name"></ion-input>
+      </ion-item> -->
+
+    <ion-item *ngIf='lesson'>
+      <ion-label>Description</ion-label>
+      <ion-input type="text" name="description" formControlName="description"></ion-input>
+    </ion-item>
+    <ion-item *ngIf='lesson'>
+      <ion-label>Section</ion-label>
+      <ion-input type="text" name="section" formControlName="section"></ion-input>
+    </ion-item>
+    <ion-item *ngIf='lesson'>
+      <ion-label>Subsection</ion-label>
+      <ion-input type="text" name="subSection" formControlName="subSection"></ion-input>
+    </ion-item>
+    <ion-item *ngIf='lesson'>
+      <ion-label>Level</ion-label>
+      <ion-input type="text" name="level" formControlName="level"></ion-input>
+    </ion-item>
+    <ion-item *ngIf='lesson'>
+      <ion-label>Video</ion-label>
+      <ion-grid>
+        <ion-row>{{lesson?.video}}</ion-row>
+        <ion-row>
+          <ion-col class="ion-text-center">
+              <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)"/>
+              <p class="files-uploaded" *ngFor="let item of uploader.queue">
+                  <strong>
+                    {{ item?.file?.name }} 
+                    <!-- <button type="button" class="btn btn-danger btn-xs"(click)="item.remove()">
+                      <span class="glyphicon glyphicon-trash"></span> Remove
+                    </button> -->
+                  </strong>
+                </p>
+              <!-- <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)"/> -->
+              <!-- <ion-input type="file"  ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)"></ion-input> -->
+              <!-- #fileInput <input type="file" name="file" ng2FileSelect [uploader]="uploader" /> -->
+              <!-- <button type="button" class="btn btn-success btn-s" 
+                (click)="uploader.uploadAll()" 
+                [disabled]="!uploader.getNotUploadedItems().length" >
+                    Upload
+              </button> -->
+          
+            </ion-col>
+          <ion-col class="ion-text-end">
+              <ion-button (click)="uploader.uploadAll()">Upload </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-item *ngIf='lesson'>
+      <ion-label>Keywords</ion-label>
+      <ion-input type="text" name="keywords" formControlName="keywords"></ion-input>
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button [disabled]="lessonForm.invalid" ion-button type="submit" full round>Update</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+<ion-card *ngIf="lesson?.video">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="2">
+      </ion-col>
+      <!-- <ion-col class="ion-align-self-center" >
+          <video #video id=vid1 width={{width}} class="video-js vjs-default-skin vjs-layout-tiny"></video>
+      </ion-col> -->
+      <ion-col size="2">
+      </ion-col>
+    </ion-row>
+  </ion-grid> 
+</ion-card>
+
+
+
+  <!-- <ion-button  (click)="getSelectedVideo($event)">Upload2 </ion-button > -->
+
+</ion-content>

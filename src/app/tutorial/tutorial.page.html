@@ -1,0 +1,248 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Skip</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="ion-padding">
+  <ion-slides #slides (ionSlideWillChange)="onSlideChangeStart($event)" pager="true" [options]="slideOptions">
+    <ion-slide>
+      <ion-grid class="slide-grid">
+        <ion-row>
+          <img src="./../../../assets/images/logo.png" class="slide-image" />
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <h2>About
+              <b>Intuitist</b> French Level One</h2>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12" class="ion-padding">
+            <div>The Intuitist approach shows you how to think and speak French with more ease than you ever imagined. From the
+              get-go, you will be amazed at how quickly you are saying things in French with a good accent, and you will
+              feel your expression power and confidence growing.</div>
+            <br>
+            <div>Step by step, layer upon layer, you will lay the foundation of your 'French house', simply, clearly and in a
+              way that makes real sense to you.</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-grid class="slide-grid">
+          <ion-row>
+              <img src="./../../../assets/images/logo.png" class="slide-image" />
+            </ion-row>
+        <ion-row>
+          <ion-col size="12" class="ion-padding">
+            <div id="list">
+                <h2>Who’s it for?</h2>
+              <ul>
+                <li>Beginners & those with some knowledge of French (eg: school French)</li>
+                <li>Teachers looking to help their pupils to speak French more intuitively and spontaneously</li>
+              </ul>
+            </div>
+            <br>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide>
+      <ion-grid class="slide-grid">
+        <ion-row>
+          <ion-col size="12" class="ion-padding">
+            <div>
+              <h2>Content</h2>
+            </div>
+            <br>
+            <div id="list">
+              <h3>Introductory video</h3>
+              <ul>
+                <li>17 Coaching Videos : start speaking French</li>
+                <li>17 Test Yourself Videos : sharpen your speaking reflexes</li>
+                <li>17 Worksheets : practise your written French</li>
+              </ul>
+            </div>
+            <div>Throughout the program, you hear Conor coaching his student Mark. You are, if you like, the 2nd student in the
+              coaching session.
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-grid class="slide-grid">
+        <ion-row>
+          <ion-col size="12" class="ion-padding">
+            <div>
+              <h3>How to get the best from the course</h3>
+            </div>
+            <br>
+            <div>The material is presented sequentially, so later tracks will assume knowledge of earlier ones. It is best to
+              work through them in order. Watch the first Coaching video, then watch the corresponding Test Yourself video.</div>
+            <br>
+            <div>Each time an English word/sentence appears, press <b>pause</b> and <b>say your French translation out loud (essential)</b>.
+              Then press play and compare your response with the recording.
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-grid class="slide-grid">
+        <ion-row>
+          <ion-col size="12" class="ion-padding">
+            <div>
+              <h3>How to get the best from the course...</h3>
+            </div>
+            <br>
+            <div>
+              Don’t worry about your accent. Your coach Conor gives you lots of help with pronunciation, and the sub-titles use a simple
+              phonetic system specially designed for English-speakers.</div>
+            <br>
+            <div>Saying the sentences out loud will help make your accent 'more French'. Importantly, you will also grow in confidence
+              as you say more and more in French.</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+
+    <!-- <ion-slide>
+      <ion-grid class="slide-grid">
+        <ion-row>
+          <ion-col size="12" class="ion-padding">
+            <div>
+              <h2>Content</h2>
+            </div>
+            <div>(1) The Coaching videos : participate in a coaching session</div>
+            <div>The videos give you a rich learning experience, engaging you with French in 3 ways: hearing it, speaking it and
+              seeing it.
+            </div>
+            <br>
+            <div> (2) The Test Yourself videos :</div>
+            <div>sharpen your speaking reflexes Test yourself on the material you have learnt in the coaching videos. Treat it
+              as a game: see if you can 'nail' every French sentence!</div>
+            <br>
+            <div>For optimum learning, repeat each Test Yourself  until you are 100% happy with your answers. Be demanding!</div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+            <div id="list">
+                <h3>Introductory video</h3>
+                <ol>
+                  <li>The Coaching videos: participate in a coaching session</li>
+                  <p>blah, blah</p>
+                  <li>The Test Yourself videos:</li>
+                  <p>blah, blah</p>
+                </ol>
+              </div>
+        </ion-row>
+      </ion-grid>
+    </ion-slide> -->
+
+    <ion-slide>
+        <ion-grid class="slide-grid">
+          <!-- <ion-row>
+            <ion-col size="12" class="ion-padding">
+              <div>
+                <h2>Content</h2>
+              </div>
+              <div>(1) The Coaching videos : participate in a coaching session</div>
+              <div>The videos give you a rich learning experience, engaging you with French in 3 ways: hearing it, speaking it and
+                seeing it.
+              </div>
+              <br>
+              <div> (2) The Test Yourself videos :</div>
+              <div>sharpen your speaking reflexes Test yourself on the material you have learnt in the coaching videos. Treat it
+                as a game: see if you can 'nail' every French sentence!</div>
+              <br>
+              <div>For optimum learning, repeat each Test Yourself  until you are 100% happy with your answers. Be demanding!</div>
+            </ion-col>
+          </ion-row> -->
+          <ion-row>
+              <div id="list">
+                  <div>
+                      <h3>How to get the best from the course...</h3>
+                    </div>
+                    <br>
+                  <ol>
+                    <li><b>The Coaching videos : participate in a coaching session</b>. The videos give you a rich learning experience, engaging you with French in 3 ways: hearing it, speaking it and
+                        seeing it.</li>
+                    <li><b>The Test Yourself videos : sharpen your speaking reflexes</b>. Test yourself on the material you have learnt in the coaching videos. Treat it
+                        as a game: see if you can 'nail' every French sentence!</li>
+                  </ol>
+                </div>
+                <br>
+                <div>For optimum learning, repeat each <ion-text color="primary">Test Yourself</ion-text><ion-text color="dark"><sup><ion-icon name="information-outline"></ion-icon></sup></ion-text> until you are 100% happy with your answers. Be demanding!</div>
+          </ion-row>
+        </ion-grid>
+      </ion-slide>
+
+    <ion-slide>
+        <ion-fab vertical="top" horizontal="end" slot="fixed" (click)="startApp()">
+            <ion-fab-button color="danger">Sign Up
+            </ion-fab-button>
+          </ion-fab>
+          <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" href="https://www.youtube.com/watch?v=YjVqaiGMEwo&t=9s"> -->
+          <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+            <a href="https://www.youtube.com/watch?v=YjVqaiGMEwo&t=9s" target="_blank"><ion-fab-button color="primary">Sample</ion-fab-button></a>
+          </ion-fab>
+      <ion-grid class="slide-grid">
+          <ion-row>
+              <img src="./../../../assets/images/logo.png" class="slide-image" />
+            </ion-row>
+        <ion-row>
+          <ion-col size="12" class="ion-padding">
+            <div>
+              <i>“After only 4 sessions of Intuitist® French, my girlfriend - from French-speaking Switzerland, and my greatest
+                critic! - has already noticed a marked improvement in my French!!...”</i>
+            </div>
+            <div>
+              <i>“...I’ve now done 8 sessions. I’m just back from a wine trip to France... I felt a lot more confident speaking
+                to the wine retailers. They understood me! There were none of those blank looks and silences."</i>
+            </div>
+            <div>
+              <ion-text color="dark">
+                <i>
+                  <a>Mark Wilson, Actor & Radio DJ (and the student in French Level One)</a>
+                </i>
+              </ion-text>
+            </div>
+          </ion-col>
+        </ion-row>
+        <!-- <h2 class="slide-title">Ready to Enroll?</h2>
+        <ion-button fill="clear" (click)="startApp()">
+          Continue
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button> -->
+      </ion-grid>
+    </ion-slide>
+
+
+    <!-- <ion-slide>
+      <ion-item>
+        <ion-img [src]="'./../../../assets/images/logo_com_slogan.png'"></ion-img>
+      </ion-item>
+      <h2 class="slide-title">Ready to Enroll?</h2>
+      <ion-button fill="clear" (click)="startApp()">
+        Continue
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+      <ion-grid class="slide-grid">
+        <ion-row>
+          <ion-col>
+          </ion-col>
+      
+          <ion-col>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide> -->
+  </ion-slides>
+</ion-content>

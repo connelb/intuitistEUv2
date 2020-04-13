@@ -1,0 +1,123 @@
+type Lesson3 @model @auth(rules: [
+   { allow: groups, groups:["User"], operations: [read] },
+   { allow: groups, groups:["Admin"], operations: [create, update, delete, read] }
+   ])
+{
+id: ID!
+name: String!
+description: String
+section: String
+subSection: String
+level:String
+video:String
+keywords: String
+cards3: [Card3] @connection(name:"byLesson3")
+}
+
+type Card3 @model @auth(rules: [
+   { allow: groups, groups:["User"], operations: [read, update] },
+   { allow: groups, groups:["Admin"], operations: [create, update, delete, read] }
+   ])
+{
+id: ID!
+question: String!
+answer: String!
+audio:String
+video:String
+level: String
+order: Int
+keywords: String
+lesson3: Lesson3 @connection(name:"byLesson3")
+users3: [User3Card3] @connection(name:"CardUsers3")
+}
+
+
+type User3 @model @auth(rules: [
+  { allow: owner , operations: [create, update, delete, read]},
+   { allow: groups, groups:["User"], operations: [update, read] },
+   { allow: groups, groups:["Admin"], operations: [create, update, delete, read] }
+])
+{
+id: ID
+username: String!
+firstName:String
+lastName:String
+email: String
+image: String
+level: String
+progress: String
+createdAt:String
+updatedAt:String
+userState:String
+cards3: [User3Card3] @connection(name:"UserCards3")
+videos3: [User3Video3] @connection(name:"UserVideos3")
+}
+
+type User3Card3 @model @auth(rules: [
+   { allow: groups, groups:["User"], operations: [create, update, delete, read] },
+   { allow: groups, groups:["Admin"], operations: [create, update, delete, read] }
+   ])
+ {
+  id: ID
+  status: cardStatus
+  score: Int
+  user3: User3! @connection(name:"UserCards3")
+  card3: Card3! @connection(name: "CardUsers3")  
+}
+
+type User3Video3 @model @auth(rules: [
+   { allow: groups, groups:["User"], operations: [create, update, delete, read] },
+   { allow: groups, groups:["Admin"], operations: [create, update, delete, read] }
+   ])
+ {
+  id: ID
+  status: videoStatus
+  score: Int
+  user3: User3! @connection(name:"UserVideos3")
+  video3: vodAsset! @connection(name:"VideoUsers3") 
+}
+
+
+
+enum cardStatus {
+  toDo
+  doing
+  done
+}
+
+
+type vodAsset @model (subscriptions: {level: public})
+@auth(
+  rules: [
+    {allow: groups, groups:["Admin"], operations: [create, update, delete, read]},
+    {allow: private, operations: [read]}
+  ]
+)
+{
+  id:ID!
+  title:String!
+  description:String!
+  users3: [User3Video3] @connection(name:"VideoUsers3")
+
+  #DO NOT EDIT
+  video:videoObject @connection
+} 
+
+#DO NOT EDIT
+type videoObject @model
+@auth(
+  rules: [
+    {allow: groups, groups:["Admin"], operations: [create, update, delete, read]},
+    {allow: private, operations: [read]}
+  ]
+)
+{
+  id:ID!
+  token: String @function(name: "myvodstreams-dev-tokenGen")
+}
+
+enum videoStatus {
+  toDo
+  doing
+  done
+}

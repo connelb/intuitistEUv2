@@ -1,0 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{name}}</ion-title>
+    <ion-button slot="end" (click)="dismiss()">Close</ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+        <video #video class="video-js vjs-default-skin" controls></video>
+    </ion-row>
+  </ion-grid>
+</ion-content>

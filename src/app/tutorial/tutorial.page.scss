@@ -1,0 +1,160 @@
+// ion-card {
+//   min-height: 70%;
+//   width: 100%;
+// }
+
+// ion-card p {
+//   font-size: 16px;
+//   color: #000;
+// }
+
+// ion-slides {
+//   height: 100%;
+// }
+
+// .question {
+//   font-weight: bold;
+//   padding-bottom: 40px;
+// }
+
+// .answer {
+//   text-align: left;
+// }
+
+
+ion-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+}
+
+
+
+// ion-card {
+//   min-height: 70%;
+//   width: 100%;
+// }
+
+// p {
+//   font-size: 16px;
+//   color: #000;
+// }
+
+.swiper-slide {
+  display: block;
+  // background-color: #5ba7e4;
+  height:auto;
+}
+
+.slide-title {
+  margin-top: 2.8rem;
+}
+
+.slide-image {
+  max-height: 50%;
+  max-width: 60%;
+  margin: 5px 0;
+  pointer-events: none;
+}
+ion-slides {
+  height: 90%;
+
+}
+#list {
+  // width: 170px;
+  margin: 5px auto;
+  // font-size: 20px;
+}
+#list ul {
+  margin-top: 10px;
+}
+#list ul li {
+  text-align: left;
+  list-style: disc;
+  margin: 5px 0px;
+}
+
+h1 {
+  margin-top: 0;
+}
+h2 {
+  margin-top: 0;
+}
+h3 {
+  margin-top: 0;
+}
+//   ion-text{
+//   h1{
+//     font-size: 2.8rem;
+//     line-height: 1.5;
+//   }
+//   h2{
+//     font-size: 1.8rem;
+//     line-height: 1.5;
+//   }
+
+// b {
+//   font-weight: 500;
+// }
+
+// p {
+//   display:flex;
+//   padding: 0 40px;
+//   font-size: 1rem;
+//   line-height: 1.5;
+//   color: var(--ion-color-step-600, #0f1011);
+
+//   b {
+//     color: var(--ion-text-color, #000000);
+//   }
+// }
+//   }
+// }
+
+
+
+
+
+
+
+// ion-toolbar {
+//     // TODO test transparent and fullscreen
+//     --background: transparent;
+//     --border-color: transparent;
+//   }
+  
+//   .swiper-slide {
+//     display: block;
+//   }
+  
+//   .slide-title {
+//     margin-top: 2.8rem;
+//   }
+  
+//   .slide-grid {
+//     align-self: auto;
+//   }
+  
+//   .slide-image {
+//     max-height: 100%;
+//     max-width: 100%;
+//     margin: 36px 0;
+//   }
+  
+//   b {
+//     font-weight: 500;
+//   }
+  
+//   p {
+//     padding: 0 40px;
+//     font-size: 14px;
+//     line-height: 1.5;
+//     color: #60646b;
+  
+//     b {
+//       color: #000000;
+//     }
+//   }
+  
+//   ion-icon {
+//     font-size: 20px;
+//   }

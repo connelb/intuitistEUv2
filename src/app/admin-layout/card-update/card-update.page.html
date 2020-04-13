@@ -1,0 +1,178 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    <ion-title>Update Card</ion-title>
+  </ion-toolbar>
+
+
+</ion-header>
+<ion-content>
+  <form [formGroup]="cardForm" novalidate (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label>Selected Lesson:</ion-label>
+      <ion-select (ionChange)="getSelectedLesson($event)" formControlName="selectedLesson" name="selectedLesson" interface="action-sheet"
+        placeholder="Choose a lesson...">
+        <ion-select-option *ngFor="let lesson of lessons" [value]="lesson.name">{{lesson?.name}} </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </form>
+
+
+  <!-- <ion-item *ngIf="card">
+      <ion-label>Audio:</ion-label>
+
+
+
+      <ion-grid>
+        <ion-row>{{card?.audio}}</ion-row>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <div class="playercontainer">
+              <div class="player-controls">
+               
+                  <ion-icon size="large" name="play-back-outline"></ion-icon>
+                </button> -->
+  <!-- <button ion-button (click)="toggleBgMusicPlaying()">
+                  <ion-icon size="large" [name]="bgMusicPlaying ? 'play-circle-outline' : 'stop-circle-outline'"></ion-icon>
+                </button> -->
+  <!-- <button ion-button (click)="fastForward()">
+                  <ion-icon size="large" name="play-forward-outline"></ion-icon>
+                </button> -->
+  <!-- </div> -->
+  <!-- <div class="player-progress">
+                <div class="player-progress inner" [style.width.%]="progress"></div>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row> 
+     
+        <ion-row>
+          <ion-col class="ion-text-start">
+
+    <input type="file" #fileInput ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" />
+
+   
+
+           
+          </ion-col>
+        
+        </ion-row>
+        <ion-row>
+        </ion-row>
+      </ion-grid>
+    </ion-item> -->
+
+  <!-- <form [formGroup]="cardForm" (ngSubmit)="onCardUpdate()">
+        <ion-item *ngIf="lessons">
+
+
+            <ion-label>Lesson</ion-label>
+            <ion-select ok-text="Select" [selectedText]="lesson" cancel-text="Cancel" formControlName="lesson" required (ionChange)="codeSelected()">
+   
+                <ion-select-option *ngFor="let lesson of lessons" [value]="lesson">{{lesson.name}}</ion-select-option> 
+              </ion-select>
+
+          </ion-item>
+
+          <ion-item>
+              <ion-label>Question</ion-label>
+              <ion-select ok-text="Select" cancel-text="Cancel" formControlName="question">
+  
+                  <ion-select-option *ngFor="let card of cards" [value]="card">{{card?.question}}  </ion-select-option>
+                </ion-select>
+               
+        
+      
+            </ion-item>
+      <ion-item>
+        <ion-label>Question</ion-label>
+        <ion-input type="text" name="question" formControlName="question"></ion-input>
+      </ion-item> 
+      <ion-item>
+        <ion-label>Answer</ion-label>
+        <ion-input type="text" name="answer" formControlName="answer"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Audio</ion-label>
+        <ion-input type="text" name="audio" formControlName="audio"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Level</ion-label>
+        <ion-input type="text" name="level" formControlName="level"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Keywords</ion-label>
+        <ion-input type="text" name="keywords" formControlName="keywords"></ion-input>
+      </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-button [disabled]="cardForm.invalid" ion-button type="submit" full round>Update</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form> -->
+
+
+  <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
+  <!-- <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false"> -->
+  <!-- Default reorder icon, end aligned items -->
+  <!--   
+    <ion-item >
+      <ion-label>
+        {{card.id}}
+      </ion-label>
+      <ion-reorder slot="start"></ion-reorder>
+    </ion-item> (ionSwipe)="deleteItem(i)"-->
+  <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+    <ion-item-sliding *ngFor="let card of cards; index as i">
+      <ion-item>
+        <ion-badge slot="start">{{i+1}}</ion-badge>
+        {{card.question}}
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option expandable (click)="presentModal(card,i)">
+          Edit
+        </ion-item-option>
+          <ion-item-option expandable (click)="delete(card)">
+            Delete
+          </ion-item-option>
+        </ion-item-options>
+    </ion-item-sliding>
+  </ion-reorder-group>
+
+
+  <!--   
+    <ion-reorder *ngFor="let card of cards">
+      <ion-item (click)="presentModal()">
+        <ion-label>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="10">
+                  {{card.question}}
+              </ion-col>
+              <ion-col size="2">
+                  <ion-item-options side="end">
+                      <ion-item-option expandable (click)="deleteItem(i)">
+                        Delete
+                      </ion-item-option >
+                    </ion-item-options>
+                  <button ion-button (ionChange)="presentModal()">open modal</button>
+                  <ion-button (ionChange)="presentModal()">open modal1</ion-button>
+                  <ion-button (click)="presentModal()">open modal2</ion-button> -->
+  <!-- <button ion-button color="warning" (click)="presentModal($event)">
+                      <ion-icon slot="icon-only"  name="pencil-outline" ></ion-icon>
+                    </button> 
+                </ion-col>
+            </ion-row>
+          </ion-grid>
+          
+        </ion-label>
+      </ion-item>
+    </ion-reorder> -->
+  <!-- </ion-reorder-group> -->
+
+</ion-content>

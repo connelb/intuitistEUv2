@@ -1,0 +1,829 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateLesson3 {
+  onCreateLesson3 {
+    id
+    name
+    description
+    section
+    subSection
+    level
+    video
+    keywords
+    cards3 {
+      items {
+        id
+        question
+        answer
+        audio
+        video
+        level
+        order
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnUpdateLesson3 {
+  onUpdateLesson3 {
+    id
+    name
+    description
+    section
+    subSection
+    level
+    video
+    keywords
+    cards3 {
+      items {
+        id
+        question
+        answer
+        audio
+        video
+        level
+        order
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnDeleteLesson3 {
+  onDeleteLesson3 {
+    id
+    name
+    description
+    section
+    subSection
+    level
+    video
+    keywords
+    cards3 {
+      items {
+        id
+        question
+        answer
+        audio
+        video
+        level
+        order
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnCreateCard3 {
+  onCreateCard3 {
+    id
+    question
+    answer
+    audio
+    video
+    level
+    order
+    keywords
+    lesson3 {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnUpdateCard3 {
+  onUpdateCard3 {
+    id
+    question
+    answer
+    audio
+    video
+    level
+    order
+    keywords
+    lesson3 {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnDeleteCard3 {
+  onDeleteCard3 {
+    id
+    question
+    answer
+    audio
+    video
+    level
+    order
+    keywords
+    lesson3 {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnCreateUser3($owner: String) {
+  onCreateUser3(owner: $owner) {
+    id
+    username
+    firstName
+    lastName
+    email
+    image
+    level
+    progress
+    createdAt
+    updatedAt
+    userState
+    cards3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    videos3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+  }
+}
+subscription OnUpdateUser3($owner: String) {
+  onUpdateUser3(owner: $owner) {
+    id
+    username
+    firstName
+    lastName
+    email
+    image
+    level
+    progress
+    createdAt
+    updatedAt
+    userState
+    cards3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    videos3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+  }
+}
+subscription OnDeleteUser3($owner: String) {
+  onDeleteUser3(owner: $owner) {
+    id
+    username
+    firstName
+    lastName
+    email
+    image
+    level
+    progress
+    createdAt
+    updatedAt
+    userState
+    cards3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    videos3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+  }
+}
+subscription OnCreateUser3Card3 {
+  onCreateUser3Card3 {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    card3 {
+      id
+      question
+      answer
+      audio
+      video
+      level
+      order
+      keywords
+      lesson3 {
+        id
+        name
+        description
+        section
+        subSection
+        level
+        video
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      users3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnUpdateUser3Card3 {
+  onUpdateUser3Card3 {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    card3 {
+      id
+      question
+      answer
+      audio
+      video
+      level
+      order
+      keywords
+      lesson3 {
+        id
+        name
+        description
+        section
+        subSection
+        level
+        video
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      users3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnDeleteUser3Card3 {
+  onDeleteUser3Card3 {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    card3 {
+      id
+      question
+      answer
+      audio
+      video
+      level
+      order
+      keywords
+      lesson3 {
+        id
+        name
+        description
+        section
+        subSection
+        level
+        video
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      users3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnCreateUser3Video3 {
+  onCreateUser3Video3 {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    video3 {
+      id
+      title
+      description
+      users3 {
+        nextToken
+        startedAt
+      }
+      video {
+        id
+        token
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnUpdateUser3Video3 {
+  onUpdateUser3Video3 {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    video3 {
+      id
+      title
+      description
+      users3 {
+        nextToken
+        startedAt
+      }
+      video {
+        id
+        token
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnDeleteUser3Video3 {
+  onDeleteUser3Video3 {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    video3 {
+      id
+      title
+      description
+      users3 {
+        nextToken
+        startedAt
+      }
+      video {
+        id
+        token
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnCreateVodAsset {
+  onCreateVodAsset {
+    id
+    title
+    description
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    video {
+      id
+      token
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnUpdateVodAsset {
+  onUpdateVodAsset {
+    id
+    title
+    description
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    video {
+      id
+      token
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnDeleteVodAsset {
+  onDeleteVodAsset {
+    id
+    title
+    description
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    video {
+      id
+      token
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnCreateVideoObject {
+  onCreateVideoObject {
+    id
+    token
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnUpdateVideoObject {
+  onUpdateVideoObject {
+    id
+    token
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+subscription OnDeleteVideoObject {
+  onDeleteVideoObject {
+    id
+    token
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}

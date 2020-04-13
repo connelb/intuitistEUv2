@@ -1,0 +1,892 @@
+# this is an auto generated file. This will be overwritten
+mutation CreateLesson3(
+  $input: CreateLesson3Input!
+  $condition: ModelLesson3ConditionInput
+) {
+  createLesson3(input: $input, condition: $condition) {
+    id
+    name
+    description
+    section
+    subSection
+    level
+    video
+    keywords
+    cards3 {
+      items {
+        id
+        question
+        answer
+        audio
+        video
+        level
+        order
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation UpdateLesson3(
+  $input: UpdateLesson3Input!
+  $condition: ModelLesson3ConditionInput
+) {
+  updateLesson3(input: $input, condition: $condition) {
+    id
+    name
+    description
+    section
+    subSection
+    level
+    video
+    keywords
+    cards3 {
+      items {
+        id
+        question
+        answer
+        audio
+        video
+        level
+        order
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation DeleteLesson3(
+  $input: DeleteLesson3Input!
+  $condition: ModelLesson3ConditionInput
+) {
+  deleteLesson3(input: $input, condition: $condition) {
+    id
+    name
+    description
+    section
+    subSection
+    level
+    video
+    keywords
+    cards3 {
+      items {
+        id
+        question
+        answer
+        audio
+        video
+        level
+        order
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation CreateCard3(
+  $input: CreateCard3Input!
+  $condition: ModelCard3ConditionInput
+) {
+  createCard3(input: $input, condition: $condition) {
+    id
+    question
+    answer
+    audio
+    video
+    level
+    order
+    keywords
+    lesson3 {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation UpdateCard3(
+  $input: UpdateCard3Input!
+  $condition: ModelCard3ConditionInput
+) {
+  updateCard3(input: $input, condition: $condition) {
+    id
+    question
+    answer
+    audio
+    video
+    level
+    order
+    keywords
+    lesson3 {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation DeleteCard3(
+  $input: DeleteCard3Input!
+  $condition: ModelCard3ConditionInput
+) {
+  deleteCard3(input: $input, condition: $condition) {
+    id
+    question
+    answer
+    audio
+    video
+    level
+    order
+    keywords
+    lesson3 {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation CreateUser3(
+  $input: CreateUser3Input!
+  $condition: ModelUser3ConditionInput
+) {
+  createUser3(input: $input, condition: $condition) {
+    id
+    username
+    firstName
+    lastName
+    email
+    image
+    level
+    progress
+    createdAt
+    updatedAt
+    userState
+    cards3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    videos3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+  }
+}
+mutation UpdateUser3(
+  $input: UpdateUser3Input!
+  $condition: ModelUser3ConditionInput
+) {
+  updateUser3(input: $input, condition: $condition) {
+    id
+    username
+    firstName
+    lastName
+    email
+    image
+    level
+    progress
+    createdAt
+    updatedAt
+    userState
+    cards3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    videos3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+  }
+}
+mutation DeleteUser3(
+  $input: DeleteUser3Input!
+  $condition: ModelUser3ConditionInput
+) {
+  deleteUser3(input: $input, condition: $condition) {
+    id
+    username
+    firstName
+    lastName
+    email
+    image
+    level
+    progress
+    createdAt
+    updatedAt
+    userState
+    cards3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    videos3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+  }
+}
+mutation CreateUser3Card3(
+  $input: CreateUser3Card3Input!
+  $condition: ModelUser3Card3ConditionInput
+) {
+  createUser3Card3(input: $input, condition: $condition) {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    card3 {
+      id
+      question
+      answer
+      audio
+      video
+      level
+      order
+      keywords
+      lesson3 {
+        id
+        name
+        description
+        section
+        subSection
+        level
+        video
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      users3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation UpdateUser3Card3(
+  $input: UpdateUser3Card3Input!
+  $condition: ModelUser3Card3ConditionInput
+) {
+  updateUser3Card3(input: $input, condition: $condition) {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    card3 {
+      id
+      question
+      answer
+      audio
+      video
+      level
+      order
+      keywords
+      lesson3 {
+        id
+        name
+        description
+        section
+        subSection
+        level
+        video
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      users3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation DeleteUser3Card3(
+  $input: DeleteUser3Card3Input!
+  $condition: ModelUser3Card3ConditionInput
+) {
+  deleteUser3Card3(input: $input, condition: $condition) {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    card3 {
+      id
+      question
+      answer
+      audio
+      video
+      level
+      order
+      keywords
+      lesson3 {
+        id
+        name
+        description
+        section
+        subSection
+        level
+        video
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      users3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation CreateUser3Video3(
+  $input: CreateUser3Video3Input!
+  $condition: ModelUser3Video3ConditionInput
+) {
+  createUser3Video3(input: $input, condition: $condition) {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    video3 {
+      id
+      title
+      description
+      users3 {
+        nextToken
+        startedAt
+      }
+      video {
+        id
+        token
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation UpdateUser3Video3(
+  $input: UpdateUser3Video3Input!
+  $condition: ModelUser3Video3ConditionInput
+) {
+  updateUser3Video3(input: $input, condition: $condition) {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    video3 {
+      id
+      title
+      description
+      users3 {
+        nextToken
+        startedAt
+      }
+      video {
+        id
+        token
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation DeleteUser3Video3(
+  $input: DeleteUser3Video3Input!
+  $condition: ModelUser3Video3ConditionInput
+) {
+  deleteUser3Video3(input: $input, condition: $condition) {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    video3 {
+      id
+      title
+      description
+      users3 {
+        nextToken
+        startedAt
+      }
+      video {
+        id
+        token
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation CreateVodAsset(
+  $input: CreateVodAssetInput!
+  $condition: ModelvodAssetConditionInput
+) {
+  createVodAsset(input: $input, condition: $condition) {
+    id
+    title
+    description
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    video {
+      id
+      token
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation UpdateVodAsset(
+  $input: UpdateVodAssetInput!
+  $condition: ModelvodAssetConditionInput
+) {
+  updateVodAsset(input: $input, condition: $condition) {
+    id
+    title
+    description
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    video {
+      id
+      token
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation DeleteVodAsset(
+  $input: DeleteVodAssetInput!
+  $condition: ModelvodAssetConditionInput
+) {
+  deleteVodAsset(input: $input, condition: $condition) {
+    id
+    title
+    description
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    video {
+      id
+      token
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation CreateVideoObject(
+  $input: CreateVideoObjectInput!
+  $condition: ModelvideoObjectConditionInput
+) {
+  createVideoObject(input: $input, condition: $condition) {
+    id
+    token
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation UpdateVideoObject(
+  $input: UpdateVideoObjectInput!
+  $condition: ModelvideoObjectConditionInput
+) {
+  updateVideoObject(input: $input, condition: $condition) {
+    id
+    token
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+mutation DeleteVideoObject(
+  $input: DeleteVideoObjectInput!
+  $condition: ModelvideoObjectConditionInput
+) {
+  deleteVideoObject(input: $input, condition: $condition) {
+    id
+    token
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}

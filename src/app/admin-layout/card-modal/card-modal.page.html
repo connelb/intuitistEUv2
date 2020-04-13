@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Update card</ion-title>
+    <!-- <ion-item slot="end"><ion-button  (click)="dismiss()">Close</ion-button></ion-item> -->
+    <ion-button slot="end" (click)="dismiss()">Close</ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+
+    <ion-grid *ngIf='urlAudio'>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <div class="player--container">
+              <div class="player-controls">
+                  <ion-button (click)="toggleBgMusicPlaying()">Play Audio</ion-button>
+              </div>
+            </div>
+          </ion-col>
+          <ion-col>
+              <ion-item>
+              <ion-label>Update audio file:</ion-label>
+              <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" />
+              </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+  <form [formGroup]="cardForm" novalidate (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label>Question:</ion-label>
+      <ion-input type="text" name="question" formControlName="question" placeholder="Update question..."></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Answer:</ion-label>
+      <ion-input type="text" name="answer" formControlName="answer" placeholder="answer"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Level:</ion-label>
+      <ion-input type="text" name="level" formControlName="level" placeholder="level"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Keywords:</ion-label>
+      <ion-input type="text" name="keywords" formControlName="keywords" placeholder="keywords"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Audio:</ion-label>
+
+        <ion-input type="text" readonly name="audio" formControlName="audio" placeholder="audio"></ion-input>
+
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button [disabled]="cardForm.invalid" ion-button type="submit" full round>Update</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+
+</ion-content>

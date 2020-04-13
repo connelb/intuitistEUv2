@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    <ion-title>Create Lesson</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
+      <ion-item>
+        <ion-label>Name</ion-label>
+        <ion-input type="text" name="name" formControlName="name" placeholder="input title..."></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Description</ion-label>
+        <ion-input type="text" name="description" formControlName="description" placeholder="input description..."></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Section</ion-label>
+        <ion-input type="text" name="section" formControlName="section" placeholder="input section..."></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Subsection</ion-label>
+        <ion-input type="text" name="subSection" formControlName="subSection"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Level</ion-label>
+        <ion-input type="text" name="level" formControlName="level"></ion-input>
+      </ion-item>
+      <ion-item>
+          <ion-label>Video</ion-label>
+          <ion-input type="text" name="video" formControlName="video"></ion-input>
+        </ion-item>
+      <ion-item>
+        <ion-label>Keywords</ion-label>
+        <ion-input type="text" name="keywords" formControlName="keywords"></ion-input>
+      </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-button [disabled]="lessonForm.invalid" ion-button type="submit" full round>Create</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+</ion-content>

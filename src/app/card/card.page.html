@@ -1,0 +1,63 @@
+<ion-header no-border>
+  <ion-toolbar color="secondary">
+    <ion-title slot="end">{{lessonName}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="app/tabs/lessons/{{lessonId}}"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-card-content>
+          <audio controls="controls">
+            <source src={{audio_file}} type="audio/x-m4a" />
+          </audio>
+        </ion-card-content>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <app-flash-card [frontContent]="flashCardFront" [backContent]="flashCardBack"></app-flash-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- <ion-card> -->
+    <!-- <ion-list> -->
+      <!-- <ion-item-sliding> -->
+      <!-- <ion-item class="ion-align-self-center">
+        <app-flash-card [frontContent]="flashCardFront" [backContent]="flashCardBack"></app-flash-card>
+      </ion-item> -->
+      <!-- <ion-grid> -->
+        <!-- <ion-row>
+          <ion-col class="ion-align-self-center">
+            <ion-textarea clearOnEdit="true" auto-grow=true debounce="500" (ionChange)="ionChange()" (ionInput)="ionInput()" [(ngModel)]="preferences" id="preferences"
+              placeholder="try your answer here..."> </ion-textarea>
+          </ion-col>
+
+        </ion-row> -->
+        <!-- <ion-row>
+          <ion-col size="9" class="ion-align-self-center">
+            <ion-textarea readonly auto-grow=true placeholder="Translation will display here" [value]="translateResult"></ion-textarea>
+          </ion-col>
+          <ion-col size="3" class="ion-align-self-center">
+              <ion-checkbox color="primary" [(ngModel)]="speakResult"><ion-item><ion-icon size="large" name="volume-mute"></ion-icon></ion-item></ion-checkbox> &nbsp;
+            </ion-col>
+            <ion-col size="6">
+                <ion-button (click)="translate()" [disabled]="!textToTranslate">Translate</ion-button>
+            </ion-col>
+        </ion-row> -->
+      <!-- </ion-grid> -->
+    <!-- </ion-list> -->
+  <!-- </ion-card> -->
+
+  <!-- <div *ngIf="success">
+    <ion-fab horizontal="end" vertical="top" slot="fixed">
+      <ion-fab-button color="danger">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div> -->
+</ion-content>

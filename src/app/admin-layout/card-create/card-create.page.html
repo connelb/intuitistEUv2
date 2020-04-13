@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    <ion-title>Create Card</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<!-- <form [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
+    <ion-select (ionChange)="getSelectedLesson($event)"  formControlName="selectedLesson" name="selectedLesson" interface="action-sheet"
+    placeholder="Choose a lesson...">
+    <ion-select-option *ngFor="let lesson of lessons" [value]="lesson.name">{{lesson?.name}} </ion-select-option>
+  </ion-select> -->
+
+<!-- 
+  <ion-grid>
+      <ion-row *ngIf='cardId'>
+        <ion-col class="ion-text-center">
+          <div class="player container">
+            <div class="player-controls">
+              <button ion-button (click)="toggleBgMusicPlaying()">
+                <ion-icon size="large" [name]="bgMusicPlaying ? 'play-circle-outline' : 'stop-circle-outline'"></ion-icon>
+              </button>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="ion-text-start">
+          <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" />
+        </ion-col>
+      </ion-row>
+      <ion-row>
+      </ion-row>
+    </ion-grid> -->
+
+<ion-content>
+  <form [formGroup]="cardForm" novalidate (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label>Lesson</ion-label>
+      <ion-select (ionChange)="getSelectedLesson($event)" formControlName="lesson" name="lesson" interface="action-sheet" placeholder="Choose a lesson...">
+        <ion-select-option *ngFor="let lesson of lessons" [value]="lesson.name">{{lesson?.name}} </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Question</ion-label>
+      <ion-input type="text" name="question" formControlName="question" placeholder="input question..."></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Answer</ion-label>
+      <ion-input type="text" name="answer" formControlName="answer" placeholder="input answer..."></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Video</ion-label>
+      <ion-input type="text" name="video" formControlName="video" placeholder="link to video..."></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Level</ion-label>
+      <ion-input type="text" name="level" formControlName="level" placeholder="input level..."></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Keywords</ion-label>
+      <ion-input type="text" name="keywords" formControlName="keywords" placeholder="input keywords..."></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Audio</ion-label>
+      <ion-input type="text" readonly name="audio" formControlName="audio" placeholder="audio"></ion-input>
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center" *ngIf='urlAudio'>
+          <div class="player--container">
+            <div class="player-controls">
+              <ion-button (click)="toggleBgMusicPlaying()">Play Audio</ion-button>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>Select audio file:</ion-label>
+            <input type="file" ng2FileSelect [uploader]="uploader" (onFileSelected)="onFileSelected($event)" />
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- </ion-item> -->
+
+    <!-- 
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button [disabled]="cardForm.invalid" ion-button type="submit" full round>Create</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+
+  </form>
+
+
+
+</ion-content>

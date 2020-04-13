@@ -1,0 +1,26 @@
+{
+    "shared": {
+        "resourceName": "myvodstreams",
+        "bucketInput": "myvodstreams-dev-input-hgbnm075",
+        "bucketOutput": "myvodstreams-dev-output-hgbnm075",
+        "bucket": "amplify-intuitisteu-dev-142305-deployment"
+    },
+    "template": {
+        "name": "Amplify_Video_Ott_Hls_Ts_Avc_Aac.json"
+    },
+    "contentDeliveryNetwork": {
+        "enableDistribution": true,
+        "pemID": "pk-APKAJJDMPK5Q77WNY3AQ.pem",
+        "secretPem": "myvodstreams-pem",
+        "secretPemArn": "arn:aws:secretsmanager:eu-west-1:123779530835:secret:myvodstreams-pem-8NvG5S",
+        "functionName": "myvodstreams-dev-tokenGen"
+    },
+    "cms": {
+        "editAPI": true
+    },
+    "parameters": {
+        "authRoleName": {
+            "Ref": "AuthRoleName"
+        }
+    }
+}

@@ -1,0 +1,840 @@
+# this is an auto generated file. This will be overwritten
+query SyncLesson3s(
+  $filter: ModelLesson3FilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncLesson3s(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query GetLesson3($id: ID!) {
+  getLesson3(id: $id) {
+    id
+    name
+    description
+    section
+    subSection
+    level
+    video
+    keywords
+    cards3 {
+      items {
+        id
+        question
+        answer
+        audio
+        video
+        level
+        order
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+query ListLesson3s(
+  $filter: ModelLesson3FilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listLesson3s(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query SyncCard3s(
+  $filter: ModelCard3FilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncCard3s(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      question
+      answer
+      audio
+      video
+      level
+      order
+      keywords
+      lesson3 {
+        id
+        name
+        description
+        section
+        subSection
+        level
+        video
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      users3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query GetCard3($id: ID!) {
+  getCard3(id: $id) {
+    id
+    question
+    answer
+    audio
+    video
+    level
+    order
+    keywords
+    lesson3 {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+query ListCard3s(
+  $filter: ModelCard3FilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listCard3s(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      question
+      answer
+      audio
+      video
+      level
+      order
+      keywords
+      lesson3 {
+        id
+        name
+        description
+        section
+        subSection
+        level
+        video
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      users3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query SyncUser3s(
+  $filter: ModelUser3FilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncUser3s(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    nextToken
+    startedAt
+  }
+}
+query GetUser3($id: ID!) {
+  getUser3(id: $id) {
+    id
+    username
+    firstName
+    lastName
+    email
+    image
+    level
+    progress
+    createdAt
+    updatedAt
+    userState
+    cards3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    videos3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+  }
+}
+query GetMe($id: ID!) {
+  getMe(id: $id) {
+    id
+    username
+    firstName
+    lastName
+    email
+    image
+    level
+    progress
+    createdAt
+    updatedAt
+    userState
+    cards3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    videos3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    owner
+  }
+}
+query ListUser3s(
+  $filter: ModelUser3FilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUser3s(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    nextToken
+    startedAt
+  }
+}
+query SyncUser3Card3s(
+  $filter: ModelUser3Card3FilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncUser3Card3s(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      status
+      score
+      user3 {
+        id
+        username
+        firstName
+        lastName
+        email
+        image
+        level
+        progress
+        createdAt
+        updatedAt
+        userState
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      card3 {
+        id
+        question
+        answer
+        audio
+        video
+        level
+        order
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query GetUser3Card3($id: ID!) {
+  getUser3Card3(id: $id) {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    card3 {
+      id
+      question
+      answer
+      audio
+      video
+      level
+      order
+      keywords
+      lesson3 {
+        id
+        name
+        description
+        section
+        subSection
+        level
+        video
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      users3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+query ListUser3Card3s(
+  $filter: ModelUser3Card3FilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUser3Card3s(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      status
+      score
+      user3 {
+        id
+        username
+        firstName
+        lastName
+        email
+        image
+        level
+        progress
+        createdAt
+        updatedAt
+        userState
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      card3 {
+        id
+        question
+        answer
+        audio
+        video
+        level
+        order
+        keywords
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query SyncUser3Video3s(
+  $filter: ModelUser3Video3FilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncUser3Video3s(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      status
+      score
+      user3 {
+        id
+        username
+        firstName
+        lastName
+        email
+        image
+        level
+        progress
+        createdAt
+        updatedAt
+        userState
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      video3 {
+        id
+        title
+        description
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query GetUser3Video3($id: ID!) {
+  getUser3Video3(id: $id) {
+    id
+    status
+    score
+    user3 {
+      id
+      username
+      firstName
+      lastName
+      email
+      image
+      level
+      progress
+      createdAt
+      updatedAt
+      userState
+      cards3 {
+        nextToken
+        startedAt
+      }
+      videos3 {
+        nextToken
+        startedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+      owner
+    }
+    video3 {
+      id
+      title
+      description
+      users3 {
+        nextToken
+        startedAt
+      }
+      video {
+        id
+        token
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+query ListUser3Video3s(
+  $filter: ModelUser3Video3FilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUser3Video3s(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      status
+      score
+      user3 {
+        id
+        username
+        firstName
+        lastName
+        email
+        image
+        level
+        progress
+        createdAt
+        updatedAt
+        userState
+        _version
+        _deleted
+        _lastChangedAt
+        owner
+      }
+      video3 {
+        id
+        title
+        description
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query SyncVodAssets(
+  $filter: ModelvodAssetFilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncVodAssets(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      title
+      description
+      users3 {
+        nextToken
+        startedAt
+      }
+      video {
+        id
+        token
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query GetVodAsset($id: ID!) {
+  getVodAsset(id: $id) {
+    id
+    title
+    description
+    users3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+    video {
+      id
+      token
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+query ListVodAssets(
+  $filter: ModelvodAssetFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listVodAssets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      description
+      users3 {
+        nextToken
+        startedAt
+      }
+      video {
+        id
+        token
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query SyncVideoObjects(
+  $filter: ModelvideoObjectFilterInput
+  $limit: Int
+  $nextToken: String
+  $lastSync: AWSTimestamp
+) {
+  syncVideoObjects(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    lastSync: $lastSync
+  ) {
+    items {
+      id
+      token
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}
+query GetVideoObject($id: ID!) {
+  getVideoObject(id: $id) {
+    id
+    token
+    _version
+    _deleted
+    _lastChangedAt
+  }
+}
+query ListVideoObjects(
+  $filter: ModelvideoObjectFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listVideoObjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      token
+      _version
+      _deleted
+      _lastChangedAt
+    }
+    nextToken
+    startedAt
+  }
+}

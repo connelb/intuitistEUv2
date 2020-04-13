@@ -1,0 +1,86 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+    </ion-buttons>
+    <ion-title>{{lesson?.name}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-slides [pager]="true" [options]="slideOptions">
+    <ion-slide>
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngIf="lessonPlan" class="ion-align-items-center">
+            <ion-label class="myCard">lessonPlan</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf='modelVideoId'>
+          <ion-col>
+            <ion-button size="large" expand="block" fill="outline" color="secondary" shape="round" (click)="presentVideo()">Play video</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide *ngFor="let card of lessonCards ; index as i">
+      <ion-fab vertical="top" horizontal="end" slot="fixed">
+        <ion-fab-button color="ion-fab-button" disabled="true" size="small">{{card?.users3?.items[0]?.status}}
+        </ion-fab-button>
+      </ion-fab>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="ion-fab-button" disabled="true" size="small">
+          <ion-icon size="small" name="happy-outline"></ion-icon>:{{lessonCards|totalScore:'done'}}
+        </ion-fab-button>
+      </ion-fab>
+      <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+        <ion-fab-button color="ion-fab-button" disabled="true" size="small">
+          <ion-icon size="small" name="sad-outline"></ion-icon>:{{lessonCards|totalScore:'doing'}}
+        </ion-fab-button>
+      </ion-fab>
+      <ion-fab vertical="top" horizontal="start" slot="fixed">
+        <ion-fab-button color="ion-fab-button" disabled="true" size="small">
+          <ion-icon size="small" name="film-outline"></ion-icon>:{{userVideo.score}}
+        </ion-fab-button>
+      </ion-fab>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card>
+              <ion-card-title>
+                <ion-label>{{card?.question}}</ion-label>
+              </ion-card-title>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="toggleBgMusicPlaying($event,card)">Test yourself</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-card [hidden]="visible">
+              <ion-card-title>
+                <ion-label>{{card?.answer}}</ion-label>
+              </ion-card-title>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-segment (ionChange)="segmentChanged($event,card,i)" value="'card?.users3.items[0].status == done' ? 'done' : 'doing'">
+            <ion-segment-button value="doing" layout="icon-bottom">
+              <ion-fab-button color="warning">
+                <ion-icon size="large" name="sad-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-segment-button>
+            <ion-segment-button value="done" layout="icon-bottom">
+              <ion-fab-button color="success">
+                <ion-icon size="large" name="happy-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
