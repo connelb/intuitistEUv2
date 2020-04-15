@@ -244,6 +244,11 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
       id
       name
       description
+      section
+      subSection
+      level
+      video
+      keywords
       cards3 {
         items {
           id
@@ -395,7 +400,7 @@ export class LessonsPage {
       observable.subscribe(({ data }) => {
         if (!data) { return console.log('ListLessonsByUser: no data'); }
         this.lessons = data.listLesson3s.items;
-        console.log('this.lessons',this.lessons)
+        //console.log('this.lessons',this.lessons)
         //this.formatListLessonsByUser(data);
       });
 

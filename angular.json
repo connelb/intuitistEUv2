@@ -40,7 +40,9 @@
               {
                 "input": "src/global.scss"
               },
-              {"input":"node_modules/video.js/dist/video-js.min.css"}
+              {
+              "input":"node_modules/video.js/dist/video-js.min.css"
+              }
             ],
             "scripts": [
               "node_modules/video.js/dist/video.min.js"

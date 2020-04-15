@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>lesson-delete</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <!-- <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false"> -->
+        <ion-item-sliding *ngFor="let lesson of lessons; index as i">
+          <ion-item>
+            <ion-badge slot="start">{{i+1}}</ion-badge>
+            {{lesson.name}}
+            <ion-reorder slot="end"></ion-reorder>
+          </ion-item>
+          <ion-item-options side="end">
+            <!-- <ion-item-option expandable (click)="presentModal(card,i)">
+              Edit
+            </ion-item-option> -->
+              <ion-item-option expandable (click)="deleteLesson(lesson)">
+                Delete
+              </ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+      <!-- </ion-reorder-group> -->
+</ion-content>

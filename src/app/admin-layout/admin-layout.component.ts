@@ -25,6 +25,11 @@ export class AdminLayoutComponent implements OnInit {
       icon: 'create'
     },
     {
+      title: 'Delete Lesson',
+      url: '/admin/lesson-delete',
+      icon: 'create'
+    },
+    {
       title: 'Create card',
       url: '/admin/card-create',
       icon: 'add-circle-outline'

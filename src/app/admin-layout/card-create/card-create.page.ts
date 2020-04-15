@@ -127,9 +127,9 @@ export class CardCreatePage implements OnInit {
           question: this.cardForm.value.question,
           answer: this.cardForm.value.answer,
           audio: this.cardId,
-          video: this.cardForm.value.video || null,
-          level: this.cardForm.value.level || null,
-          keywords: this.cardForm.value.keywords || null,
+          video: this.cardForm.value.video,
+          level: this.cardForm.value.level,
+          keywords: this.cardForm.value.keywords,
           card3Lesson3Id: this.lesson.id,
           __typename: 'UpdateCard3Input'
         },
@@ -153,12 +153,8 @@ export class CardCreatePage implements OnInit {
       }).then(({ data }) => {
         console.log('mutation complete', data);
         //this.cardForm.reset();
-        //this.createToast();
-        // const toast = this.toastCtrl.create({
-        //   message: 'card updated',
-        //   duration: 3000
-        // });
-        // toast.present();
+        this.updateToast();
+
         //this.router.navigate(['tabs/lessons', this.lessonId]);
       }).catch(err => console.log('Error creating message', err));
     });
@@ -183,6 +179,7 @@ export class CardCreatePage implements OnInit {
 
     this.bgMusicPlayer = new AudioService([this.urlAudio]);
   }
+
 
   toggleBgMusicPlaying(): void {
     // if (this.bgMusicPlaying)
@@ -244,10 +241,10 @@ export class CardCreatePage implements OnInit {
           card3Lesson3Id: this.lesson.id,
           question: card.question,
           answer: card.answer,
-          audio: card.audio || null,
-          video: card.video || null,
-          level: card.level || null,
-          keywords: card.keywords || null,
+          audio: card.audio,
+          video: card.video,
+          level: card.level,
+          keywords: card.keywords,
           __typename: 'CreateCard3Input'
         },
         // optimisticResponse: () => ({
@@ -280,6 +277,14 @@ export class CardCreatePage implements OnInit {
   async createToast() {
     const toast = await this.toastCtrl.create({
       message: 'card created',
+      duration: 1000
+    });
+    await toast.present();
+  }
+
+  async updateToast() {
+    const toast = await this.toastCtrl.create({
+      message: 'card updated',
       duration: 1000
     });
     await toast.present();

@@ -112,6 +112,8 @@ mutation updateLesson3(
   }
 }`;
 
+
+
 //const uploadAPI = 'http://localhost:4000/api/upload';
 const URL = 'http://localhost:3002/api/upload';
 
@@ -321,7 +323,7 @@ async getLessons() {
   const [lessons] = await Promise.all([
     API.graphql(graphqlOperation(ListLessons)) as Promise<any>
   ])
-  console.log('lessons',lessons);
+  //console.log('lessons',lessons);
   this.lessons = lessons.data.listLesson3s.items;
 }
 
@@ -447,6 +449,8 @@ async createToast() {
   });
   await toast.present();
 }
+
+
 
   // getSelectedVideo(e) {
   //   const file = e.target;

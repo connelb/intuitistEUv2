@@ -7,7 +7,7 @@ export class VideoScorePipe implements PipeTransform {
   transform(lesson: any, type?: any): any {
     let result;
     if (lesson) {
-      console.log('in video score, what is lesson (updated??),type?',lesson, type)
+      // console.log('in video score, what is lesson (updated??),type?',lesson, type)
       if (lesson.cards3.items.length < 0) {
         result = 0;
       }

@@ -403,6 +403,7 @@ query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
           id
           question
           answer
+          audio
           users3(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}}) {
             items {
               id
@@ -822,16 +823,16 @@ export class CardsPage implements OnInit {
         API.graphql(graphqlOperation(CreateUser3Video3, { user3Video3User3Id: this.user.attributes.sub, user3Video3Video3Id: lesson.video, score: 0, status: 'doing' })) as Promise<any>
       ]);
       this.userVideo = userVideo1.data.createUser3Video3.items;
-      console.log('new this.userVideo',this.userVideo)
+      //console.log('new this.userVideo',this.userVideo)
     } else {
       this.userVideo = userVideo.data.listUser3Video3s.items[0];
-      console.log('existing this.userVideo',this.userVideo)
+      //console.log('existing this.userVideo',this.userVideo)
     }
   }
 
 
 
-  async updateCardStatusDoneToast() {
+  async updateCardStatusDoneToast(i) {
     const toast = await this.toastController.create({
       message: 'Great Job!',
       duration: 1000,
@@ -841,9 +842,10 @@ export class CardsPage implements OnInit {
 
     //this.getData(this.lessonId);
     toast.present();
+    this.slides.slideTo(i + 1);
   }
 
-  async updateCardStatusDoingToast() {
+  async updateCardStatusDoingToast(i) {
     const toast = await this.toastController.create({
       message: 'practice, practice :)',
       duration: 2000,
@@ -853,6 +855,7 @@ export class CardsPage implements OnInit {
 
     //this.getData(this.lessonId);
     toast.present();
+    this.slides.slideTo(i + 1);
   }
 
   // getProgress(res) {
@@ -1023,15 +1026,15 @@ export class CardsPage implements OnInit {
       }
 
       if (ev.detail.value == "done") {
-        this.updateCardStatusDoneToast()
+        this.updateCardStatusDoneToast(i)
       } else if (ev.detail.value == "doing") {
-        this.updateCardStatusDoingToast()
+        this.updateCardStatusDoingToast(i)
       } else {
-        this.updateCardStatusDoingToast()
+        this.updateCardStatusDoingToast(i)
       }
 
     });
-    this.slides.slideTo(i + 1);
+   
   }
 
   async videoScoreUpdate(videoScore) {

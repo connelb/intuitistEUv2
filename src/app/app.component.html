@@ -33,10 +33,18 @@
             <ion-item routerLink="/lesson-update" routerLinkActive="active" routerDirection="root" detail="false">
               <ion-icon slot="start" name="create-outline"></ion-icon>
               <ion-label>
-                Update lesson
+                Update lesson- add video
               </ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-menu-toggle autoHide="false">
+              <ion-item routerLink="/lesson-delete" routerLinkActive="active" routerDirection="root" detail="false">
+                <ion-icon slot="start" name="trash-outline"></ion-icon>
+                <ion-label>
+                  Delete lesson
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
           <ion-menu-toggle autoHide="false">
             <ion-item routerLink="/card-update" routerLinkActive="active" routerDirection="root" detail="false">
               <ion-icon slot="start" name="create-outline"></ion-icon>

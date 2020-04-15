@@ -31,6 +31,10 @@
 // @import url('https://fonts.googleapis.com/css?family=Comic+Neue|Libre+Caslon+Display&display=swap');
 // @import url('https://fonts.googleapis.com/css?family=Libre+Caslon+Display&display=swap');
 @import "~aws-amplify-angular/ionic.css";
+
+@import"~video.js/dist/video-js.css";
+@import"~video.js/dist/video-js.min.css";
+@import"~videojs-font/css/videojs-icons.css";
 //which is:
 // @import "~@aws-amplify/ui/src/Theme.css";
 // @import "~@aws-amplify/ui/src/Angular.css";
@@ -64,8 +68,4 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
-
-
-@import"~video.js/dist/video-js.css";
-
 

@@ -34,6 +34,11 @@ const routes: Routes = [
     path: 'lesson-update',
     loadChildren: () => import('./admin-layout/lesson-update/lesson-update.module').then(m => m.LessonUpdatePageModule)
     //loadChildren: './lesson-update/lesson-update.module#LessonUpdatePageModule'
+  },
+  {
+    path: 'lesson-delete',
+    loadChildren: () => import('./admin-layout/lesson-delete/lesson-delete.module').then(m => m.LessonDeletePageModule)
+    //loadChildren: './lesson-update/lesson-update.module#LessonUpdatePageModule'
   }
   ,
   {

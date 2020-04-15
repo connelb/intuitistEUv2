@@ -8,13 +8,6 @@
 </ion-header>
 
 <ion-content>
-
-
-    <div>
-        <ion-button (click)='onFileSelected($event)' fill='clear' size='small' >click
-        </ion-button>
-      </div>
-{{lessons|json}}
   <form [formGroup]="lessonForm" (ngSubmit)="onSubmit()">
     <ion-item *ngIf="lessons">
       <ion-label>Selected Lesson:</ion-label>
@@ -108,6 +101,11 @@
           <ion-button [disabled]="lessonForm.invalid" ion-button type="submit" full round>Update</ion-button>
         </ion-col>
       </ion-row>
+      <!-- <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-button block (click)="deleteLesson($event)">Delete</ion-button>
+          </ion-col>
+        </ion-row> -->
     </ion-grid>
   </form>
 

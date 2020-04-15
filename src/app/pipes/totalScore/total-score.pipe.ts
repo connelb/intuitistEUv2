@@ -7,7 +7,7 @@ export class TotalScorePipe implements PipeTransform {
 
   transform(lesson: any, type?: any): any {
 
-    console.log('is lesson updated?? with ne video score??', lesson, type);
+    //console.log('is lesson updated?? with ne video score??', lesson, type);
     let video = 0;
     let done = 0;
     let doing = 0;
