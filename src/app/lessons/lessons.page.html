@@ -55,9 +55,9 @@
   <ion-card button=true (click)="showCards(lesson?.id)" *ngFor="let lesson of lessons">
     <ion-card-header class="ion-text-start" *ngIf=lesson>
       <ion-card-title>{{ lesson?.name }}
-        <!-- <ion-chip>
-          <ion-label>{{lesson |totalCards}} points</ion-label>
-        </ion-chip> -->
+        <ion-chip>
+          <ion-label class="points">{{lesson |totalCards}} points</ion-label>
+        </ion-chip>
       </ion-card-title>
       <!-- <span>({{lesson |totalCards}} points)</span> -->
       <ion-card-subtitle>{{lesson?.description}}</ion-card-subtitle>

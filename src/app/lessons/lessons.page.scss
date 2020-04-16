@@ -2,3 +2,24 @@ video {
     display: block;
     margin: auto;
   }
+
+  // ion-label{
+  //   font-size: 0.7em
+  // }
+
+//   :root ion-card ion-label {
+//     --background: rgb(20, 20, 20);
+//     --padding-start: 15px;
+//     --padding-end: 15px;
+//     --padding-top: 15px;
+//     --padding-bottom: 15px;
+//     font-size: 1.5rem;
+//     .points{
+//       font-size: 0.5rem;
+//     }
+// }
+
+ion-chip ion-label{
+  --background:grey;
+  font-size: 0.8rem;
+}

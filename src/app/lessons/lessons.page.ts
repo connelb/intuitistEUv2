@@ -405,7 +405,7 @@ export class LessonsPage {
 
       observable.subscribe(({ data }) => {
         if (!data) { return console.log('ListLessonsByUser: no data'); }
-        this.lessons = data.listLesson3s.items;
+        this.lessons = data.listLesson3s.items.sort((a, b) => +a.level - +b.level);
         //console.log('this.lessons',this.lessons)
         //this.formatListLessonsByUser(data);
       });
