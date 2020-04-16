@@ -64,7 +64,7 @@ export class LessonDeletePage implements OnInit {
   constructor(private appsync: AppsyncService, public toastCtrl: ToastController) { }
 
   ngOnInit() {
-this.getLessons()
+    this.getLessons()
   }
 
   async getLessons() {
@@ -81,81 +81,97 @@ this.getLessons()
     });
     await toast.present();
   }
-  
-  
-  deleteLesson(lesson) {
-  
-    console.log('deleteLesson(lesson), what is lesson??',lesson)
-  const deleteLesson ={
-    id: lesson.id,
-    _version: lesson._version,
-     name: lesson.name,
-    description: lesson.description,
-    section: lesson.section,
-    subSection: lesson.subSection,
-    level: lesson.level,
-    video: lesson.video,
-    keywords: lesson.keywords,
-  }
 
-  // this.appsync.hc().then(client => {
-  //   client.mutate({
-  //     mutation: createUserCardId,
-  //     variables: myUser3Card3,
 
-  //     optimisticResponse: () => ({
-  //       createUser3Card3: {
-  //         ...myUser3Card3,
-  //         __typename: 'User3Card3'
-  //       }
-  //     }),
-  //     update: (proxy, { data: { createUser3Card3: _myUser3Card3 } }) => {
-  
-    this.appsync.hc().then(client => {
-      const observable: ObservableQuery = client.mutate({
-        mutation: DeleteLesson,
-        variables: {
-          id: lesson.id,
-          _version: lesson._version,
-          name: lesson.selectedLesson,
-          description: lesson.description,
-          section: lesson.section,
-          subSection: lesson.subSection,
-          level: lesson.level,
-          video: lesson.video,
-          keywords: lesson.keywords,
-          __typename: 'UpdateLesson3Input'
-        },
-        optimisticResponse: () => ({
-          deleteLesson3: {
-            ...deleteLesson,
-            __typename: 'DeleteLesson3Input'
-          }
-        }),
-        update: (proxy, { data: { deleteLesson3: _deleteLesson } }) => {
-          const options = {
-            query: ListLessons,
-            // variables: { id: this.cardId, status: "done", __typename: 'UpdateCard3Input' }
-          };
-  
-           const data = proxy.readQuery(options);
-        //   console.log("what is proxy data??", options, data)
-        //   // const _tmp = unshiftMessage(data, _message);
-        proxy.writeQuery({ ...options, data: { listLesson3s: { items: { ..._deleteLesson }} } });
-        }
-      }).then(({ data }) => {
-        console.log('mutation complete', data);
-        // this.lessonForm.reset();
-        this.getLessons();
-        this.deleteToast();
-        // const toast = this.toastCtrl.create({
-        //   message: 'lesson created',
-        //   duration: 3000
-        // });
-        // toast.present();
-        //this.router.navigate(['tabs/lessons', this.lessonId]);
-      }).catch(err => console.log('Error creating message', err));
-    });
+  async deleteLesson(lesson) {
+
+    const [userCard] = await Promise.all([
+      API.graphql(graphqlOperation(DeleteLesson, {
+        id: lesson.id,
+        _version: lesson._version,
+        name: lesson.name,
+        description: lesson.description,
+        section: lesson.section,
+        subSection: lesson.subSection,
+        level: lesson.level,
+        video: lesson.video,
+        keywords: lesson.keywords
+      })) as Promise<any>
+    ])
+
+    //   console.log('deleteLesson(lesson), what is lesson??',lesson)
+    // const deleteLesson ={
+    //   id: lesson.id,
+    //   _version: lesson._version,
+    //    name: lesson.name,
+    //   description: lesson.description,
+    //   section: lesson.section,
+    //   subSection: lesson.subSection,
+    //   level: lesson.level,
+    //   video: lesson.video,
+    //   keywords: lesson.keywords,
+    //   __typename: 'UpdateLesson3Input'
+    // }
+
+    // // this.appsync.hc().then(client => {
+    // //   client.mutate({
+    // //     mutation: createUserCardId,
+    // //     variables: myUser3Card3,
+
+    // //     optimisticResponse: () => ({
+    // //       createUser3Card3: {
+    // //         ...myUser3Card3,
+    // //         __typename: 'User3Card3'
+    // //       }
+    // //     }),
+    // //     update: (proxy, { data: { createUser3Card3: _myUser3Card3 } }) => {
+
+    //   this.appsync.hc().then(client => {
+    //     const observable: ObservableQuery = client.mutate({
+    //       mutation: DeleteLesson,
+    //       variables: {
+    //         id: lesson.id,
+    //         _version: lesson._version,
+    //         name: lesson.selectedLesson,
+    //         description: lesson.description,
+    //         section: lesson.section,
+    //         subSection: lesson.subSection,
+    //         level: lesson.level,
+    //         video: lesson.video,
+    //         keywords: lesson.keywords,
+    //         __typename: 'DeleteLesson3Input'
+    //       },
+    //       optimisticResponse: () => ({
+    //         deleteLesson3: {
+    //           ...deleteLesson,
+    //           __typename: 'DeleteLesson3Input'
+    //         }
+    //       }),
+    //       update: (proxy, { data: { deleteLesson3: _deleteLesson } }) => {
+    //         const options = {
+    //           query: ListLessons,
+    //           // variables: { id: this.cardId, status: "done", __typename: 'UpdateCard3Input' }
+    //         };
+
+    //          const data = proxy.readQuery(options);
+    //       //   console.log("what is proxy data??", options, data)
+    //       //   // const _tmp = unshiftMessage(data, _message);
+    //       proxy.writeQuery({ ...options, data });
+    //       // proxy.writeQuery({ ...options, data: { listLesson3s: { items: { ..._deleteLesson }} } });
+    //       }
+    //     }).then(({ data }) => {
+    //       console.log('mutation complete', data);
+    //       // this.lessonForm.reset();
+    //       this.getLessons();
+    //       this.deleteToast();
+    //       // const toast = this.toastCtrl.create({
+    //       //   message: 'lesson created',
+    //       //   duration: 3000
+    //       // });
+    //       // toast.present();
+    //       //this.router.navigate(['tabs/lessons', this.lessonId]);
+    //     }).catch(err => console.log('Error creating message', err));
+    //   });
   }
 
 

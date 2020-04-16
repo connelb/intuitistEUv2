@@ -91,7 +91,7 @@ export class VideoModalPage implements OnInit {
     video.on(autoPlayEvents, autoplayableListener);
   
     function autoplayableListener(event) {
-      console.log(event.type);
+      //console.log(event.type);
       // for live videos we want to listen for durationchange
       if (event.type === 'durationchange' && video.duration() === Infinity) {
         attemptAutoplay();

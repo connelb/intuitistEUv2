@@ -27,7 +27,7 @@ import { VideoModalPage } from './../video-modal/video-modal.page'
 import { Howl, Howler } from 'howler';
 import * as d3Scale from 'd3-scale';
 import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
-import { DataStore, Predicates } from "@aws-amplify/datastore";
+// import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { User3Card3, Card3, User3, User3Video3 } from "./../../models";
 
 // $user3Card3User3Id: ID!, $user3Card3Card3Id:ID, $status:cardStatus, $score:Int
@@ -398,6 +398,7 @@ query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
       section
       subSection
       video
+      _version
       cards3 {
         items {
           id
@@ -440,6 +441,7 @@ query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
 })
 export class CardsPage implements OnInit {
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
+  // @ViewChild('slides', { static: false }) slides1;
   @ViewChild('video', { static: false }) videoElement: ElementRef;
   //subscription: () => void;
   ios: boolean;
@@ -818,7 +820,7 @@ export class CardsPage implements OnInit {
       API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: this.user.attributes.sub, user3Video3Video3Id: lesson.video })) as Promise<any>
     ]);
     // console.log('make false or true',userVideo, userVideo.data.listUser3Video3s.items.length==0, userVideo.data.listUser3Video3s.items.length)
-    if (userVideo.data.listUser3Video3s.items.length==0) {
+    if (userVideo.data.listUser3Video3s.items.length == 0) {
       const [userVideo1] = await Promise.all([
         API.graphql(graphqlOperation(CreateUser3Video3, { user3Video3User3Id: this.user.attributes.sub, user3Video3Video3Id: lesson.video, score: 0, status: 'doing' })) as Promise<any>
       ]);
@@ -841,8 +843,9 @@ export class CardsPage implements OnInit {
     });
 
     //this.getData(this.lessonId);
-    toast.present();
     this.slides.slideTo(i + 1);
+    toast.present();
+
   }
 
   async updateCardStatusDoingToast(i) {
@@ -854,8 +857,27 @@ export class CardsPage implements OnInit {
     });
 
     //this.getData(this.lessonId);
+    //this.slides.slideTo(i + 1);
+    this.nextSlide()
     toast.present();
-    this.slides.slideTo(i + 1);
+
+  }
+
+  async lessonCompleteToast() {
+    const toast = await this.toastController.create({
+      message: 'Lesson completed!',
+      duration: 4000,
+      position: 'middle',
+      cssClass: "toast-mess"
+    });
+
+    //this.getData(this.lessonId);
+    //this.slides.slideTo(i + 1);
+    //this.nextSlide(i)
+
+    toast.present();
+    this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
+
   }
 
   // getProgress(res) {
@@ -970,7 +992,10 @@ export class CardsPage implements OnInit {
               // proxy.writeQuery({...options, data: _tmp});
             }
           }).then(({ data }) => {
-            console.log('mutation complete', data);
+            // console.log('mutation complete', data);
+            console.log('mutation complete', data, i, i + 1);
+            this.nextSlide()
+
           }).catch(err => console.log('Error creating message', err));
         })
       } else {
@@ -1020,7 +1045,9 @@ export class CardsPage implements OnInit {
               // //   // proxy.writeQuery({...options, data: _tmp});
             }
           }).then(({ data }) => {
-            console.log('mutation complete', data);
+            console.log('mutation complete', data, i, i + 1);
+            this.nextSlide()
+
           }).catch(err => console.log('Error updating User3Card3', err));
         })
       }
@@ -1034,7 +1061,34 @@ export class CardsPage implements OnInit {
       }
 
     });
-   
+
+  }
+
+  nextSlide() {
+    console.log('next slide called')
+    //this.slides.slideTo(i + 1);
+    this.slides.isEnd().then((data: boolean) => {
+      //console.log('end?',data))
+      if (data == true) {
+        this.lessonCompleteToast();
+      } else {
+        this.slides.slideNext();
+      }
+    })
+    // if(this.slides.isEnd()){
+    //   this.lessonCompleteToast(); 
+    // }
+
+
+
+    // this.slides.getActiveIndex().then((index: number) => {
+    //   console.log(index);
+    //  });
+
+    //  this.slides.isEnd().then((index: number) => {
+    //   console.log(index);
+    //  });
+
   }
 
   async videoScoreUpdate(videoScore) {
@@ -1082,13 +1136,13 @@ export class CardsPage implements OnInit {
 
 
     //video
-    console.log('does a userVideo exist????',this.userVideo);
+    console.log('does a userVideo exist????', this.userVideo);
 
 
     if (this.userVideo) {
 
       const User3Video3ToCreate = {
-        user3Video3User3Id:this.user.attributes.sub,
+        user3Video3User3Id: this.user.attributes.sub,
         user3Video3Video3Id: this.userVideo.id,
         // _version: this.userVideo._version,
         status: 'done',
@@ -1101,12 +1155,12 @@ export class CardsPage implements OnInit {
       //   status: this.status,
       //   score: this.score
       // }
-      console.log('does a userVideo exist????',this.userVideo);
+      console.log('does a userVideo exist????', this.userVideo);
       await Promise.all([
         API.graphql(graphqlOperation(GetUser3Video3ById, { id: this.userVideo.id })) as Promise<any>
       ]).then((res) => {
         //console.log('does a userVideo exist????',res)
-        
+
         //getUser3Video3
         //const UserVideo = res[0].data.getUser3Video3;
         if (!res[0].data.getUser3Video3) {
@@ -1147,7 +1201,7 @@ export class CardsPage implements OnInit {
 
           const User3Video3ToUpdate = {
             id: this.userVideo.id,
-            user3Video3User3Id:this.user.attributes.sub,
+            user3Video3User3Id: this.user.attributes.sub,
             user3Video3Video3Id: this.userVideo.id,
             _version: res[0].data.getUser3Video3._version,
             // _version: this.userVideo._version,
@@ -1155,7 +1209,7 @@ export class CardsPage implements OnInit {
             score: videoScore
           }
 
-          console.log('res[0].data.getUser3Video3',res[0].data.getUser3Video3);
+          console.log('res[0].data.getUser3Video3', res[0].data.getUser3Video3);
 
           //update wt subscription
           this.appsync.hc().then(client => {
@@ -1163,7 +1217,7 @@ export class CardsPage implements OnInit {
               mutation: UpdateUser3Video3,
               variables: {
                 id: this.userVideo.id,
-                user3Video3User3Id:this.user.attributes.sub,
+                user3Video3User3Id: this.user.attributes.sub,
                 user3Video3Video3Id: this.userVideo.id,
                 _version: res[0].data.getUser3Video3._version,
                 status: 'done',

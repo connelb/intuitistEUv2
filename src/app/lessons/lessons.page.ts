@@ -17,7 +17,7 @@ import * as d3Array from 'd3-array';
 import * as d3Hierachy from 'd3-hierarchy';
 import * as d3Collection from 'd3-collection';
 
-import { DataStore, Predicates } from "@aws-amplify/datastore";
+// import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { User3Card3, Lesson3, Card3, User3, User3Video3 } from "./../../models";
 import { from } from 'rxjs';
 import { Network } from '@ngx-pwa/offline';
@@ -206,6 +206,12 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
       id
       name
       description
+      section
+      subSection
+      level
+      video
+      keywords
+      _version
       cards3 {
         items {
           id
