@@ -18,7 +18,6 @@ mutation updateCard(
   $question:String!,
   $answer:String,
   $audio:String,
-  $video:String,
   $level:String,
   $keywords:String,
   $card3Lesson3Id:ID
@@ -28,7 +27,6 @@ mutation updateCard(
     question: $question,
     answer: $answer,
     audio: $audio,
-    video :$video,
     level:$level,
     keywords:$keywords,
     card3Lesson3Id:$card3Lesson3Id
@@ -60,10 +58,10 @@ export class CardModalPage implements OnInit {
   @Input() question: string;
   @Input() answer: string;
   @Input() audio: string;
-  @Input() video: string;
   @Input() level: string;
   @Input() keywords: string;
   @Input() card3Lesson3Id: string;
+  @Input() _version: number;
   bgMusicPlaying: boolean;
   bgMusicPlayer: AudioService;
   urlAudio: any;
@@ -124,7 +122,6 @@ export class CardModalPage implements OnInit {
       question: this.question,
       answer: this.answer,
       audio: this.audio,
-      video: this.video,
       level: this.level,
       keywords: this.keywords
     });
@@ -135,7 +132,6 @@ export class CardModalPage implements OnInit {
       question: this.question,
       answer: this.answer,
       audio: this.audio,
-      video: this.video,
       level: this.level,
       keywords: this.keywords
     })
@@ -163,7 +159,6 @@ export class CardModalPage implements OnInit {
       question: this.cardForm.value.question,
       answer: this.cardForm.value.answer,
       audio: this.cardForm.value.audio,
-      video: this.cardForm.value.video,
       level: this.cardForm.value.level,
       keywords: this.cardForm.value.keywords
     };
@@ -176,10 +171,10 @@ export class CardModalPage implements OnInit {
           question: this.cardForm.value.question,
           answer: this.cardForm.value.answer,
           audio: this.cardForm.value.audio,
-          video: this.cardForm.value.video,
           level: this.cardForm.value.level,
           keywords: this.cardForm.value.keywords,
           card3Lesson3Id: this.card3Lesson3Id,
+          _version:this._version +1,
           __typename: 'UpdateCard3Input'
         },
         // optimisticResponse: () => ({

@@ -20,6 +20,7 @@ mutation createCard3(
    $audio:String,
    $video:String,
    $level:String,
+   $order:Int,
    $keywords:String
  ) {
   createCard3(input: {
@@ -29,6 +30,7 @@ mutation createCard3(
     audio:$audio,
     video:$video,
     level:$level,
+    order:$order,
     keywords:$keywords
   }) {
     id
@@ -54,8 +56,8 @@ mutation updateCard(
   $question:String!,
   $answer:String,
   $audio:String,
-  $video:String,
   $level:String,
+  $order:Int,
   $keywords:String,
   $card3Lesson3Id:ID
  ) {
@@ -64,8 +66,8 @@ mutation updateCard(
     question: $question,
     answer: $answer,
     audio: $audio,
-    video :$video,
     level:$level,
+    order:$order,
     keywords:$keywords,
     card3Lesson3Id:$card3Lesson3Id
   }) {
@@ -127,7 +129,6 @@ export class CardCreatePage implements OnInit {
           question: this.cardForm.value.question,
           answer: this.cardForm.value.answer,
           audio: this.cardId,
-          video: this.cardForm.value.video,
           level: this.cardForm.value.level,
           keywords: this.cardForm.value.keywords,
           card3Lesson3Id: this.lesson.id,
@@ -209,7 +210,6 @@ export class CardCreatePage implements OnInit {
       question: [''],
       answer: [''],
       audio: [''],
-      video: [''],
       level: [''],
       keywords: ['']
     });
@@ -241,10 +241,10 @@ export class CardCreatePage implements OnInit {
           card3Lesson3Id: this.lesson.id,
           question: card.question,
           answer: card.answer,
-          audio: card.audio,
-          video: card.video,
-          level: card.level,
-          keywords: card.keywords,
+          audio: (card.audio)?card.audio:"" ,
+          level: (card.level)?card.level:"",
+          order: 0,
+          keywords: (card.keywords)?card.keywords:"",
           __typename: 'CreateCard3Input'
         },
         // optimisticResponse: () => ({
@@ -297,7 +297,12 @@ export class CardCreatePage implements OnInit {
       await API.graphql(graphqlOperation(CreateCard, {
         question: this.cardForm.value.question,
         answer: this.cardForm.value.answer,
-        card3Lesson3Id: this.lesson.id
+        card3Lesson3Id: this.lesson.id,
+        audio: (this.cardForm.value.audio)?this.cardForm.value.audio:"" ,
+        level: (this.cardForm.value.level)?this.cardForm.value.level:"",
+        order: 0,
+        keywords: (this.cardForm.value.keywords)?this.cardForm.value.keywords:"",
+
       })) as Promise<any>
     ])
 

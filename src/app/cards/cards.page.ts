@@ -700,6 +700,7 @@ export class CardsPage implements OnInit {
     await Storage.get(`audio/${card.audio}${'.mp3'}`, { contentType: "audio/mpeg" })
       .then(result => {
         this.urlAudio = result;
+        console.log('this.urlAudio?',this.urlAudio)
       })
       .catch(err => console.log(err));
     //   if (this.bgMusicPlaying){
@@ -837,13 +838,14 @@ export class CardsPage implements OnInit {
   async updateCardStatusDoneToast(i) {
     const toast = await this.toastController.create({
       message: 'Great Job!',
-      duration: 1000,
-      position: 'top',
+      duration: 2000,
+      position: 'middle',
       cssClass: "toast-mess-success"
     });
 
     //this.getData(this.lessonId);
-    this.slides.slideTo(i + 1);
+    // this.slides.slideTo(i + 1);
+    this.nextSlide()
     toast.present();
 
   }
@@ -852,7 +854,7 @@ export class CardsPage implements OnInit {
     const toast = await this.toastController.create({
       message: 'practice, practice :)',
       duration: 2000,
-      position: 'top',
+      position: 'middle',
       cssClass: "toast-mess"
     });
 
@@ -865,8 +867,8 @@ export class CardsPage implements OnInit {
 
   async lessonCompleteToast() {
     const toast = await this.toastController.create({
-      message: 'Lesson completed!',
-      duration: 4000,
+      message: `Congratulations for completing ${this.lesson.name}!`,
+      duration: 3000,
       position: 'middle',
       cssClass: "toast-mess"
     });
@@ -1065,7 +1067,7 @@ export class CardsPage implements OnInit {
   }
 
   nextSlide() {
-    console.log('next slide called')
+    //console.log('next slide called')
     //this.slides.slideTo(i + 1);
     this.slides.isEnd().then((data: boolean) => {
       //console.log('end?',data))
@@ -1136,7 +1138,7 @@ export class CardsPage implements OnInit {
 
 
     //video
-    console.log('does a userVideo exist????', this.userVideo);
+    //console.log('does a userVideo exist????', this.userVideo);
 
 
     if (this.userVideo) {
@@ -1155,7 +1157,7 @@ export class CardsPage implements OnInit {
       //   status: this.status,
       //   score: this.score
       // }
-      console.log('does a userVideo exist????', this.userVideo);
+      //console.log('does a userVideo exist????', this.userVideo);
       await Promise.all([
         API.graphql(graphqlOperation(GetUser3Video3ById, { id: this.userVideo.id })) as Promise<any>
       ]).then((res) => {
@@ -1197,7 +1199,7 @@ export class CardsPage implements OnInit {
             }).catch(err => console.log('Error creating CreateUser3Video3', err));
           })
         } else {
-          console.log('UpdateUser3Video3')
+          //console.log('UpdateUser3Video3')
 
           const User3Video3ToUpdate = {
             id: this.userVideo.id,
@@ -1209,7 +1211,7 @@ export class CardsPage implements OnInit {
             score: videoScore
           }
 
-          console.log('res[0].data.getUser3Video3', res[0].data.getUser3Video3);
+          //console.log('res[0].data.getUser3Video3', res[0].data.getUser3Video3);
 
           //update wt subscription
           this.appsync.hc().then(client => {

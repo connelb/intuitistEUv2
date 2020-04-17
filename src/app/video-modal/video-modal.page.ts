@@ -106,8 +106,12 @@ export class VideoModalPage implements OnInit {
     function attemptAutoplay() {
       var promise = video.play();
       if (promise !== undefined) {
+
         promise.then(function () {
           // Autoplay started!
+        //   videojs('my-video-id').ready(function() {
+        //     this.play();
+        // });
         }).
         catch (function (error) {
           // Autoplay was prevented.

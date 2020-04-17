@@ -45,7 +45,9 @@ query ListCards($card3Lesson3Id: ID)  {
       audio
       video
       level
+      order
       keywords
+      _version
     }
   }
 }
@@ -59,7 +61,9 @@ const GetCard = `
       audio
       video
       level
+      order
       keywords
+      _version
   }
 }
 `
@@ -72,21 +76,38 @@ const DeleteCard = `
       audio
       video
       level
+      order
       keywords
+      _version
   }
 }
 `
 
+// id: ID!
+// question: String
+// answer: String
+// audio: String
+// video: String
+// level: String
+// order: Int
+// keywords: String
+// lesson3: Lesson3Input
+// _version: Int
+// card3Lesson3Id: ID
+
+
 const UpdateCard = gql`
 mutation updateCard(
   $id: ID!,
-  $question:String!,
+  $question:String,
   $answer:String,
   $audio:String,
   $video:String,
   $level:String,
+  $order:Int,
   $keywords:String,
   $card3Lesson3Id:ID
+  $_version:Int
  ) {
   updateCard3(input: {
     id: $id,
@@ -94,20 +115,20 @@ mutation updateCard(
     answer: $answer,
     audio: $audio,
     video :$video,
-    level:$level,
-    keywords:$keywords,
-    card3Lesson3Id:$card3Lesson3Id
+    level: $level,
+    order: $order,
+    keywords: $keywords,
+    card3Lesson3Id: $card3Lesson3Id,
+    _version: $_version
   }) {
     id
   }
 }`;
 
 const SortCard = gql`
-mutation updateCard(
-  $id: ID!, $level: String
- ) {
+mutation updateCard( $id: ID!, $order: Int, $_version:Int) {
   updateCard3(input: {
-    id: $id, level: $level
+    id: $id, order: $order, _version:$_version
   }) {
     id
   }
@@ -381,7 +402,7 @@ export class CardUpdatePage implements OnInit {
     const [cards] = await Promise.all([
       API.graphql(graphqlOperation(ListCards, { card3Lesson3Id: card3Lesson3Id })) as Promise<any>
     ])
-    this.cards = cards.data.listCard3s.items.sort((a, b) => +b.level - +a.level);
+    this.cards = cards.data.listCard3s.items.sort((a, b) => +b.order- +a.order);
   }
 
   // onChanges(): void {
@@ -390,13 +411,14 @@ export class CardUpdatePage implements OnInit {
 
   createCardForm() {
     this.cardForm = this.formBuilder.group({
-      selectedLesson: [''],
-      selectedQuestion: [''],
-      answer: [''],
-      audio: [''],
-      video: [''],
-      level: [''],
-      keywords: ['']
+      selectedLesson: [""],
+      selectedQuestion: [""],
+      answer: [""],
+      audio: [""],
+      video: [""],
+      level: [""],
+      order:[""],
+      keywords: [""]
     });
   }
 
@@ -404,12 +426,14 @@ export class CardUpdatePage implements OnInit {
     let card = {
       id: this.card.id,
       question: this.card.question,
-      answer: this.cardForm.value.answer || "n/a",
-      audio: this.cardForm.value.audio || "n/a",
-      video: this.cardForm.value.video || "n/a",
-      level: this.cardForm.value.level || "n/a",
-      keywords: this.cardForm.value.keywords || "n/a",
-      card3Lesson3Id: this.lesson.id
+      answer: this.cardForm.value.answer,
+      audio: this.cardForm.value.audio,
+      video: this.cardForm.value.video,
+      level: this.cardForm.value.level,
+      order: this.card.order,
+      keywords: this.cardForm.value.keywords,
+      card3Lesson3Id: this.lesson.id,
+      _version:this.card._version
     }
 
     this.updateCard(card)
@@ -444,6 +468,7 @@ export class CardUpdatePage implements OnInit {
 
 
   updateCard(card) {
+    console.log("what is card???", card)
     const updateCard: UpdateCard3Input = {
       id: card.id,
       question: card.question,
@@ -451,8 +476,10 @@ export class CardUpdatePage implements OnInit {
       audio: card.audio,
       video: card.video,
       level: card.level,
+      order: card.order,
       keywords: card.keywords,
-      card3Lesson3Id: card.card3Lesson3Id
+      card3Lesson3Id: card.card3Lesson3Id,
+      _version: card._version
     };
 
     this.appsync.hc().then(client => {
@@ -462,11 +489,13 @@ export class CardUpdatePage implements OnInit {
           id: card.id,
           question: card.question,
           answer: card.answer,
-          audio: card.audio,
-          video: card.video,
-          level: card.level,
-          keywords: card.keywords,
+          audio: (card.audio)?card.audio:"",
+          video: (card.video)?card.video:"",
+          level: (card.level)?card.level:"",
+          order: (card.order)?card.order:0,
+          keywords: (card.keywords)?card.keywords:"",
           card3Lesson3Id: card.card3Lesson3Id,
+          _version: card._version +1,
           __typename: 'UpdateCard3Input'
         },
         // optimisticResponse: () => ({
@@ -543,22 +572,20 @@ export class CardUpdatePage implements OnInit {
   doReorder(ev: any) {
     // The `from` and `to` properties contain the index of the item
     // when the drag started and ended, respectively
-    console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
+    //console.log('Dragged from index', ev.detail.from, 'to', ev.detail.to);
 
     // Finish the reorder and position the item in the DOM based on
     // where the gesture ended. This method can also be called directly
     // by the reorder group
     ev.detail.complete(this.cards);
-    console.log("re-ordered???:", ev.detail.complete(this.cards))
+    //console.log("re-ordered???:", this.cards, "changed odered?", ev.detail.complete(this.cards))
 
     //Array(3) [ {…}, {…}, {…} ]
     ev.detail.complete(this.cards).forEach((d,i) => {
       //console.log('d',i)
-      API.graphql(graphqlOperation(SortCard, { id: d.id, level:i }))
+      API.graphql(graphqlOperation(SortCard, { id: d.id, order:i, _version:d._version }))
     }
     )
-
-
   }
 
   updateCardOrder() {
@@ -571,6 +598,7 @@ export class CardUpdatePage implements OnInit {
 
 
   async presentModal(card, i) {
+    console.log("what is modal card?",card)
 
     const modal = await this.modalController.create({
       component: CardModalPage,
@@ -579,10 +607,10 @@ export class CardUpdatePage implements OnInit {
         question: card.question,
         answer: card.answer,
         audio: card.audio,
-        video: card.video,
         level: card.level,
         keywords: card.keywords,
-        card3Lesson3Id: this.lesson.id
+        card3Lesson3Id: this.lesson.id,
+        _version: card._version
       }
     });
     return await modal.present();
