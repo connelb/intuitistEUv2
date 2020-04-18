@@ -432,6 +432,19 @@ query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
 }
 `
 
+// const getUserCard =
+//   gql`query GetUserCard($id: ID!) {
+//       getUser3Card3(id:$id:){
+//         id
+//         user3{id}
+//         card3{id}
+//         score
+//         status
+//         _version
+//       }
+//     }
+// `
+
 
 @Component({
   selector: 'app-cards',
@@ -499,6 +512,8 @@ export class CardsPage implements OnInit {
   user: any;
   lessonCardsArr: any = [];
   user3card3Arr: any = [];
+
+  answer = false;
 
   public slideOptions = {
     slidesPerView: 1,
@@ -571,6 +586,10 @@ export class CardsPage implements OnInit {
     });
 
     this.slides.slideTo(0);
+  }
+
+  toggleAnswer(){
+    this.answer = !this.answer;
   }
 
   ListLessonsByUserByLesson(lessonId) {
@@ -845,7 +864,9 @@ export class CardsPage implements OnInit {
 
     //this.getData(this.lessonId);
     // this.slides.slideTo(i + 1);
-    this.nextSlide()
+   
+    this.nextSlide();
+    // this.answer = false;
     toast.present();
 
   }
@@ -860,7 +881,9 @@ export class CardsPage implements OnInit {
 
     //this.getData(this.lessonId);
     //this.slides.slideTo(i + 1);
-    this.nextSlide()
+    
+    this.nextSlide();
+    // this.answer = false;
     toast.present();
 
   }
@@ -981,6 +1004,7 @@ export class CardsPage implements OnInit {
             update: (proxy, { data: { createUser3Card3: _myUser3Card3 } }) => {
 
               const options = {
+              //   //getUserCard
                 query: getUserCardId,
                 variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id }//{ conversationId: this.conversation.id, first: constants.messageFirst }
               };
@@ -989,9 +1013,9 @@ export class CardsPage implements OnInit {
               //
 
               const data = proxy.readQuery(options);
-              //console.log('whats data, current local usercards??', data);
-              // const _tmp = unshiftMessage(data, _myUser3Card3);
-              // proxy.writeQuery({...options, data: _tmp});
+              // //console.log('whats data, current local usercards??', data);
+              // // const _tmp = unshiftMessage(data, _myUser3Card3);
+              proxy.writeQuery({...options, data});
             }
           }).then(({ data }) => {
             // console.log('mutation complete', data);
@@ -1033,18 +1057,18 @@ export class CardsPage implements OnInit {
                 __typename: 'User3Card3'
               }
             }),
-            update: (proxy, { data: { updateUser3Card3: _myUser3Card3 } }) => {
+            update: (proxy, { data: { updateUser3Card3: _UserCardToUpdate } }) => {
               //   // console.log('what is proxy??',proxy, );
 
-              //   const options = {
-              //     query: getUserCardId,
-              //     variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id }//{ conversationId: this.conversation.id, first: constants.messageFirst }
-              //   };
+                const options = {
+                  query: getUserCardId,
+                  variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id }//{ conversationId: this.conversation.id, first: constants.messageFirst }
+                };
 
-              //   const data = proxy.readQuery(options);
-              //   console.log('whats data, current local usercards??', data);
+                 const data = proxy.readQuery(options);
+                 console.log('whats data, current local usercards??', data);
               // //   // const _tmp = unshiftMessage(data, _myUser3Card3);
-              // //   // proxy.writeQuery({...options, data: _tmp});
+              proxy.writeQuery({...options, data});
             }
           }).then(({ data }) => {
             console.log('mutation complete', data, i, i + 1);
@@ -1067,6 +1091,7 @@ export class CardsPage implements OnInit {
   }
 
   nextSlide() {
+    this.answer = false;
     //console.log('next slide called')
     //this.slides.slideTo(i + 1);
     this.slides.isEnd().then((data: boolean) => {

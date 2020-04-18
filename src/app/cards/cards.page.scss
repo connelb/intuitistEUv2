@@ -1660,10 +1660,25 @@
 //   outline: none;
 //   background: none;
 // }
+ion-label{
+font-size: 1.5em;
+font-weight: bold;
+}
 
+ion-col{
+  font-weight: bold
+}
 
 ion-slides {
   --bullet-background: #8e2424;
+}
+
+ion-icon {
+  --ionicon-stroke-width: 2em;
+}
+
+ion-segment{
+  --background:transparent;
 }
 
 

@@ -24,7 +24,7 @@
     <ion-slide *ngFor="let card of lessonCards ; index as i">
       <ion-fab vertical="top" horizontal="end" slot="fixed">
         <!-- <ion-fab-button color="ion-fab-button" disabled="true" size="small">{{card?.users3?.items[0]?.status}} -->
-            <ion-fab-button color="ion-fab-button" disabled="true" size="small">    
+        <ion-fab-button color="ion-fab-button" disabled="true" size="small">
           {{(card?.users3?.items[0]?.status=="done") ? "happy" : "sad"}}
         </ion-fab-button>
       </ion-fab>
@@ -47,19 +47,29 @@
       <ion-grid>
         <ion-row>
           <ion-col class="testYourself">
-            <ion-card>
+            <ion-card class="testYourself">
               <ion-card-title>
                 <ion-label>{{card?.question}}</ion-label>
+              </ion-card-title>
+              <ion-card-title *ngIf="answer==true">
+                <ion-label>{{card?.answer}}</ion-label>
               </ion-card-title>
             </ion-card>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <!-- <ion-row>
+          <ion-col>Translate aloud</ion-col>
+          <ion-col (click)=toggleAnswer()>
+            <ion-icon size="large" name="play-circle-outline"></ion-icon>
+          </ion-col>
+        </ion-row> -->
+        <!-- <ion-row>
           <ion-col class="testYourself">
             <ion-button (click)="toggleBgMusicPlaying($event,card)">Test yourself</ion-button>
           </ion-col>
-        </ion-row>
-        <ion-row>
+        </ion-row> -->
+        <!-- (click)="toggleBgMusicPlaying($event,card)" -->
+        <!-- <ion-row>
           <ion-col>
             <ion-card [hidden]="visible">
               <ion-card-title>
@@ -67,8 +77,18 @@
               </ion-card-title>
             </ion-card>
           </ion-col>
-        </ion-row>
-        <ion-row>
+        </ion-row>   (click)=toggleAnswer()-->
+        <ion-row *ngIf="answer==false">
+            <ion-segment (click)=toggleAnswer()>
+                <ion-segment-button>
+                    <ion-label color="primary"><b>Translate aloud</b></ion-label>
+                  </ion-segment-button>
+              <ion-segment-button (click)="toggleBgMusicPlaying($event,card)">
+                  <ion-icon size="large" name="play-circle-outline"></ion-icon>
+              </ion-segment-button>
+            </ion-segment>
+          </ion-row>
+        <ion-row *ngIf="answer==true">
           <ion-segment (ionChange)="segmentChanged($event,card,i)" value="'card?.users3.items[0].status == done' ? 'done' : 'doing'">
             <ion-segment-button value="doing" layout="icon-bottom">
               <ion-fab-button color="warning">

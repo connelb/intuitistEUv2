@@ -451,8 +451,6 @@ export class CardUpdatePage implements OnInit {
     const [card] = await Promise.all([
       API.graphql(graphqlOperation(GetCard, { id: this.selectedCardQuestion.id })) as Promise<any>
     ])
-
-
   }
 
   // ******* TO DO **********
