@@ -18,7 +18,6 @@ mutation createCard3(
   $question:String!,
   $answer:String!,
    $audio:String,
-   $video:String,
    $level:String,
    $order:Int,
    $keywords:String
@@ -28,7 +27,6 @@ mutation createCard3(
     question:$question,
     answer:$answer,
     audio:$audio,
-    video:$video,
     level:$level,
     order:$order,
     keywords:$keywords
@@ -53,23 +51,13 @@ const ListLessons = gql`
 const UpdateCard = gql`
 mutation updateCard(
   $id: ID!,
-  $question:String!,
-  $answer:String,
   $audio:String,
-  $level:String,
-  $order:Int,
-  $keywords:String,
-  $card3Lesson3Id:ID
+ $_version:Int
  ) {
   updateCard3(input: {
     id: $id,
-    question: $question,
-    answer: $answer,
     audio: $audio,
-    level:$level,
-    order:$order,
-    keywords:$keywords,
-    card3Lesson3Id:$card3Lesson3Id
+  _version:$_version
   }) {
     id
   }
@@ -126,12 +114,13 @@ export class CardCreatePage implements OnInit {
         mutation: UpdateCard,
         variables: {
           id: audio,
-          question: this.cardForm.value.question,
-          answer: this.cardForm.value.answer,
+          // question: this.cardForm.value.question,
+          // answer: this.cardForm.value.answer,
           audio: this.cardId,
-          level: this.cardForm.value.level,
-          keywords: this.cardForm.value.keywords,
-          card3Lesson3Id: this.lesson.id,
+          // level: this.cardForm.value.level,
+          // keywords: this.cardForm.value.keywords,
+          // card3Lesson3Id: this.lesson.id,
+          _version: 1,
           __typename: 'UpdateCard3Input'
         },
         // optimisticResponse: () => ({
@@ -153,7 +142,7 @@ export class CardCreatePage implements OnInit {
         // }
       }).then(({ data }) => {
         console.log('mutation complete', data);
-        //this.cardForm.reset();
+        this.cardForm.reset();
         this.updateToast();
 
         //this.router.navigate(['tabs/lessons', this.lessonId]);
@@ -231,9 +220,20 @@ export class CardCreatePage implements OnInit {
     });
 
     this.createCard(this.cardForm.value)
+
+   
   }
 
   createCard(card) {
+    console.log( 'card values: ',{card3Lesson3Id: this.lesson.id,
+      question: card.question,
+      answer: card.answer,
+      audio: (card.audio)?card.audio:"na" ,
+      level: (card.level)?card.level:"na",
+      order: 0,
+      keywords: (card.keywords)?card.keywords:"na"})
+
+
     this.appsync.hc().then(client => {
       const observable: ObservableQuery = client.mutate({
         mutation: CreateCard,
@@ -241,10 +241,10 @@ export class CardCreatePage implements OnInit {
           card3Lesson3Id: this.lesson.id,
           question: card.question,
           answer: card.answer,
-          audio: (card.audio)?card.audio:"" ,
-          level: (card.level)?card.level:"",
+          audio: (card.audio)?card.audio:"na" ,
+          level: (card.level)?card.level:"na",
           order: 0,
-          keywords: (card.keywords)?card.keywords:"",
+          keywords: (card.keywords)?card.keywords:"na",
           __typename: 'CreateCard3Input'
         },
         // optimisticResponse: () => ({
@@ -265,7 +265,8 @@ export class CardCreatePage implements OnInit {
         //   proxy.writeQuery({ ...options, data: { getCard3: { users3: { items: { ..._userCard } } } } });
         // }
       }).then(({ data }) => {
-        //console.log('mutation complete', data);
+        //this.card = data.
+        console.log('mutation complete', data);
         //this.cardForm.reset();
         this.createToast();
 
@@ -298,10 +299,10 @@ export class CardCreatePage implements OnInit {
         question: this.cardForm.value.question,
         answer: this.cardForm.value.answer,
         card3Lesson3Id: this.lesson.id,
-        audio: (this.cardForm.value.audio)?this.cardForm.value.audio:"" ,
-        level: (this.cardForm.value.level)?this.cardForm.value.level:"",
+        audio: (this.cardForm.value.audio)?this.cardForm.value.audio:"na" ,
+        level: (this.cardForm.value.level)?this.cardForm.value.level:"na",
         order: 0,
-        keywords: (this.cardForm.value.keywords)?this.cardForm.value.keywords:"",
+        keywords: (this.cardForm.value.keywords)?this.cardForm.value.keywords:"na",
 
       })) as Promise<any>
     ])
@@ -351,12 +352,12 @@ export class CardCreatePage implements OnInit {
 
     //console.log(awsconfig.aws_user_files_s3_bucket,awsconfig.aws_user_files_s3_bucket_region,awsconfig.aws_cognito_identity_pool_id,awsconfig.aws_cognito_region )
 
-    Storage.put('test.txt', 'Protected Content', {
-      level: 'protected',
-      contentType: 'text/plain'
-    })
-      .then(result => console.log(result))
-      .catch(err => console.log(err));
+    // Storage.put('test.txt', 'Protected Content', {
+    //   level: 'protected',
+    //   contentType: 'text/plain'
+    // })
+    //   .then(result => console.log(result))
+    //   .catch(err => console.log(err));
 
 
 

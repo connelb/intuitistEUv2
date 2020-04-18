@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-slides [pager]="true" [options]="slideOptions">
+  <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="reset($event)">
     <ion-slide>
       <ion-grid>
         <ion-row>
@@ -24,7 +24,7 @@
     <ion-slide *ngFor="let card of lessonCards ; index as i">
       <ion-fab vertical="top" horizontal="end" slot="fixed">
         <!-- <ion-fab-button color="ion-fab-button" disabled="true" size="small">{{card?.users3?.items[0]?.status}} -->
-        <ion-fab-button color="ion-fab-button" disabled="true" size="small">
+        <ion-fab-button size="large" color="ion-fab-button" disabled="true">
           {{(card?.users3?.items[0]?.status=="done") ? "happy" : "sad"}}
         </ion-fab-button>
       </ion-fab>
@@ -43,7 +43,7 @@
           <ion-icon size="small" name="film-outline"></ion-icon>:{{userVideo?.score}}
         </ion-fab-button>
       </ion-fab>
-
+     
       <ion-grid>
         <ion-row>
           <ion-col class="testYourself">
@@ -51,7 +51,9 @@
               <ion-card-title>
                 <ion-label>{{card?.question}}</ion-label>
               </ion-card-title>
-              <ion-card-title *ngIf="answer==true">
+              <!-- *ngIf="answer===true" -->
+              <ion-card-title *ngIf="visible">
+               
                 <ion-label>{{card?.answer}}</ion-label>
               </ion-card-title>
             </ion-card>
@@ -78,8 +80,8 @@
             </ion-card>
           </ion-col>
         </ion-row>   (click)=toggleAnswer()-->
-        <ion-row *ngIf="answer==false">
-            <ion-segment (click)=toggleAnswer()>
+        <ion-row *ngIf="!visible">
+            <ion-segment>
                 <ion-segment-button>
                     <ion-label color="primary"><b>Translate aloud</b></ion-label>
                   </ion-segment-button>
@@ -88,7 +90,7 @@
               </ion-segment-button>
             </ion-segment>
           </ion-row>
-        <ion-row *ngIf="answer==true">
+        <ion-row *ngIf="visible">
           <ion-segment (ionChange)="segmentChanged($event,card,i)" value="'card?.users3.items[0].status == done' ? 'done' : 'doing'">
             <ion-segment-button value="doing" layout="icon-bottom">
               <ion-fab-button color="warning">

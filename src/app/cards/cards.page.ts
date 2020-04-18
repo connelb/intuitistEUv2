@@ -260,7 +260,7 @@ const getUserCardId =
       _version
       status
       score
-      user3 {
+      user3{
         id
         videos3 {
           items {
@@ -399,15 +399,83 @@ query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
       subSection
       video
       _version
-      cards3 {
+      cards3(limit:60) {
         items {
           id
           question
           answer
           audio
+          _version
           users3(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}}) {
             items {
               id
+              user3 {
+                id
+                videos3 {
+                  items {
+                    id
+                    status
+                    score
+                    _version
+                  }
+                }
+              }
+              score
+              status
+              _version
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
+
+// id: ID!
+// question: String!
+// answer: String!
+// audio:String
+// video:String
+// level: String
+// order: Int
+// keywords: String
+// lesson3: Lesson3 @connection(name:"byLesson3")
+// users3: [User3Card3] @connection(name:"CardUsers3")
+
+// name
+// description
+// section
+// subSection
+// level
+// video
+// keywords
+
+const ListLessonsByUser = gql`
+query ListLessonsByUser($user3Card3User3Id: ID!) {
+  listLesson3s {
+    items {
+      id
+      name
+      description
+      section
+      subSection
+      level
+      video
+      keywords
+      cards3(limit:60) {
+        items {
+          id
+          question
+          answer
+          audio
+          _version
+          lesson3 {
+            id
+            video
+          }
+          users3(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}}) {
+            items {
               user3 {
                 id
                 videos3 {
@@ -487,7 +555,7 @@ export class CardsPage implements OnInit {
   myCards: any;
   myStatus: any;
   lessonPlan: any;
-  video_4: Object | String;
+  // video_4: Object | String;
   userCardId: any;
   score: any;
   progress: any;
@@ -498,11 +566,12 @@ export class CardsPage implements OnInit {
   // question: any;
   // answer: any;
   cardForm: FormGroup;
-  forbiddenUserNames: any;
+  // forbiddenUserNames: any;
   urlAudio: Object | String;
 
   public audioPlaying: Boolean;
-  private visible: boolean = true;
+  visible: boolean = false;
+  assess: boolean = false;
   videoStatus: any;
   videoScore: number;
   status: any;
@@ -513,7 +582,6 @@ export class CardsPage implements OnInit {
   lessonCardsArr: any = [];
   user3card3Arr: any = [];
 
-  answer = false;
 
   public slideOptions = {
     slidesPerView: 1,
@@ -588,9 +656,15 @@ export class CardsPage implements OnInit {
     this.slides.slideTo(0);
   }
 
-  toggleAnswer(){
-    this.answer = !this.answer;
+  reset(event){
+    this.visible = false;
+    this.assess = false;
+    //console.log('event',event);
   }
+
+  // toggleAnswer(){
+  //   this.isVisible1 = !this.isVisible1;
+  // }
 
   ListLessonsByUserByLesson(lessonId) {
     // console.log(lessonId,this.user.attributes.sub )
@@ -713,13 +787,18 @@ export class CardsPage implements OnInit {
     this.visible = !this.visible;
   }
 
+  assessToggle() {
+    return this.assess = !this.assess;
+  }
+
   async toggleBgMusicPlaying(event, card) {
-    this.playAudioToggle();
+    // this.playAudioToggle();
+    this.visible = true;
 
     await Storage.get(`audio/${card.audio}${'.mp3'}`, { contentType: "audio/mpeg" })
       .then(result => {
         this.urlAudio = result;
-        console.log('this.urlAudio?',this.urlAudio)
+        //console.log('this.urlAudio?',this.urlAudio)
       })
       .catch(err => console.log(err));
     //   if (this.bgMusicPlaying){
@@ -735,10 +814,12 @@ export class CardsPage implements OnInit {
     })
 
     sound.once('load', function () {
+      this.visible = true;//show answer
       sound.play();
     });
 
     sound.on('end', function () {
+      this.visible = false;//don't show answer??
     })
 
   }
@@ -1005,17 +1086,23 @@ export class CardsPage implements OnInit {
 
               const options = {
               //   //getUserCard
-                query: getUserCardId,
-                variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id }//{ conversationId: this.conversation.id, first: constants.messageFirst }
+                query: ListLessonsByUser,
+                variables: { user3Card3User3Id: this.user.attributes.sub }//{ conversationId: this.conversation.id, first: constants.messageFirst }
               };
 
-              //console.log('options??', options)
+              
               //
 
               const data = proxy.readQuery(options);
+              // proxy.writeQuery({ ...options, data: { getCard3: { users3: { items: { ..._userCard } } } } });
+              proxy.writeQuery({ ...options, data:{ listLesson3s: {items: {cards3: {items:{..._myUser3Card3}} }} }});
+              // {cards3:{items:{…_xx}}}});
+
+              // console.log('options data?? now amend new update', data )
+              // listLesson3s:{items:{cards3:{items:{..._updateUser3Card3}}}});
               // //console.log('whats data, current local usercards??', data);
               // // const _tmp = unshiftMessage(data, _myUser3Card3);
-              proxy.writeQuery({...options, data});
+              //proxy.writeQuery({...options, data});
             }
           }).then(({ data }) => {
             // console.log('mutation complete', data);
@@ -1061,14 +1148,17 @@ export class CardsPage implements OnInit {
               //   // console.log('what is proxy??',proxy, );
 
                 const options = {
-                  query: getUserCardId,
-                  variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id }//{ conversationId: this.conversation.id, first: constants.messageFirst }
+                  query: ListLessonsByUser,
+                  variables: { user3Card3User3Id: this.user.attributes.sub }//{ conversationId: this.conversation.id, first: constants.messageFirst }
                 };
 
-                 const data = proxy.readQuery(options);
-                 console.log('whats data, current local usercards??', data);
+                console.log('options missing stuff??',options)
+
+                 //const data = proxy.readQuery(options);
+                //  console.log('whats data, current local usercards??', data);
+                 //proxy.writeQuery({ ...options, data:{ listLesson3s: {items: {cards3: {items:{..._UserCardToUpdate}} }} }});
               // //   // const _tmp = unshiftMessage(data, _myUser3Card3);
-              proxy.writeQuery({...options, data});
+              //proxy.writeQuery({...options, data});
             }
           }).then(({ data }) => {
             console.log('mutation complete', data, i, i + 1);
@@ -1091,7 +1181,7 @@ export class CardsPage implements OnInit {
   }
 
   nextSlide() {
-    this.answer = false;
+    this.visible = false;
     //console.log('next slide called')
     //this.slides.slideTo(i + 1);
     this.slides.isEnd().then((data: boolean) => {

@@ -67,6 +67,7 @@ const ListLessons = gql`
         level
         video
         keywords
+        _version
       }
     }
   }
@@ -96,7 +97,8 @@ mutation updateLesson3(
   $subSection:String,
   $level:String,
   $video:String,
-  $keywords:String
+  $keywords:String,
+  $_version: Int
  ) {
   updateLesson3(input: {
     id:$id,
@@ -106,7 +108,8 @@ mutation updateLesson3(
     subSection:$subSection,
     level:$level,
     video:$video,
-    keywords:$keywords
+    keywords:$keywords,
+    _version:$_version
   }) {
     id
   }
@@ -408,6 +411,7 @@ updateLesson(lesson) {
         level: lesson.level,
         video: lesson.video,
         keywords: lesson.keywords,
+        _version: this.lesson._version,
         __typename: 'UpdateLesson3Input'
       },
       // optimisticResponse: () => ({

@@ -212,7 +212,7 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
       video
       keywords
       _version
-      cards3 {
+      cards3(limit:60) {
         items {
           id
           lesson3 {
@@ -295,8 +295,8 @@ export class LessonsPage {
   public height: number = 0;
 
 
-  public flashCardFront: string = "Front text";
-  public flashCardBack: string = "Back text";
+  // public flashCardFront: string = "Front text";
+  // public flashCardBack: string = "Back text";
   image: any;
   //showPhoto: boolean;
   profile: String;
