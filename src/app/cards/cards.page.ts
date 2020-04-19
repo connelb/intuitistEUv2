@@ -1418,8 +1418,8 @@ export class CardsPage implements OnInit {
     this.visible = false;
     //console.log('next slide called')
     //this.slides.slideTo(i + 1);
-    // this.slides.isEnd().then((data: boolean) => {
-    this.slides.isBeginning().then((data: boolean) => {
+    this.slides.isEnd().then((data: boolean) => {
+    // this.slides.isBeginning().then((data: boolean) => {
       //console.log('end?',data))
       if (data == true) {
         this.lessonCompleteToast();
