@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, ValidatorFn, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController, Platform, ToastController, Config } from '@ionic/angular';
+import { ModalController, Platform, ToastController, Config, LoadingController } from '@ionic/angular';
 import { API, graphqlOperation } from "aws-amplify";
 import { Auth, Storage } from 'aws-amplify';
 import { AppsyncService } from '../providers/appsync.service';
@@ -716,6 +716,7 @@ export class CardsPage implements OnInit {
   result:any;
   totalScore: any;
   totalTally: any;
+  loading: any;
 
 
   constructor(
@@ -726,7 +727,8 @@ export class CardsPage implements OnInit {
     private route: ActivatedRoute,
     private appsync: AppsyncService,
     public toastController: ToastController,
-    public config: Config
+    public config: Config,
+    public loadingController:LoadingController
   ) {
 
 
@@ -754,7 +756,7 @@ export class CardsPage implements OnInit {
 
     })
 
-    this.lessonCompleteToast();
+    //this.lessonCompleteToast();
 
     // this.options = {
     //   preload: "metadata",
@@ -807,12 +809,35 @@ export class CardsPage implements OnInit {
     //console.log('event',event);
   }
 
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+      duration: 2000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
+  }
+
   // toggleAnswer(){
   //   this.isVisible1 = !this.isVisible1;
   // }
 
-  ListLessonsByUserByLesson(lessonId) {
-    // console.log(lessonId,this.user.attributes.sub )
+  async ListLessonsByUserByLesson(lessonId) {
+    // // console.log(lessonId,this.user.attributes.sub )
+    // this.loading = this.loadingController.create({
+    //    : "Logging in ,please wait..." 
+    //   });
+    this.presentLoading() 
+
+    // this.loading = await this.loadingController.create({
+    //   message: 'Please wait...',
+    //   duration: 3000
+    // });
+
+    // this.loading.present();
+
     this.appsync.hc().then(client => {
       const observable = client.watchQuery({
         query: ListLessonsByUserByLesson,
@@ -821,6 +846,7 @@ export class CardsPage implements OnInit {
       });
 
       observable.subscribe(({ data }) => {
+        //this.loading.dismissAll();
         if (!data) {
           return console.log('ListLessonsByUserByLesson - no data');
         }
