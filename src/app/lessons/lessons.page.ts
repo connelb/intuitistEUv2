@@ -202,7 +202,9 @@ query getUser3($id:ID!) {
 const ListLessonsByUser = gql`
 query ListLessonsByUser($user3Card3User3Id: ID!) {
   listLesson3s {
+    __typename
     items {
+      __typename
       id
       name
       description
@@ -212,18 +214,33 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
       video
       keywords
       _version
+      _deleted
+      _lastChangedAt
       cards3(limit:60) {
+        __typename
         items {
           id
           lesson3 {
+            __typename
             id
+            name
+            description
+            section
+            subSection
+            level
             video
+            keywords
+            _version
+            _deleted
+            _lastChangedAt
           }
           users3(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}}) {
+            __typename
             items {
               user3 {
                 id
                 videos3 {
+                  __typename
                   items {
                     id
                     status
@@ -242,6 +259,33 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
   }
 }
 `
+
+// `query ListLesson3s($filter: ModelLesson3FilterInput, $limit: Int, $nextToken: String) {
+//   listLesson3s(filter: $filter, limit: $limit, nextToken: $nextToken) {
+//     __typename
+//     items {
+//       __typename
+//       id
+//       name
+//       description
+//       section
+//       subSection
+//       level
+//       video
+//       keywords
+//       cards3 {
+//         __typename
+//         nextToken
+//         startedAt
+//       }
+//       _version
+//       _deleted
+//       _lastChangedAt
+//     }
+//     nextToken
+//     startedAt
+//   }
+// }`
 
 const ListLessonsByUserInitial = gql`
 query ListLessonsByUser($user3Card3User3Id: ID!) {

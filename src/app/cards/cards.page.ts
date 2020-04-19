@@ -256,11 +256,16 @@ const getUserCardId =
   gql`query getCardsUserId($user3Card3User3Id: ID!, $user3Card3Card3Id: ID!)  {
   listUser3Card3s(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}, user3Card3Card3Id: {eq: $user3Card3Card3Id} }) {
     items {
+      __typename
       id
       _version
       status
       score
       user3{
+        __typename
+        username
+        _lastChangedAt
+        _version
         id
         videos3 {
           items {
@@ -274,9 +279,21 @@ const getUserCardId =
   }
 }
 `
-const createUserCardId = gql`
+
+// input CreateUser3Card3Input {
+// 	id: ID
+// 	status: cardStatus
+// 	score: Int
+// 	user3: User3Input
+// 	card3: Card3Input
+// 	_version: Int
+// 	user3Card3User3Id: ID
+// 	user3Card3Card3Id: ID
+// }
+
+const createUserCardId2 = gql`
 mutation createUser3Card3($user3Card3User3Id: ID,$user3Card3Card3Id: ID, $status:cardStatus, $score:Int) {
-    createUser3Card3(input: {user3Card3User3Id: $user3Card3User3Id, user3Card3Card3Id: $user3Card3Card3Id, status: $status, score:$score}) {
+    createUser3Card3(input: {user3:{id: $user3Card3User3Id}, card3:{id: $user3Card3Card3Id}, status: $status, score:$score}) {
       id
       status
       score
@@ -293,6 +310,37 @@ mutation createUser3Card3($user3Card3User3Id: ID,$user3Card3Card3Id: ID, $status
     }
 }
 `
+
+const createUserCardId = gql`
+mutation createUser3Card3($user3Card3User3Id: ID,$user3Card3Card3Id: ID, $status:cardStatus, $score:Int) {
+    createUser3Card3(input: {user3Card3User3Id:$user3Card3User3Id, user3Card3Card3Id: $user3Card3Card3Id, status: $status, score:$score}) {
+      __typename
+      id
+      status
+      score
+      user3 {
+        __typename
+        id
+      }
+    }
+}
+`
+
+// Error creating message Error: GraphQL error: Validation error of type WrongType: argument 'input.user3' with value 'ObjectValue{objectFields=[ObjectField{name='user3', value=ObjectValue{objectFields=[ObjectField{name='id', value=VariableReference{name='user3Card3User3Id'}}]}}, ObjectField{name='card3', value=ObjectValue{objectFields=[ObjectField{name='id', value=VariableReference{name='user3Card3Card3Id'}}]}}, ObjectField{name='status', value=VariableReference{name='status'}}, ObjectField{name='score', value=VariableReference{name='score'}}]}' is missing required fields '[_lastChangedAt, _version, username]' @ 'createUser3Card3'
+
+// __typename
+// items {
+//   __typename
+//   id
+//   status
+//   score
+//   user3 {
+//     id
+//     __typename
+//   }
+//   _version
+// }
+// }
 
 // mutation createUser3Card3 {
 //   createUser3Card3(input: {user3Card3User3Id: "b79bcfaf-86b8-470a-8f92-b0441da1bbe3", user3Card3Card3Id: "bc671a73-3bd5-408c-b69f-dc9c570e4c7c", status: done, score: 9}) {
@@ -339,14 +387,24 @@ mutation updateUserCardtoDone ($id: ID!, $score: Int){
 const updateUserCard = gql`
 mutation updateUserCardtoDone ($id: ID, $status: cardStatus, $score: Int, $_version:Int){
   updateUser3Card3(input:{id: $id, status:done, status: $status, score: $score,_version:$_version}) {
-
+    __typename
     status
     score
     id
+    card3 {
+      id
+      __typename
+   }
+    user3 {
+     id
+     __typename
+  }
     _version
   }
 }
 `
+
+
 
 // mutation UpdateUser3Card3{
 //   updateUser3Card3(input:{id: "d772d71a-46bf-438e-aae0-42681a994551",user3Card3User3Id:"85d94615-4c5c-4f56-9e83-066118512c9d"}){
@@ -388,10 +446,13 @@ query GetVideo ($id:ID!){
   }
 }`
 
+
+
 const ListLessonsByUserByLesson = gql`
 query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
   listLesson3s(filter:{id:{eq:$id}}) {
     items {
+      __typename
       id
       name
       description
@@ -400,6 +461,7 @@ query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
       video
       _version
       cards3(limit:60) {
+        __typename
         items {
           id
           question
@@ -407,11 +469,16 @@ query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
           audio
           _version
           users3(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}}) {
+            __typename
             items {
               id
               user3 {
                 id
+                username
+                _lastChangedAt
+                _version
                 videos3 {
+                  __typename
                   items {
                     id
                     status
@@ -499,6 +566,56 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
   }
 }
 `
+
+// const ListUserCardsByUser = gql
+//   `query ListUserCards($user3Card3User3Id:ID) {
+//   listUser3Card3s(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}}) {
+//     items {
+//       id
+//       score
+//       status
+//     }
+//   }
+// }`
+
+// user3 {
+//   __typename
+//   id
+// }
+// card3 {
+//   __typename
+//   id
+// }
+
+const ListUserCardsByUser = gql
+`query ListUser3Card3s($filter: ModelUser3Card3FilterInput) {
+  listUser3Card3s(filter: $filter) {
+    items {
+      __typename
+      id
+      status
+      score
+      _version
+    }
+    __typename
+  }
+}`
+
+
+// listUser3Card3s(filter: $filter) {
+//   items {
+//     __typename
+//     id
+//     status
+//     score
+//     user3 {
+//       __typename
+//       id
+//     }
+//     _version
+//   }
+//   __typename
+// }
 
 // const getUserCard =
 //   gql`query GetUserCard($id: ID!) {
@@ -592,6 +709,13 @@ export class CardsPage implements OnInit {
       type: "fraction"
     }
   };
+  userCardTest: any;
+  doneScore: any = 0;
+  doingScore: any = 0;
+  scoresArr: any;
+  result:any;
+  totalScore: any;
+  totalTally: any;
 
 
   constructor(
@@ -603,12 +727,16 @@ export class CardsPage implements OnInit {
     private appsync: AppsyncService,
     public toastController: ToastController,
     public config: Config
-  ) { }
+  ) {
+
+
+  }
 
   async ngOnInit() {
     await Auth.currentAuthenticatedUser({
       bypassCache: false
     }).then(async user => {
+      //console.log('user',user)
       this.user = user;
     })
 
@@ -625,6 +753,8 @@ export class CardsPage implements OnInit {
       }, 700);
 
     })
+
+    this.lessonCompleteToast();
 
     // this.options = {
     //   preload: "metadata",
@@ -647,6 +777,21 @@ export class CardsPage implements OnInit {
 
   }
 
+  updateScores(data){
+    //
+    console.log(data.length);
+    data.forEach((n) => {
+      console.log('n?',n)
+
+    if(data.status == 'done'){
+      this.doneScore += n.score
+    }else{
+      this.doingScore += n.score
+    }
+  })
+
+  }
+
   ngAfterViewInit() {
     this.platform.ready().then(() => {
       this.width = this.platform.width() / 2;
@@ -656,7 +801,7 @@ export class CardsPage implements OnInit {
     this.slides.slideTo(0);
   }
 
-  reset(event){
+  reset(event) {
     this.visible = false;
     this.assess = false;
     //console.log('event',event);
@@ -936,54 +1081,102 @@ export class CardsPage implements OnInit {
 
 
   async updateCardStatusDoneToast(i) {
-    const toast = await this.toastController.create({
-      message: 'Great Job!',
-      duration: 2000,
-      position: 'middle',
-      cssClass: "toast-mess-success"
-    });
+    // const toast = await this.toastController.create({
+    //   message: 'Great Job!',
+    //   duration: 2000,
+    //   position: 'middle',
+    //   cssClass: "toast-mess-success"
+    // });
 
     //this.getData(this.lessonId);
     // this.slides.slideTo(i + 1);
-   
+
     this.nextSlide();
     // this.answer = false;
-    toast.present();
+    // toast.present();
 
   }
 
   async updateCardStatusDoingToast(i) {
-    const toast = await this.toastController.create({
-      message: 'practice, practice :)',
-      duration: 2000,
-      position: 'middle',
-      cssClass: "toast-mess"
-    });
+    // const toast = await this.toastController.create({
+    //   message: 'practice, practice :)',
+    //   duration: 2000,
+    //   position: 'middle',
+    //   cssClass: "toast-mess"
+    // });
 
     //this.getData(this.lessonId);
     //this.slides.slideTo(i + 1);
-    
+
     this.nextSlide();
     // this.answer = false;
-    toast.present();
+    //toast.present();
 
   }
 
   async lessonCompleteToast() {
+// let result;
+    this.doingScore;
+    this.doneScore;
+
+    this.appsync.hc().then(client => {
+      const observable = client.watchQuery({
+        query: ListUserCardsByUser,
+        fetchPolicy: 'cache-and-network',
+        variables: { user3Card3User3Id: this.user.attributes.sub },
+        __typename: "ModelUser3Card3Connection"
+      });
+
+      observable.subscribe(({ data }) => {
+        if (!data) {
+          return console.log('User3Card3 - no data');
+        }
+
+      d3Collection.nest()
+       .key(function (d: any) { return d['status']; })
+       .rollup(function (leaves: any) {
+         return {
+          total: d3Array.sum(leaves, function (d) {
+            return d['score'];
+          }), tally: leaves.length
+        } as any
+       })
+       .entries(data.listUser3Card3s.items).map((d:any)=>{
+        for (let key in d ){
+          if(d[key]==="done"){
+            console.log('done???', d[key]==="done", d['value'].total, d['value'].tally)
+            this.doneScore = d['value']
+          }
+          if(d[key]==="doing"){
+            console.log('done???', d[key]==="doing", d['value'].total, d['value'].tally)
+            this.doingScore = d['value']
+          }
+        }
+
+        this.totalScore = this.doneScore.total + this.doingScore.total
+        this.totalTally = this.doneScore.tally + this.doingScore.tally
+        // console.log('this.totalScore',this.totalScore, this.doneScore.total)
+        });
+      });
+     })
+
     const toast = await this.toastController.create({
-      message: `Congratulations for completing ${this.lesson.name}!`,
-      duration: 3000,
+      // header: 'Congratulations!',
+      message: `Congratulations, well done!`,
       position: 'middle',
-      cssClass: "toast-mess"
+      animated: true,
+      buttons: [
+       {
+          text: 'Done',
+          role: 'cancel',
+          handler: () => {
+            this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
+            console.log('Cancel clicked');
+          }
+        }
+      ]
     });
-
-    //this.getData(this.lessonId);
-    //this.slides.slideTo(i + 1);
-    //this.nextSlide(i)
-
     toast.present();
-    this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
-
   }
 
   // getProgress(res) {
@@ -1060,42 +1253,71 @@ export class CardsPage implements OnInit {
 
     const myUser3Card3 = {
       user3Card3User3Id: this.user.attributes.sub,
+      //user3: {id:this.user.attributes.sub, username: this.user.username, __typename:"User3"},
       user3Card3Card3Id: card.id,
+      //card3: {id:card.id, __typename:"Card3"},
       status: this.status,
-      score: this.score
+      score: this.score,
+      __typename:"User3Card3"
     }
+
+    // __typename
+    // user3
+    // _deleted
+    // _lastChangedAt
+    // nextToken
+    // startedAt
+
+
+    // input User3Card3Input {
+    //   id: ID
+    //   status: cardStatus
+    //   score: Int
+    //   user3: User3Input!
+    //   card3: Card3Input!
+    //   _version: Int!
+    //   _deleted: Boolean
+    //   _lastChangedAt: AWSTimestamp!
+    // }
+ 
 
     await Promise.all([
       API.graphql(graphqlOperation(getUserCardId, { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id })) as Promise<any>
     ]).then((res) => {
       const UserCard = res[0].data.listUser3Card3s.items;
+
+
       if (res[0].data.listUser3Card3s.items.length < 1) {
         //create wt subscription
         this.appsync.hc().then(client => {
           client.mutate({
             mutation: createUserCardId,
             variables: myUser3Card3,
-
+            __typename: "User3Card3",
             optimisticResponse: () => ({
               createUser3Card3: {
                 ...myUser3Card3,
-                __typename: 'User3Card3'
+                __typename: "User3Card3"
               }
             }),
             update: (proxy, { data: { createUser3Card3: _myUser3Card3 } }) => {
 
               const options = {
-              //   //getUserCard
-                query: ListLessonsByUser,
-                variables: { user3Card3User3Id: this.user.attributes.sub }//{ conversationId: this.conversation.id, first: constants.messageFirst }
+                //   //getUserCard
+                query: ListUserCardsByUser,
+                variables: {
+                   user3Card3User3Id: this.user.attributes.sub,
+                   __typename: "User3Card3"
+                   },
+                __typename: "ModelUser3Card3Connection"//{ conversationId: this.conversation.id, first: constants.messageFirst }
               };
 
-              
-              //
+              //listUser3Card3s: {items:{..._myUser3Card3}}
 
               const data = proxy.readQuery(options);
               // proxy.writeQuery({ ...options, data: { getCard3: { users3: { items: { ..._userCard } } } } });
-              proxy.writeQuery({ ...options, data:{ listLesson3s: {items: {cards3: {items:{..._myUser3Card3}} }} }});
+              // proxy.writeQuery({ ...options, data:{ listLesson3s: {items: {cards3: {items:{..._myUser3Card3}} }} }});
+              proxy.writeQuery({ ...options, data: { listUser3Card3s: { items: { ..._myUser3Card3 } } } });
               // {cards3:{items:{…_xx}}}});
 
               // console.log('options data?? now amend new update', data )
@@ -1117,10 +1339,12 @@ export class CardsPage implements OnInit {
           id: res[0].data.listUser3Card3s.items[0].id,
           status: this.status,
           score: this.score,
-          User3: { id: this.user.attributes.sub, username: this.user.username },
+          user3: { id: this.user.attributes.sub, __typename:"User3"},
+          card3: {id:card.id, __typename:"Card3"},
           _version: +res[0].data.listUser3Card3s.items[0]._version,
           user3Card3User3Id: this.user.attributes.sub,
-          user3Card3Card3Id: card.id
+          user3Card3Card3Id: card.id,
+          __typename: "User3Card3"
         }
 
         //update wt subscription
@@ -1129,34 +1353,44 @@ export class CardsPage implements OnInit {
             mutation: updateUserCard,
             variables: {
               id: res[0].data.listUser3Card3s.items[0].id,
-              User3: { id: this.user.attributes.sub, username: this.user.username },
+              user3: { id: this.user.attributes.sub, __typename:"User3"},
+              card3: {id:card.id, __typename:"Card3"},
               _version: res[0].data.listUser3Card3s.items[0]._version,
               status: this.status,
               score: this.score,
               user3Card3User3Id: this.user.attributes.sub,
-              user3Card3Card3Id: card.id
+              user3Card3Card3Id: card.id,
+              __typename: "User3Card3"
             },
 
             optimisticResponse: () => ({
               updateUser3Card3: {
                 // updateUserCard: {
                 ...UserCardToUpdate,
-                __typename: 'User3Card3'
+                __typename: "User3Card3"
               }
             }),
             update: (proxy, { data: { updateUser3Card3: _UserCardToUpdate } }) => {
               //   // console.log('what is proxy??',proxy, );
 
-                const options = {
-                  query: ListLessonsByUser,
-                  variables: { user3Card3User3Id: this.user.attributes.sub }//{ conversationId: this.conversation.id, first: constants.messageFirst }
-                };
+              const options = {
+                query: ListUserCardsByUser,
+                variables: {
+                   user3Card3User3Id: this.user.attributes.sub,
+                   __typename: "User3Card3"
+                   },//{ conversationId: this.conversation.id, first: constants.messageFirst }
+                __typename: "ModelUser3Card3Connection"//__typename: API.getGraphqlOperationType.ModelLesson3Connection
+              };
 
-                console.log('options missing stuff??',options)
+              //proxy.writeQuery({ ...options, data:{ listLesson3s: {items: {cards3: {items:{..._myUser3Card3}} }} }});
+              //console.log('options missing stuff??',options)
+              // proxy.writeQuery({ ...options, data:{ listLesson3s: {items: {cards3(limit:60): {items:{users3: {items:{..._UserCardToUpdate} } } } } } } } );
+              proxy.writeQuery({ ...options, data: { listUser3Card3s: { items: { ..._UserCardToUpdate } } } });
+              // proxy.writeQuery({ ...options, data:{ listLesson3s: {items: {cards3: {items:{users3:{items: {..._UserCardToUpdate} } } } } } } });
 
-                 //const data = proxy.readQuery(options);
-                //  console.log('whats data, current local usercards??', data);
-                 //proxy.writeQuery({ ...options, data:{ listLesson3s: {items: {cards3: {items:{..._UserCardToUpdate}} }} }});
+              //const data = proxy.readQuery(options);
+              //  console.log('whats data, current local usercards??', data);
+              //proxy.writeQuery({ ...options, data:{ listLesson3s: {items: {cards3: {items:{..._UserCardToUpdate}} }} }});
               // //   // const _tmp = unshiftMessage(data, _myUser3Card3);
               //proxy.writeQuery({...options, data});
             }
@@ -1168,13 +1402,13 @@ export class CardsPage implements OnInit {
         })
       }
 
-      if (ev.detail.value == "done") {
-        this.updateCardStatusDoneToast(i)
-      } else if (ev.detail.value == "doing") {
-        this.updateCardStatusDoingToast(i)
-      } else {
-        this.updateCardStatusDoingToast(i)
-      }
+      // if (ev.detail.value == "done") {
+      //   this.updateCardStatusDoneToast(i)
+      // } else if (ev.detail.value == "doing") {
+      //   this.updateCardStatusDoingToast(i)
+      // } else {
+      //   this.updateCardStatusDoingToast(i)
+      // }
 
     });
 
@@ -1184,7 +1418,8 @@ export class CardsPage implements OnInit {
     this.visible = false;
     //console.log('next slide called')
     //this.slides.slideTo(i + 1);
-    this.slides.isEnd().then((data: boolean) => {
+    // this.slides.isEnd().then((data: boolean) => {
+    this.slides.isBeginning().then((data: boolean) => {
       //console.log('end?',data))
       if (data == true) {
         this.lessonCompleteToast();
@@ -1291,7 +1526,7 @@ export class CardsPage implements OnInit {
               optimisticResponse: () => ({
                 createUser3Video3: {
                   ...User3Video3ToCreate,
-                  __typename: 'User3Card3'
+                  __typename: 'User3Video3'
                 }
               }),
               update: (proxy, { data: { createUser3Video3: _User3Video3ToCreate } }) => {
@@ -1345,7 +1580,7 @@ export class CardsPage implements OnInit {
                 updateUser3Video3: {
                   // updateUserCard: {
                   ...User3Video3ToUpdate,
-                  __typename: 'User3Card3'
+                  __typename: 'User3Video3'
                 }
               }),
               update: (proxy, { data: { updateUser3Video3: _User3Video3ToUpdate } }) => {

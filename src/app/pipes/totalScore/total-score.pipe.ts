@@ -28,9 +28,10 @@ export class TotalScorePipe implements PipeTransform {
             // }
 
             if (lesson[i].users3.items[j].status == 'done') {
-              done = (lesson[i].users3.items[j].score) ? lesson[i].users3.items[j].score : 0;
+              //console.log(lesson[i].users3.items[j].score);
+              done += (lesson[i].users3.items[j].score) ? lesson[i].users3.items[j].score : 0;
             } else {
-              doing = (lesson[i].users3.items[j].score) ? lesson[i].users3.items[j].score : 0;
+              doing += (lesson[i].users3.items[j].score) ? lesson[i].users3.items[j].score : 0;
             }
             // if(lesson[i].users3.items[0].user3.videos3.items.length>0){
             //.user3.videos3.items[0]
