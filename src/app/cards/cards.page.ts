@@ -804,9 +804,20 @@ export class CardsPage implements OnInit {
   }
 
   reset(event) {
-    this.visible = false;
-    this.assess = false;
-    //console.log('event',event);
+    // this.visible = false;
+    // this.assess = false;
+    console.log('event',event);
+
+    this.slides.isEnd().then((data: boolean) => {
+      // this.slides.isBeginning().then((data: boolean) => {
+        console.log('isEnd?',data)
+        if (data == true) {
+          this.getScores();
+          this.lessonCompleteToast();
+        } else {
+          this.slides.slideNext();
+        }
+      })
   }
 
   async presentLoading() {
@@ -1140,6 +1151,52 @@ export class CardsPage implements OnInit {
 
   }
 
+  async getScores(){
+    this.doingScore;
+    this.doneScore;
+
+    this.appsync.hc().then(client => {
+      const observable = client.watchQuery({
+        query: ListUserCardsByUser,
+        fetchPolicy: 'cache-and-network',
+        variables: { user3Card3User3Id: this.user.attributes.sub },
+        __typename: "ModelUser3Card3Connection"
+      });
+
+      observable.subscribe(({ data }) => {
+        if (!data) {
+          return console.log('User3Card3 - no data');
+        }
+
+      d3Collection.nest()
+       .key(function (d: any) { return d['status']; })
+       .rollup(function (leaves: any) {
+         return {
+          total: d3Array.sum(leaves, function (d) {
+            return d['score'];
+          }), tally: leaves.length
+        } as any
+       })
+       .entries(data.listUser3Card3s.items).map((d:any)=>{
+        for (let key in d ){
+          if(d[key]==="done"){
+            console.log('done???', d[key]==="done", d['value'].total, d['value'].tally)
+            this.doneScore = d['value']
+          }
+          if(d[key]==="doing"){
+            console.log('done???', d[key]==="doing", d['value'].total, d['value'].tally)
+            this.doingScore = d['value']
+          }
+        }
+
+        this.totalScore = this.doneScore.total + this.doingScore.total
+        this.totalTally = this.doneScore.tally + this.doingScore.tally
+        // console.log('this.totalScore',this.totalScore, this.doneScore.total)
+        });
+      });
+     })
+  }
+
   async lessonCompleteToast() {
 // let result;
     this.doingScore;
@@ -1186,14 +1243,42 @@ export class CardsPage implements OnInit {
       });
      })
 
+    //  const toast = await toastController.create({
+    //   color: 'dark',
+    //   duration: 2000,
+    //   message: 'Paired successfully',
+    //   showCloseButton: true
+    // });
+
+// --background	Background of the toast
+// --border-color	Border color of the toast
+// --border-radius	Border radius of the toast
+// --border-style	Border style of the toast
+// --border-width	Border width of the toast
+// --box-shadow	Box shadow of the toast
+// --button-color	Color of the button text
+// --color	Color of the toast text
+// --end	Position from the right if direction is left-to-right, and from the left if direction is right-to-left
+// --height	Height of the toast
+// --max-height	Maximum height of the toast
+// --max-width	Maximum width of the toast
+// --min-height	Minimum height of the toast
+// --min-width	Minimum width of the toast
+// --start	Position from the left if direction is left-to-right, and from the right if direction is right-to-left
+// --width	Width of the toast
+
     const toast = await this.toastController.create({
       // header: 'Congratulations!',
-      message: `Congratulations, well done!`,
+      color:'dark',
+      duration: 2000,
+      message: `<h1>Congratulations!</h1></br><h4>Click the Home</h4></br><h4> button to try another lesson!</h4>`,
+      //showCloseButton: true,
       position: 'middle',
       animated: true,
+      cssClass: 'css-toast',
       buttons: [
        {
-          text: 'Done',
+          text: 'return to Lessons',
           role: 'cancel',
           handler: () => {
             this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
@@ -1444,15 +1529,30 @@ export class CardsPage implements OnInit {
     this.visible = false;
     //console.log('next slide called')
     //this.slides.slideTo(i + 1);
+
+    //if(this.slides.length().-this.slides.getActiveIndex().<1)
+    // this.slides.ionSlideReachEnd().then((data: boolean) => {})
+    // this.slides.ionSlidePrevEnd().then((data: boolean) => {})
     this.slides.isEnd().then((data: boolean) => {
     // this.slides.isBeginning().then((data: boolean) => {
-      //console.log('end?',data))
+      console.log('isEnd?',data)
       if (data == true) {
+        this.getScores();
         this.lessonCompleteToast();
       } else {
         this.slides.slideNext();
       }
     })
+
+    // let me = this;
+    // me.slides.isEnd().then((istrue) => {
+    //   console.log(istrue);
+    //   if (istrue) {
+    //     me.NextSlide = 'Finish';
+    //   } else {
+    //     me.NextSlide = 'Next';
+    //   }
+    // });
     // if(this.slides.isEnd()){
     //   this.lessonCompleteToast(); 
     // }
