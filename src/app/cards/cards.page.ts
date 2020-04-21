@@ -467,6 +467,7 @@ query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
           question
           answer
           audio
+          order
           _version
           users3(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}}) {
             __typename
@@ -536,6 +537,7 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
           question
           answer
           audio
+          order
           _version
           lesson3 {
             id
@@ -803,19 +805,11 @@ export class CardsPage implements OnInit {
     this.slides.slideTo(0);
   }
 
-  reset(event) {
-    // this.visible = false;
-    // this.assess = false;
-    console.log('event',event);
-
+  isEnd() {
     this.slides.isEnd().then((data: boolean) => {
-      // this.slides.isBeginning().then((data: boolean) => {
-        console.log('isEnd?',data)
+        //console.log('isEnd?',data)
         if (data == true) {
           this.getScores();
-          this.lessonCompleteToast();
-        } else {
-          this.slides.slideNext();
         }
       })
   }
@@ -865,7 +859,7 @@ export class CardsPage implements OnInit {
         //lesson.cards3.items.length
 
         this.lesson = data.listLesson3s.items[0];
-        this.lessonCards = data.listLesson3s.items[0].cards3.items;
+        this.lessonCards = data.listLesson3s.items[0].cards3.items.sort((a, b) => +a.order - +b.order);;
         //console.log('ListLessonsByUserByLesson????', data)
 
         // console.log('this.lesson',data.listLesson3s.items[0]);
@@ -1197,98 +1191,98 @@ export class CardsPage implements OnInit {
      })
   }
 
-  async lessonCompleteToast() {
-// let result;
-    this.doingScore;
-    this.doneScore;
+//   async lessonCompleteToast() {
+// // let result;
+//     this.doingScore;
+//     this.doneScore;
 
-    this.appsync.hc().then(client => {
-      const observable = client.watchQuery({
-        query: ListUserCardsByUser,
-        fetchPolicy: 'cache-and-network',
-        variables: { user3Card3User3Id: this.user.attributes.sub },
-        __typename: "ModelUser3Card3Connection"
-      });
+//     this.appsync.hc().then(client => {
+//       const observable = client.watchQuery({
+//         query: ListUserCardsByUser,
+//         fetchPolicy: 'cache-and-network',
+//         variables: { user3Card3User3Id: this.user.attributes.sub },
+//         __typename: "ModelUser3Card3Connection"
+//       });
 
-      observable.subscribe(({ data }) => {
-        if (!data) {
-          return console.log('User3Card3 - no data');
-        }
+//       observable.subscribe(({ data }) => {
+//         if (!data) {
+//           return console.log('User3Card3 - no data');
+//         }
 
-      d3Collection.nest()
-       .key(function (d: any) { return d['status']; })
-       .rollup(function (leaves: any) {
-         return {
-          total: d3Array.sum(leaves, function (d) {
-            return d['score'];
-          }), tally: leaves.length
-        } as any
-       })
-       .entries(data.listUser3Card3s.items).map((d:any)=>{
-        for (let key in d ){
-          if(d[key]==="done"){
-            console.log('done???', d[key]==="done", d['value'].total, d['value'].tally)
-            this.doneScore = d['value']
-          }
-          if(d[key]==="doing"){
-            console.log('done???', d[key]==="doing", d['value'].total, d['value'].tally)
-            this.doingScore = d['value']
-          }
-        }
+//       d3Collection.nest()
+//        .key(function (d: any) { return d['status']; })
+//        .rollup(function (leaves: any) {
+//          return {
+//           total: d3Array.sum(leaves, function (d) {
+//             return d['score'];
+//           }), tally: leaves.length
+//         } as any
+//        })
+//        .entries(data.listUser3Card3s.items).map((d:any)=>{
+//         for (let key in d ){
+//           if(d[key]==="done"){
+//             console.log('done???', d[key]==="done", d['value'].total, d['value'].tally)
+//             this.doneScore = d['value']
+//           }
+//           if(d[key]==="doing"){
+//             console.log('done???', d[key]==="doing", d['value'].total, d['value'].tally)
+//             this.doingScore = d['value']
+//           }
+//         }
 
-        this.totalScore = this.doneScore.total + this.doingScore.total
-        this.totalTally = this.doneScore.tally + this.doingScore.tally
-        // console.log('this.totalScore',this.totalScore, this.doneScore.total)
-        });
-      });
-     })
+//         this.totalScore = this.doneScore.total + this.doingScore.total
+//         this.totalTally = this.doneScore.tally + this.doingScore.tally
+//         // console.log('this.totalScore',this.totalScore, this.doneScore.total)
+//         });
+//       });
+//      })
 
-    //  const toast = await toastController.create({
-    //   color: 'dark',
-    //   duration: 2000,
-    //   message: 'Paired successfully',
-    //   showCloseButton: true
-    // });
+//     //  const toast = await toastController.create({
+//     //   color: 'dark',
+//     //   duration: 2000,
+//     //   message: 'Paired successfully',
+//     //   showCloseButton: true
+//     // });
 
-// --background	Background of the toast
-// --border-color	Border color of the toast
-// --border-radius	Border radius of the toast
-// --border-style	Border style of the toast
-// --border-width	Border width of the toast
-// --box-shadow	Box shadow of the toast
-// --button-color	Color of the button text
-// --color	Color of the toast text
-// --end	Position from the right if direction is left-to-right, and from the left if direction is right-to-left
-// --height	Height of the toast
-// --max-height	Maximum height of the toast
-// --max-width	Maximum width of the toast
-// --min-height	Minimum height of the toast
-// --min-width	Minimum width of the toast
-// --start	Position from the left if direction is left-to-right, and from the right if direction is right-to-left
-// --width	Width of the toast
+// // --background	Background of the toast
+// // --border-color	Border color of the toast
+// // --border-radius	Border radius of the toast
+// // --border-style	Border style of the toast
+// // --border-width	Border width of the toast
+// // --box-shadow	Box shadow of the toast
+// // --button-color	Color of the button text
+// // --color	Color of the toast text
+// // --end	Position from the right if direction is left-to-right, and from the left if direction is right-to-left
+// // --height	Height of the toast
+// // --max-height	Maximum height of the toast
+// // --max-width	Maximum width of the toast
+// // --min-height	Minimum height of the toast
+// // --min-width	Minimum width of the toast
+// // --start	Position from the left if direction is left-to-right, and from the right if direction is right-to-left
+// // --width	Width of the toast
 
-    const toast = await this.toastController.create({
-      // header: 'Congratulations!',
-      color:'dark',
-      duration: 2000,
-      message: `<h1>Congratulations!</h1></br><h4>Click the Home</h4></br><h4> button to try another lesson!</h4>`,
-      //showCloseButton: true,
-      position: 'middle',
-      animated: true,
-      cssClass: 'css-toast',
-      buttons: [
-       {
-          text: 'return to Lessons',
-          role: 'cancel',
-          handler: () => {
-            this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    toast.present();
-  }
+//     const toast = await this.toastController.create({
+//       // header: 'Congratulations!',
+//       color:'dark',
+//       duration: 2000,
+//       message: `<h1>Congratulations!</h1></br><h4>Click the Home</h4></br><h4> button to try another lesson!</h4>`,
+//       //showCloseButton: true,
+//       position: 'middle',
+//       animated: true,
+//       cssClass: 'css-toast',
+//       buttons: [
+//        {
+//           text: 'return to Lessons',
+//           role: 'cancel',
+//           handler: () => {
+//             this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
+//             console.log('Cancel clicked');
+//           }
+//         }
+//       ]
+//     });
+//     toast.present();
+//   }
 
   // getProgress(res) {
   //   return d3Collection.nest()
@@ -1535,10 +1529,10 @@ export class CardsPage implements OnInit {
     // this.slides.ionSlidePrevEnd().then((data: boolean) => {})
     this.slides.isEnd().then((data: boolean) => {
     // this.slides.isBeginning().then((data: boolean) => {
-      console.log('isEnd?',data)
+      //console.log('isEnd?',data)
       if (data == true) {
         this.getScores();
-        this.lessonCompleteToast();
+        //this.lessonCompleteToast();
       } else {
         this.slides.slideNext();
       }

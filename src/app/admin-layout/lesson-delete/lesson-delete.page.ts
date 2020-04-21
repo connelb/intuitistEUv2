@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import { AppsyncService } from '../../providers/appsync.service';
 import { ToastController } from '@ionic/angular';
 import { ObservableQuery } from 'apollo-client';
+import * as _ from 'lodash';
 
 const ListLessons = gql`  
   query listLesson3 {
@@ -20,6 +21,7 @@ const ListLessons = gql`
         video
         keywords
         _version
+        _deleted
       }
     }
   }
@@ -28,7 +30,7 @@ const ListLessons = gql`
 
 const DeleteLesson = gql`
 mutation DeleteLesson(
-  $id:ID!,
+  $id:ID,
   $_version:Int
  ) {
   deleteLesson3(input: {
@@ -85,7 +87,23 @@ export class LessonDeletePage implements OnInit {
 
   async deleteLesson(lesson) {
 
-    const [userCard] = await Promise.all([
+
+    // Promise.all([
+    //   API.graphql(graphqlOperation(DeleteCard, { id: card.id, _version:card._version })) as Promise<any>
+    // ]).then(res=> {
+    //   console.log('res??, deleted???',res)
+
+
+    //   //this.getCards(this.lesson.id);
+    //   var index = _.findIndex(this.cards, { id: res[0]['data'].deleteCard3.id });
+    //   console.log('ok?',index)
+    //   // // Replace item at index using native splice
+    //   // this.cards.shift(index, 1, card);
+
+    //   this.createToast();
+    // })
+
+   await Promise.all([
       API.graphql(graphqlOperation(DeleteLesson, {
         id: lesson.id,
         _version: lesson._version,
@@ -97,7 +115,11 @@ export class LessonDeletePage implements OnInit {
         video: lesson.video,
         keywords: lesson.keywords
       })) as Promise<any>
-    ])
+    ]).then(res =>{
+      var index = _.findIndex(this.lessons, { id: res[0]['data'].deleteLesson3.id });
+      this.lessons.shift(index, 1, lesson);
+
+    })
 
     //   console.log('deleteLesson(lesson), what is lesson??',lesson)
     // const deleteLesson ={

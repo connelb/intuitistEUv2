@@ -21,6 +21,8 @@ import { v4 as uuid } from 'uuid';
 import { IonReorderGroup } from '@ionic/angular';
 //import { UpdateCardComponent } from './../modals/update-card/update-card.component'
 import { CardModalPage } from './../card-modal/card-modal.page';
+import * as _ from 'lodash';
+import { red } from 'color-name';
 
 
 const ListLessons = gql`  
@@ -37,7 +39,7 @@ const ListLessons = gql`
 
 const ListCards = `
 query ListCards($card3Lesson3Id: ID)  {
-  listCard3s(filter: {card3Lesson3Id: {eq: $card3Lesson3Id}}) {
+  listCard3s(filter: {card3Lesson3Id: {eq: $card3Lesson3Id}},limit:600) {
     items{
       id
       question
@@ -69,8 +71,8 @@ const GetCard = `
 `
 
 const DeleteCard = `
-  mutation deleteCard($id: ID!)  {
-    deleteCard3(input:{id:$id}) {
+  mutation deleteCard($id: ID!, $_version: Int)  {
+    deleteCard3(input:{id:$id, _version:$_version}) {
       question
       answer
       audio
@@ -293,12 +295,29 @@ export class CardUpdatePage implements OnInit {
 
   async delete(card) {
 
-    await Promise.all([
-      API.graphql(graphqlOperation(DeleteCard, { id: card.id })) as Promise<any>
-    ]).then(() => {
-      this.getCards(this.lesson.id);
-      this.createToast();
-    })
+    // input DeleteCard3Input {
+    //   id: ID
+    //   _version: Int
+    // }
+    
+    // console.log('card to be deleted?ard',card)
+    // await this.getCard(card.id).then(res=>{res
+    //   console.log('res version?',res._version, card._version);
+      Promise.all([
+        API.graphql(graphqlOperation(DeleteCard, { id: card.id, _version:card._version })) as Promise<any>
+      ]).then(res=> {
+        console.log('res??, deleted???',res)
+
+
+        //this.getCards(this.lesson.id);
+        var index = _.findIndex(this.cards, { id: res[0]['data'].deleteCard3.id });
+        console.log('ok?',index)
+        // // Replace item at index using native splice
+        // this.cards.shift(index, 1, card);
+
+        this.createToast();
+      })
+    // });
   }
 
   // uploader1() {
@@ -402,7 +421,7 @@ export class CardUpdatePage implements OnInit {
     const [cards] = await Promise.all([
       API.graphql(graphqlOperation(ListCards, { card3Lesson3Id: card3Lesson3Id })) as Promise<any>
     ])
-    this.cards = cards.data.listCard3s.items.sort((a, b) => +b.order- +a.order);
+    this.cards = cards.data.listCard3s.items.sort((a, b) => +a.order - +b.order);
   }
 
   // onChanges(): void {
@@ -417,7 +436,7 @@ export class CardUpdatePage implements OnInit {
       audio: [""],
       video: [""],
       level: [""],
-      order:[""],
+      order: [""],
       keywords: [""]
     });
   }
@@ -433,7 +452,7 @@ export class CardUpdatePage implements OnInit {
       order: this.card.order,
       keywords: this.cardForm.value.keywords,
       card3Lesson3Id: this.lesson.id,
-      _version:this.card._version
+      _version: this.card._version
     }
 
     this.updateCard(card)
@@ -443,14 +462,14 @@ export class CardUpdatePage implements OnInit {
     const [lessons] = await Promise.all([
       API.graphql(graphqlOperation(ListLessons)) as Promise<any>
     ])
-    this.lessons = lessons.data.listLesson3s.items;
+    this.lessons = lessons.data.listLesson3s.items.sort((a, b) => +a.level - +b.level);
   }
 
-  async getCard() {
-    console.log("does this get called???")
+  async getCard(cardId) {
     const [card] = await Promise.all([
-      API.graphql(graphqlOperation(GetCard, { id: this.selectedCardQuestion.id })) as Promise<any>
+      API.graphql(graphqlOperation(GetCard, { id: cardId })) as Promise<any>
     ])
+    return card.data.getCard3
   }
 
   // ******* TO DO **********
@@ -465,7 +484,14 @@ export class CardUpdatePage implements OnInit {
   }
 
 
-  updateCard(card) {
+  async updateCard(card) {
+
+    const [card1] = await Promise.all([
+      API.graphql(graphqlOperation(GetCard, { id: card.id })) as Promise<any>
+    ])
+
+    console.log('card1', card1)
+
     console.log("what is card???", card)
     const updateCard: UpdateCard3Input = {
       id: card.id,
@@ -480,51 +506,51 @@ export class CardUpdatePage implements OnInit {
       _version: card._version
     };
 
-    this.appsync.hc().then(client => {
-      const observable: ObservableQuery = client.mutate({
-        mutation: UpdateCard,
-        variables: {
-          id: card.id,
-          question: card.question,
-          answer: card.answer,
-          audio: (card.audio)?card.audio:"",
-          video: (card.video)?card.video:"",
-          level: (card.level)?card.level:"",
-          order: (card.order)?card.order:0,
-          keywords: (card.keywords)?card.keywords:"",
-          card3Lesson3Id: card.card3Lesson3Id,
-          _version: card._version +1,
-          __typename: 'UpdateCard3Input'
-        },
-        // optimisticResponse: () => ({
-        //   UpdateCard: {
-        //     ...updateCard,
-        //     __typename: 'UpdateCard3Input'
-        //   }
-        // }),
-        // update: (proxy, { data: { updateUserCardPWA: _userCard } }) => {
-        //   const options = {
-        //     query: UpdateCard,
-        //     variables: { id: this.cardId, status: "done", __typename: 'UpdateCard3Input' }
-        //   };
+    // this.appsync.hc().then(client => {
+    //   const observable: ObservableQuery = client.mutate({
+    //     mutation: UpdateCard,
+    //     variables: {
+    //       id: card.id,
+    //       question: card.question,
+    //       answer: card.answer,
+    //       audio: (card.audio)?card.audio:"",
+    //       video: (card.video)?card.video:"",
+    //       level: (card.level)?card.level:"",
+    //       order: (card.order)?card.order:0,
+    //       keywords: (card.keywords)?card.keywords:"",
+    //       card3Lesson3Id: card.card3Lesson3Id,
+    //       _version: card._version,
+    //       __typename: 'UpdateCard3Input'
+    //     },
+    //     // optimisticResponse: () => ({
+    //     //   UpdateCard: {
+    //     //     ...updateCard,
+    //     //     __typename: 'UpdateCard3Input'
+    //     //   }
+    //     // }),
+    //     // update: (proxy, { data: { updateUserCardPWA: _userCard } }) => {
+    //     //   const options = {
+    //     //     query: UpdateCard,
+    //     //     variables: { id: this.cardId, status: "done", __typename: 'UpdateCard3Input' }
+    //     //   };
 
-        //   const data = proxy.readQuery(options);
-        //   console.log("what is proxy data??", options, data)
-        //   // const _tmp = unshiftMessage(data, _message);
-        //   proxy.writeQuery({ ...options, data: { getCard3: { users3: { items: { ..._userCard } } } } });
-        // }
-      }).then(({ data }) => {
-        console.log('mutation complete', data);
-        this.cardForm.reset();
-        this.createToast();
-        // const toast = this.toastCtrl.create({
-        //   message: 'card updated',
-        //   duration: 3000
-        // });
-        // toast.present();
-        //this.router.navigate(['tabs/lessons', this.lessonId]);
-      }).catch(err => console.log('Error creating message', err));
-    });
+    //     //   const data = proxy.readQuery(options);
+    //     //   console.log("what is proxy data??", options, data)
+    //     //   // const _tmp = unshiftMessage(data, _message);
+    //     //   proxy.writeQuery({ ...options, data: { getCard3: { users3: { items: { ..._userCard } } } } });
+    //     // }
+    //   }).then(({ data }) => {
+    //     console.log('mutation complete', data);
+    //     this.cardForm.reset();
+    //     this.createToast();
+    //     // const toast = this.toastCtrl.create({
+    //     //   message: 'card updated',
+    //     //   duration: 3000
+    //     // });
+    //     // toast.present();
+    //     //this.router.navigate(['tabs/lessons', this.lessonId]);
+    //   }).catch(err => console.log('Error creating message', err));
+    // });
   }
 
   async createToast() {
@@ -579,11 +605,19 @@ export class CardUpdatePage implements OnInit {
     //console.log("re-ordered???:", this.cards, "changed odered?", ev.detail.complete(this.cards))
 
     //Array(3) [ {…}, {…}, {…} ]
-    ev.detail.complete(this.cards).forEach((d,i) => {
+    ev.detail.complete(this.cards).forEach((d, i) => {
+
+      const query = API.graphql(graphqlOperation(SortCard, { id: d.id, order: i, _version: d._version })) as Promise<any>;
+
+      query.then(res => { console.log('this.lesson.id', this.lesson.id); this.getCards(this.lesson.id) })
+
       //console.log('d',i)
-      API.graphql(graphqlOperation(SortCard, { id: d.id, order:i, _version:d._version }))
-    }
-    )
+      //  const [cards] = await Promise.all([
+      //      API.graphql(graphqlOperation(SortCard, { id: d.id, order: i, _version: d._version }) as Promise<any>
+      //   ])
+
+
+    });
   }
 
   updateCardOrder() {
@@ -596,7 +630,7 @@ export class CardUpdatePage implements OnInit {
 
 
   async presentModal(card, i) {
-    console.log("what is modal card?",card)
+    console.log("what is modal card?", card)
 
     const modal = await this.modalController.create({
       component: CardModalPage,
@@ -606,11 +640,29 @@ export class CardUpdatePage implements OnInit {
         answer: card.answer,
         audio: card.audio,
         level: card.level,
+        order: card.order,
         keywords: card.keywords,
         card3Lesson3Id: this.lesson.id,
         _version: card._version
       }
     });
+
+
+
+    modal.onDidDismiss()
+      .then((data) => {
+        this.getCard(data.data.data).then(d => {
+          d.id = data.data.data;
+          const card = d;
+
+          // Find item index using _.findIndex (thanks @AJ Richardson for comment)
+          var index = _.findIndex(this.cards, { id: data.data.data });
+
+          // Replace item at index using native splice
+          this.cards.splice(index, 1, card);
+        });
+      });
+
     return await modal.present();
   }
 

@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="reset($event)">
+  <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="isEnd()">
     <ion-slide>
       <ion-grid>
         <ion-row>
@@ -100,7 +100,9 @@
       <ion-card>
         <ion-card-header>
           <div class="ion-text-wrap">
-            <ion-label>End of {{lesson?.name}}</ion-label>
+              <ion-label>Congratulations!</ion-label>
+              <br>
+            <h2>End of {{lesson?.name}}</h2>
           </div>
         </ion-card-header>
         <ion-card-content>
@@ -114,6 +116,7 @@
                       <ion-icon name="information-outline"></ion-icon>
                     </sup>
                   </ion-text> points!</div>
+                <br>
                 <div>
                   <h4>You have a good command of {{this.doneScore.tally}} phrases</h4>
                 </div>

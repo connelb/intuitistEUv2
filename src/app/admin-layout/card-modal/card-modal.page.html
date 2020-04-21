@@ -26,7 +26,7 @@
         </ion-row>
       </ion-grid>
 
-  <form [formGroup]="cardForm" novalidate (ngSubmit)="onSubmit()">
+  <form [formGroup]="cardForm" novalidate (ngSubmit)="updateCard()">
     <ion-item>
       <ion-label>Question:</ion-label>
       <ion-input type="text" name="question" formControlName="question" placeholder="Update question..."></ion-input>

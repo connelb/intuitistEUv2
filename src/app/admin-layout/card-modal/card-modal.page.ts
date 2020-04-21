@@ -12,6 +12,22 @@ import { Auth, Storage } from 'aws-amplify';
 import awsconfig from "./../../../aws-exports";
 import { v4 as uuid } from 'uuid';
 
+
+// input UpdateCard3Input {
+// 	id: ID!
+// 	question: String
+// 	answer: String
+// 	audio: String
+// 	video: String
+// 	level: String
+// 	order: Int
+// 	keywords: String
+// 	lesson3: Lesson3Input
+// 	_version: Int
+// 	card3Lesson3Id: ID
+// }
+
+
 const UpdateCard = gql`
 mutation updateCard(
   $id: ID!,
@@ -19,8 +35,10 @@ mutation updateCard(
   $answer:String,
   $audio:String,
   $level:String,
+  $order:Int,
   $keywords:String,
   $card3Lesson3Id:ID
+  $_version:Int
  ) {
   updateCard3(input: {
     id: $id,
@@ -28,8 +46,10 @@ mutation updateCard(
     answer: $answer,
     audio: $audio,
     level:$level,
+    order:$order,
     keywords:$keywords,
-    card3Lesson3Id:$card3Lesson3Id
+    card3Lesson3Id:$card3Lesson3Id,
+    _version:$_version
   }) {
     id
   }
@@ -53,6 +73,8 @@ export class CardModalPage implements OnInit {
   });
 
 
+
+
   cardForm: FormGroup;
   @Input() id: string;
   @Input() question: string;
@@ -61,6 +83,7 @@ export class CardModalPage implements OnInit {
   @Input() level: string;
   @Input() keywords: string;
   @Input() card3Lesson3Id: string;
+  @Input() order: number;
   @Input() _version: number;
   bgMusicPlaying: boolean;
   bgMusicPlayer: AudioService;
@@ -154,14 +177,28 @@ export class CardModalPage implements OnInit {
   }
 
   updateCard() {
-    const updateCard: UpdateCard3Input = {
-      id: this.id,
-      question: this.cardForm.value.question,
-      answer: this.cardForm.value.answer,
-      audio: this.cardForm.value.audio,
-      level: this.cardForm.value.level,
-      keywords: this.cardForm.value.keywords
-    };
+    // const updateCard: UpdateCard3Input = {
+    //   id: this.id,
+    //   question: this.cardForm.value.question,
+    //   answer: this.cardForm.value.answer,
+    //   audio: this.cardForm.value.audio,
+    //   level: this.cardForm.value.level,
+    //   keywords: this.cardForm.value.keywords
+    // };
+
+      // input UpdateCard3Input {
+// 	id: ID!
+// 	question: String
+// 	answer: String
+// 	audio: String
+// 	video: String
+// 	level: String
+// 	order: Int
+// 	keywords: String
+// 	lesson3: Lesson3Input
+// 	_version: Int
+// 	card3Lesson3Id: ID
+// }
 
     this.appsync.hc().then(client => {
       const observable: ObservableQuery = client.mutate({
@@ -172,9 +209,10 @@ export class CardModalPage implements OnInit {
           answer: this.cardForm.value.answer,
           audio: this.cardForm.value.audio,
           level: this.cardForm.value.level,
+          order: this.order,
           keywords: this.cardForm.value.keywords,
           card3Lesson3Id: this.card3Lesson3Id,
-          _version:this._version +1,
+          _version:this._version,
           __typename: 'UpdateCard3Input'
         },
         // optimisticResponse: () => ({
@@ -195,6 +233,7 @@ export class CardModalPage implements OnInit {
         //   proxy.writeQuery({ ...options, data: { getCard3: { users3: { items: { ..._userCard } } } } });
         // }
       }).then(({ data }) => {
+
 
         this.createToast();
         this.dismiss();
@@ -218,10 +257,12 @@ export class CardModalPage implements OnInit {
 
 
   dismiss() {
+    console.log('dismiss called')
     // using the injected ModalController this page
     // can "dismiss" itself and optionally pass back data
     this.modalController.dismiss({
-      'dismissed': true
+      'dismissed': true,
+      'data':this.id
     });
   }
 

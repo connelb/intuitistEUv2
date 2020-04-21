@@ -7,7 +7,7 @@
 <ion-content>
     <!-- <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false"> -->
         <ion-item-sliding *ngFor="let lesson of lessons; index as i">
-          <ion-item>
+          <ion-item *ngIf=!lesson._deleted>
             <ion-badge slot="start">{{i+1}}</ion-badge>
             {{lesson.name}}
             <ion-reorder slot="end"></ion-reorder>

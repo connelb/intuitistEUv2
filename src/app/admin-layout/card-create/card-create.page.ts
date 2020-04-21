@@ -190,7 +190,7 @@ export class CardCreatePage implements OnInit {
     const [lessons] = await Promise.all([
       API.graphql(graphqlOperation(ListLessons)) as Promise<any>
     ])
-    this.lessons = lessons.data.listLesson3s.items;
+    this.lessons = lessons.data.listLesson3s.items.sort((a, b) => +a.level - +b.level);
   }
 
   createCardForm() {
