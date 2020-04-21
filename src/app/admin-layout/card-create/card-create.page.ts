@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { AppsyncService } from '../../providers/appsync.service';
 import { ObservableQuery } from 'apollo-client';
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { CreateCard3Input } from './../../API.service';
 import { AudioService } from '../../providers/audio/audio.service';
 import { Howl, Howler } from 'howler';
@@ -92,7 +92,8 @@ export class CardCreatePage implements OnInit {
   cardId: any;
 
 
-  constructor(private formBuilder: FormBuilder, private appsync: AppsyncService, public toastCtrl: ToastController) {
+  constructor(private formBuilder: FormBuilder, private appsync: AppsyncService, public toastCtrl: ToastController,
+    public loadingController:LoadingController) {
     this.createCardForm();
 
     // this.bgMusicPlayer = new AudioService([`https://${awsconfig.aws_user_files_s3_bucket}.s3-us-east-1.amazonaws.com/audio/${this.cardId}.mp3`])
@@ -104,6 +105,17 @@ export class CardCreatePage implements OnInit {
   ngAfterViewInit() {
     this.getLessons();
     //this.geturlAudio(this.cardId);
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait...',
+      duration: 2000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
   }
 
   async  geturlAudio(audio) {
@@ -142,8 +154,9 @@ export class CardCreatePage implements OnInit {
         // }
       }).then(({ data }) => {
         console.log('mutation complete', data);
-        this.cardForm.reset();
-        this.updateToast();
+        //this.cardForm.reset();
+        // this.updateToast();
+        this.audioCreatedToast();
 
         //this.router.navigate(['tabs/lessons', this.lessonId]);
       }).catch(err => console.log('Error creating message', err));
@@ -221,7 +234,6 @@ export class CardCreatePage implements OnInit {
 
     this.createCard(this.cardForm.value)
 
-   
   }
 
   createCard(card) {
@@ -232,7 +244,6 @@ export class CardCreatePage implements OnInit {
       level: (card.level)?card.level:"na",
       order: 0,
       keywords: (card.keywords)?card.keywords:"na"})
-
 
     this.appsync.hc().then(client => {
       const observable: ObservableQuery = client.mutate({
@@ -267,7 +278,7 @@ export class CardCreatePage implements OnInit {
       }).then(({ data }) => {
         //this.card = data.
         console.log('mutation complete', data);
-        //this.cardForm.reset();
+        this.cardForm.reset();
         this.createToast();
 
         //this.router.navigate(['tabs/lessons', this.lessonId]);
@@ -283,15 +294,24 @@ export class CardCreatePage implements OnInit {
     await toast.present();
   }
 
-  async updateToast() {
+  // async updateToast() {
+  //   const toast = await this.toastCtrl.create({
+  //     message: 'card updated',
+  //     duration: 1000
+  //   });
+  //   await toast.present();
+  // }
+
+  async audioCreatedToast() {
     const toast = await this.toastCtrl.create({
-      message: 'card updated',
+      message: 'Audio file uploaded',
       duration: 1000
     });
     await toast.present();
   }
 
   async onFileSelected(event: EventEmitter<File[]>) {
+    this.presentLoading();
     const file: File = event[0];
 
     const [createCard] = await Promise.all([

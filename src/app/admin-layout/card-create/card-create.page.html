@@ -56,7 +56,7 @@
       <ion-label>Video</ion-label>
       <ion-input type="text" name="video" formControlName="video" placeholder="link to video..."></ion-input>
     </ion-item> -->
-    <ion-item>
+    <ion-item >
       <ion-label>Level</ion-label>
       <ion-input type="text" name="level" formControlName="level" placeholder="input level..."></ion-input>
     </ion-item>
@@ -64,7 +64,7 @@
       <ion-label>Keywords</ion-label>
       <ion-input type="text" name="keywords" formControlName="keywords" placeholder="input keywords..."></ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf='urlAudio'>
       <ion-label>Audio</ion-label>
       <ion-input type="text" readonly name="audio" formControlName="audio" placeholder="audio"></ion-input>
     </ion-item>
@@ -88,14 +88,14 @@
 
     <!-- </ion-item> -->
 
-    <!-- 
+    
     <ion-grid>
       <ion-row>
         <ion-col class="ion-text-center">
           <ion-button [disabled]="cardForm.invalid" ion-button type="submit" full round>Create</ion-button>
         </ion-col>
       </ion-row>
-    </ion-grid> -->
+    </ion-grid>
 
   </form>
 

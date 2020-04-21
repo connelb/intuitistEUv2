@@ -306,12 +306,12 @@ export class CardUpdatePage implements OnInit {
       Promise.all([
         API.graphql(graphqlOperation(DeleteCard, { id: card.id, _version:card._version })) as Promise<any>
       ]).then(res=> {
-        console.log('res??, deleted???',res)
+        //console.log('res??, deleted???',res)
 
 
         //this.getCards(this.lesson.id);
         var index = _.findIndex(this.cards, { id: res[0]['data'].deleteCard3.id });
-        console.log('ok?',index)
+        //console.log('ok?',index)
         // // Replace item at index using native splice
         // this.cards.shift(index, 1, card);
 
@@ -478,7 +478,7 @@ export class CardUpdatePage implements OnInit {
     Storage.get(`${audio}${'.mp3'}`, { contentType: "audio/mpeg" })
       .then(result => {
         // this.urlAudio = `https://${awsconfig.aws_user_files_s3_bucket}.s3-us-east-1.amazonaws.com/audio/${this.myUuid}.m3u8`
-        console.log("it worked? but check audio", result); this.urlAudio = result;
+        //console.log("it worked? but check audio", result); this.urlAudio = result;
       })
       .catch(err => console.log(err));
   }
@@ -490,9 +490,9 @@ export class CardUpdatePage implements OnInit {
       API.graphql(graphqlOperation(GetCard, { id: card.id })) as Promise<any>
     ])
 
-    console.log('card1', card1)
+    //console.log('card1', card1)
 
-    console.log("what is card???", card)
+    //console.log("what is card???", card)
     const updateCard: UpdateCard3Input = {
       id: card.id,
       question: card.question,

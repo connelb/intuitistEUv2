@@ -384,7 +384,7 @@ export class LessonsPage {
     
     setTimeout(() => {
       this.ListLessonsByUser()
-    }, 1000);
+    }, 500);
 
   }
 
@@ -440,7 +440,7 @@ export class LessonsPage {
 
     // ListLessonsByUserInitial
 
-    this.appsync.hc().then(client => {
+    await this.appsync.hc().then(client => {
       const observable: ObservableQuery = client.watchQuery({
         query: ListLessonsByUser,
         variables: { user3Card3User3Id: this.user.attributes.sub },
@@ -449,6 +449,7 @@ export class LessonsPage {
 
       observable.subscribe(({ data }) => {
         if (!data) { return console.log('ListLessonsByUser: no data'); }
+        
         this.lessons = data.listLesson3s.items.sort((a, b) => +a.level - +b.level);
         //console.log('this.lessons',this.lessons)
         //this.formatListLessonsByUser(data);

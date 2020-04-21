@@ -322,6 +322,7 @@ mutation createUser3Card3($user3Card3User3Id: ID,$user3Card3Card3Id: ID, $status
         __typename
         id
       }
+      _version
     }
 }
 `
@@ -469,6 +470,7 @@ query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
           audio
           order
           _version
+          _deleted
           users3(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}}) {
             __typename
             items {
@@ -857,9 +859,19 @@ export class CardsPage implements OnInit {
         }
         //lessonCards
         //lesson.cards3.items.length
-
+        // console.log("_without", _.without(data.listLesson3s.items[0].cards3.items,'_deleted'));
+        // console.log("_remove",_.remove(data.listLesson3s.items[0].cards3.items, function(n) {
+        //   return !n['_deleted'];
+        // }));
+        // const activeLessons = _.remove(data.listLesson3s.items[0].cards3.items, function(n) {
+        //   return !n['_deleted'];
+        // })
         this.lesson = data.listLesson3s.items[0];
-        this.lessonCards = data.listLesson3s.items[0].cards3.items.sort((a, b) => +a.order - +b.order);;
+        this.lessonCards = data.listLesson3s.items[0].cards3.items.sort((a, b) => +a['order'] - +b['order']);
+
+        // this.lessonCards = _.remove(data.listLesson3s.items[0].cards3.items, function(n) {
+        //   return !n['_deleted'];
+        // }).sort((a, b) => +a['order'] - +b['order']);
         //console.log('ListLessonsByUserByLesson????', data)
 
         // console.log('this.lesson',data.listLesson3s.items[0]);
