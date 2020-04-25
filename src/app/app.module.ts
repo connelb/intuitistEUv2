@@ -22,6 +22,7 @@ import { AuthGuard } from './providers/auth-guard.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { APIService } from './API.service';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
   //entryComponents: [VideoModalPage],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
     AmplifyAngularModule,

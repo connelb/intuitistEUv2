@@ -6,6 +6,9 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+
+    <!-- <div class="animate-me" #box></div> -->
+    
   <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="isEnd()">
     <ion-slide>
       <ion-grid>
@@ -49,17 +52,35 @@
           <ion-grid class="ion-padding-vertical">
             <ion-row>
               <ion-col>
-                <div class="ion-text-wrap">
+                  <div class="insert-remove-container">
+                      <p>{{card?.question}}</p>
+                    </div>
+                <!-- <div class="ion-text-wrap">
                   <h3>{{card?.question}}</h3>
-                </div>
+                </div> -->
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col class="testYourself">
                 <div class="ion-text-wrap">
-                  <h3>
-                    <span *ngIf="visible">{{card?.answer}}</span>
-                  </h3>
+                    <div [@myInsertRemoveTrigger]="visible ? 'open' : 'closed'" class="insert-remove-container">
+                        <p>{{card?.answer}}</p>
+                      </div>
+                  <!-- Skeleton screen -->
+                  <!-- <div *ngIf="!visible">
+                      <div class="ion-padding custom-skeleton">
+                        <ion-skeleton-text animated style="width: 60%">{{card?.answer}}</ion-skeleton-text>
+                        <ion-skeleton-text animated>{{card?.answer}}</ion-skeleton-text>
+                        <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+                        <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+                        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+                      </div>
+                      </div> -->
+                   
+                  <!-- <h3 > 
+                      <span *ngIf="visible">{{card?.answer}}</span>
+                  </h3> -->
+                  <!-- <ion-skeleton-text animated  *ngIf="visible" class ='custom-skeleton'></ion-skeleton-text> -->
                 </div>
                 <!-- <ion-card class="testYourself"> -->
                 <!-- <ion-card-title *ngIf="visible"> -->

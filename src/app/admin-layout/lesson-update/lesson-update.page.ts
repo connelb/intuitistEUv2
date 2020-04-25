@@ -215,7 +215,7 @@ onFileSelected(event: EventEmitter<File[]>) {
 
 async processVideo(file) {
   this.myUuid = uuid();
-  console.log('new id?', this.myUuid)
+  //console.log('new id?', this.myUuid)
 
   const [createVideo, createVodAsset] = await Promise.all([
     await API.graphql(graphqlOperation(CreateVideo, { id: this.myUuid })) as Promise<any>,
