@@ -44,8 +44,8 @@
             "Arn"
         ]
     },
-    "useDefault": "manual",
-    "hostedUI": false,
+    "useDefault": "defaultSocial",
+    "hostedUI": true,
     "triggers": "{\"PostConfirmation\":[\"add-to-group\"]}",
     "userPoolGroupList": [
         "User",
@@ -70,6 +70,10 @@
     ],
     "userPoolGroups": false,
     "adminQueries": false,
-    "thirdPartyAuth": true,
-    "authProviders": []
+    "hostedUIDomainName": "intuitisteub8ecec41-b8ecec41",
+    "authProvidersUserPool": [
+        "Facebook"
+    ],
+    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}}]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8100/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"],\"LogoutURLs\":[\"http://localhost:8100/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"]}"
 }

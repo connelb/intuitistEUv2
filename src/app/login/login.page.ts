@@ -7,9 +7,9 @@ import Amplify, { API, graphqlOperation } from "aws-amplify";
 // import { Hub } from '@aws-amplify/core';
 
 // import { AppsyncService } from '../../providers/appsync.service';
-import { Auth } from 'aws-amplify';
+// import { Auth } from 'aws-amplify';
 
-import { Component, OnInit, AfterContentInit,NgZone } from '@angular/core';
+import { Component, OnInit, AfterContentInit, NgZone } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { AmplifyService } from 'aws-amplify-angular';
 import { AuthGuard } from './../providers/auth-guard.service'
@@ -20,6 +20,7 @@ import { Storage } from '@ionic/storage';
 import { AppsyncService } from './../providers/appsync.service';
 // import { Auth } from 'aws-amplify';
 import { Hub } from '@aws-amplify/core';
+import Auth, { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 
 import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
 
@@ -105,11 +106,11 @@ export class LoginPage {
         this.authState.loggedIn = authState.state === 'signedIn';
         //this.events.publish('data:AuthState', this.authState)
 
-        if(authState.state === 'signedIn'){
+        if (authState.state === 'signedIn') {
           this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
         }
 
-        if(authState.state !== 'signedIn' && !authState.user){
+        if (authState.state !== 'signedIn' && !authState.user) {
           this.router.navigateByUrl('/login', { replaceUrl: true });
         }
       });
@@ -119,23 +120,23 @@ export class LoginPage {
     //this.authState = { signedIn: false };
 
 
-   
+
     //constructor( private amplifyService: AmplifyService ) {
-        // this.amplifyService.authStateChange$
-        //     .subscribe(authState => {
-        //         this.signedIn = authState.state === 'signedIn';
-        //         console.log("login called")
-        //         if (!authState.user) {
-        //             this.user = null;
-        //             this.router.navigateByUrl('/tutorial', { replaceUrl: true })
-        //         } else {
-        //           console.log("should be logged in and route to home page")
-        //             this.user = authState.user;
-        //             this.greeting = "Hello " + this.user.username;
-        //             //this.router.navigate(['/tabs/home']);
-        //             this.router.navigateByUrl('/app/tabs/home', { replaceUrl: true })
-        //         }
-        // });
+    // this.amplifyService.authStateChange$
+    //     .subscribe(authState => {
+    //         this.signedIn = authState.state === 'signedIn';
+    //         console.log("login called")
+    //         if (!authState.user) {
+    //             this.user = null;
+    //             this.router.navigateByUrl('/tutorial', { replaceUrl: true })
+    //         } else {
+    //           console.log("should be logged in and route to home page")
+    //             this.user = authState.user;
+    //             this.greeting = "Hello " + this.user.username;
+    //             //this.router.navigate(['/tabs/home']);
+    //             this.router.navigateByUrl('/app/tabs/home', { replaceUrl: true })
+    //         }
+    // });
     //}
 
     // this.amplifyService.authStateChange$.subscribe(authState => {
@@ -172,13 +173,109 @@ export class LoginPage {
 
   cancel() {
     this.amplifyService.auth().signOut().then(() => {
-        return this.router.navigateByUrl('/tutorial', { replaceUrl: true });
-        // return this.router.navigateByUrl('/app/tabs/schedule');
-      });
+      return this.router.navigateByUrl('/tutorial', { replaceUrl: true });
+      // return this.router.navigateByUrl('/app/tabs/schedule');
+    });
 
     // this.userData.logout().then(() => {
     //   return this.router.navigateByUrl('/signup');
     //   // return this.router.navigateByUrl('/app/tabs/schedule');
     // });
   }
+
+  async signInWithFacebook() {
+    const socialResult = await this.socialSignIn(CognitoHostedUIIdentityProvider.Facebook);
+    console.log('fb Result:', socialResult);
+  }
+
+  socialSignIn(provider: CognitoHostedUIIdentityProvider): Promise<any> {
+    return Auth.federatedSignIn({
+      'provider': provider
+    });
+  }
 }
+
+
+
+
+
+// import { Component } from '@angular/core';
+// import { FormGroup, FormControl, Validators } from '@angular/forms';
+// import { AuthService } from '../auth.service';
+// import { CognitoUser } from '@aws-amplify/auth';
+// import { NotificationService } from 'src/app/services/notification.service';
+// import { Router } from '@angular/router';
+// import { environment } from 'src/environments/environment';
+// import { LoaderService } from 'src/app/loader/loader.service';
+
+// @Component({
+//   selector: 'app-sign-in',
+//   templateUrl: './sign-in.component.html',
+//   styleUrls: ['./sign-in.component.scss']
+// })
+// export class SignInComponent {
+
+//   signinForm: FormGroup = new FormGroup({
+//     email: new FormControl('',[ Validators.email, Validators.required ]),
+//     password: new FormControl('', [ Validators.required, Validators.min(6) ])
+//   });
+
+//   hide = true;
+
+//   get emailInput() { return this.signinForm.get('email'); }
+//   get passwordInput() { return this.signinForm.get('password'); }
+
+//   constructor( 
+//     public auth: AuthService, 
+//     private _notification: NotificationService, 
+//     private _router: Router,
+//     private _loader: LoaderService ) { }
+
+//   getEmailInputError() {
+//     if (this.emailInput.hasError('email')) {
+//       return 'Please enter a valid email address.';
+//     }
+//     if (this.emailInput.hasError('required')) {
+//       return 'An Email is required.';
+//     }
+//   }
+
+//   getPasswordInputError() {
+//     if (this.passwordInput.hasError('required')) {
+//       return 'A password is required.';
+//     }
+//   }
+
+//   signIn() {
+//     this._loader.show();
+//     this.auth.signIn(this.emailInput.value, this.passwordInput.value)
+//       .then((user: CognitoUser|any) => {
+//         this._loader.hide();
+//         this._router.navigate(['']);
+//       })
+//       .catch((error: any) => {
+//         this._loader.hide();
+//         this._notification.show(error.message);
+//         switch (error.code) {
+//           case "UserNotConfirmedException":
+//             environment.confirm.email = this.emailInput.value;
+//             environment.confirm.password = this.passwordInput.value;
+//             this._router.navigate(['auth/confirm']);
+//             break;
+//           case "UsernameExistsException":
+//             this._router.navigate(['auth/signin']);
+//             break;
+//         }
+//       })
+//   }
+
+//   async signInWithFacebook() {
+//     const socialResult = await this.auth.socialSignIn(AuthService.FACEBOOK);
+//     console.log('fb Result:', socialResult);
+//   }
+
+//   async signInWithGoogle() {
+//     const socialResult = await this.auth.socialSignIn(AuthService.GOOGLE);
+//     console.log('google Result:', socialResult);
+//   }
+// }
