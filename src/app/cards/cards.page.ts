@@ -885,7 +885,6 @@ export class CardsPage implements OnInit {
     await loading.present();
 
     const { role, data } = await loading.onDidDismiss();
-    console.log('Loading dismissed!');
   }
 
 //   callAnime() {
@@ -1439,11 +1438,12 @@ export class CardsPage implements OnInit {
 
     const myUser3Card3 = {
       user3Card3User3Id: this.user.attributes.sub,
-      //user3: {id:this.user.attributes.sub, username: this.user.username, __typename:"User3"},
+      user3: {id:this.user.attributes.sub, username: this.user.username, __typename:"User3"},
       user3Card3Card3Id: card.id,
-      //card3: {id:card.id, __typename:"Card3"},
+      card3: {id:card.id, __typename:"Card3"},
       status: this.status,
       score: this.score,
+      _version: 1
     }
 
     console.log(" myCreateUserCard in progress...")
@@ -1562,37 +1562,39 @@ export class CardsPage implements OnInit {
 
     this.appsync.hc().then(client => {
 
-      client.query({ query: getUserCardId,
-        variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id },
-         fetchPolicy: 'network-only' 
-       })
-          .then(function logData(data) {
-              console.log('results of query: ', data);
-          })
-          .catch(console.error);
+//       client.query({ query: getUserCardId,
+//         variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id },
+//          fetchPolicy: 'network-only' 
+//        })
+//           .then(function logData(data) {
+//               console.log('results of query: ', data);
+//           })
+//           .catch(console.error);
 
- console.log("user b79bcfaf-86b8-470a-8f92-b0441da1bbe3",this.user.attributes.sub )
- console.log("card 473f56e0-4d4d-4027-9558-9fb6927e57c6", card.id )
+//  console.log("user b79bcfaf-86b8-470a-8f92-b0441da1bbe3",this.user.attributes.sub )
+//  console.log("card 473f56e0-4d4d-4027-9558-9fb6927e57c6", card.id )
           // user b79bcfaf-86b8-470a-8f92-b0441da1bbe3
           // card 473f56e0-4d4d-4027-9558-9fb6927e57c6
 
       client.query({ query: getUserCardId,
-        variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id } })
+        variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id },
+        fetchPolicy: 'network-only'
+      })
       //client.query({ query: query, fetchPolicy: 'network-only' })   //Uncomment for AWS Lambda
           .then(data=> {
 
-            function logData(data) {
-              console.log('results of query: ', data);
-          }
+          //   function logData(data) {
+          //     console.log('results of query: ', data);
+          // }
 
 
-        //  if((data.data.listUser3Card3s.items.length)?true:false){
-        //   console.log('prior to update',data, data.data.listUser3Card3s.items)
-        //    //this.myUpdateUserCard(data, card, i)
-        //  }else{
-        //    console.log('prior to create',data, data.data.listUser3Card3s.items)
-        //    //this.myCreateUserCard(card,i);
-        //  }
+         if((data.data.listUser3Card3s.items.length)?true:false){
+          //console.log('prior to update',data, data.data.listUser3Card3s.items)
+           this.myUpdateUserCard(data, card, i)
+         }else{
+           //console.log('prior to create',data, data.data.listUser3Card3s.items)
+           this.myCreateUserCard(card,i);
+         }
           
           //console.log('ans?',ans)
           // if(ans){
