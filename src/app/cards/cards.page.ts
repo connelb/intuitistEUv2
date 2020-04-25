@@ -679,20 +679,20 @@ const ListUserCardsByUser = gql
       state('open', style({
         // height: '100px',
         fontSize: '2em',
-        opacity: 0.9,
+        opacity: 1,
         // backgroundColor: 'yellow'
       })),
       state('closed', style({
         // height: '100px',
-        fontSize: '0.5em',
-        opacity: 0.1,
+        fontSize: '0.1em',
+        opacity: 0,
         // backgroundColor: 'green'
       })),
       // transition('open => closed', [
       //   animate('2s')
       // ]),
       transition('closed => open', [
-        animate('2s 1s ease')
+        animate('3s ease-in-out')
       
     ]),
     ])
@@ -1265,11 +1265,11 @@ export class CardsPage implements OnInit {
           .entries(data.listUser3Card3s.items).map((d: any) => {
             for (let key in d) {
               if (d[key] === "done") {
-                console.log('done???', d[key] === "done", d['value'].total, d['value'].tally)
+                //console.log('done???', d[key] === "done", d['value'].total, d['value'].tally)
                 this.doneScore = d['value']
               }
               if (d[key] === "doing") {
-                console.log('done???', d[key] === "doing", d['value'].total, d['value'].tally)
+                //console.log('done???', d[key] === "doing", d['value'].total, d['value'].tally)
                 this.doingScore = d['value']
               }
             }
