@@ -90,9 +90,20 @@
                 <!-- </ion-card> -->
               </ion-col>
             </ion-row>
-            <ion-row class="segmentHeight">
-              <ion-segment *ngIf="!visible">
-                <ion-segment-button>
+            <ion-row class="segmentHeight" *ngIf="!visible">
+              <ion-col>
+<!-- <ion-item> -->
+  <ion-label>Translate aloud</ion-label>
+<!-- </ion-item> -->
+              </ion-col>
+              <ion-col>
+                  <ion-button color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">
+                      Play
+                      <ion-ripple-effect  type="unbounded"></ion-ripple-effect>
+                  </ion-button>
+              </ion-col>
+              <!-- <ion-segment *ngIf="!visible"> -->
+                <!-- <ion-segment-button>
                   <ion-label color="primary">
                     <b>Translate aloud</b>
                   </ion-label>
@@ -100,11 +111,11 @@
                 <ion-segment-button (click)="toggleBgMusicPlaying($event,card)">
                   <ion-icon size="large" name="play-circle-outline"></ion-icon>
                 </ion-segment-button>
-              </ion-segment>
+              </ion-segment> -->
             </ion-row>
             <ion-row class="segmentHeight">
               <ion-segment *ngIf="visible" (ionChange)="segmentChanged($event,card,i)" value="'card?.users3.items[0].status == done' ? 'done' : 'doing'">
-                <ion-segment-button value="doing" layout="icon-bottom">
+                <ion-segment-button  color="primary" value="doing" layout="icon-bottom">
                   <ion-fab-button color="warning">
                     <ion-icon size="large" name="sad-outline"></ion-icon>
                   </ion-fab-button>

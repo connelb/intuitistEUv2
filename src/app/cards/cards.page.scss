@@ -2,7 +2,19 @@ css-toast{
   --height:6em;
 }
 
+.ripple-parent {
+  position: relative;
+  overflow: hidden;
+}
 
+ion-segment-button {
+  --background: --ion-color-primary;
+  --background-hover-opacity: 0.5;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  --padding-top: 15px;
+  --padding-bottom: 15px;
+}
 
 .insert-remove-container {
   text-align: center;

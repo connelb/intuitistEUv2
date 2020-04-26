@@ -684,7 +684,7 @@ const ListUserCardsByUser = gql
       })),
       state('closed', style({
         // height: '100px',
-        fontSize: '0.1em',
+        fontSize: '2em',
         opacity: 0,
         // backgroundColor: 'green'
       })),
