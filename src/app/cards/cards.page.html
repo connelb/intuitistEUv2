@@ -24,9 +24,9 @@
     </ion-slide>
     <!-- <div >
       <div *ngIf=!card._deleted> -->
-        <ion-slide *ngFor="let card of lessonCards ; index as i">
+    <ion-slide *ngFor="let card of lessonCards ; index as i">
 
-          <!-- <ion-fab vertical="top" horizontal="end" slot="fixed">
+      <!-- <ion-fab vertical="top" horizontal="end" slot="fixed">
         <ion-fab-button size="large" color="ion-fab-button" disabled="true">
           {{(card?.users3?.items[0]?.status=="done") ? "happy" : "sad"}}
         </ion-fab-button>
@@ -47,25 +47,25 @@
         </ion-fab-button>
       </ion-fab> -->
 
-          <ion-grid class="ion-padding-vertical">
-            <ion-row>
-              <ion-col>
-                  <div class="insert-remove-container">
-                      <p>{{card?.question}}</p>
-                    </div>
-                <!-- <div class="ion-text-wrap">
+      <ion-grid class="ion-padding-vertical">
+        <ion-row>
+          <ion-col>
+            <div class="insert-remove-container">
+              <p>{{card?.question}}</p>
+            </div>
+            <!-- <div class="ion-text-wrap">
                   <h3>{{card?.question}}</h3>
                 </div> -->
-              </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col class="testYourself">
-                <div class="ion-text-wrap">
-                    <div [@myInsertRemoveTrigger]="visible ? 'open' : 'closed'" class="insert-remove-container">
-                        <p>{{card?.answer}}</p>
-                      </div>
-                  <!-- Skeleton screen -->
-                  <!-- <div *ngIf="!visible">
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="testYourself">
+            <div class="ion-text-wrap">
+              <div [@myInsertRemoveTrigger]="visible ? 'open' : 'closed'" class="insert-remove-container">
+                <p>{{card?.answer}}</p>
+              </div>
+              <!-- Skeleton screen -->
+              <!-- <div *ngIf="!visible">
                       <div class="ion-padding custom-skeleton">
                         <ion-skeleton-text animated style="width: 60%">{{card?.answer}}</ion-skeleton-text>
                         <ion-skeleton-text animated>{{card?.answer}}</ion-skeleton-text>
@@ -74,36 +74,40 @@
                         <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
                       </div>
                       </div> -->
-                   
-                  <!-- <h3 > 
+
+              <!-- <h3 > 
                       <span *ngIf="visible">{{card?.answer}}</span>
                   </h3> -->
-                  <!-- <ion-skeleton-text animated  *ngIf="visible" class ='custom-skeleton'></ion-skeleton-text> -->
-                </div>
-                <!-- <ion-card class="testYourself"> -->
-                <!-- <ion-card-title *ngIf="visible"> -->
+              <!-- <ion-skeleton-text animated  *ngIf="visible" class ='custom-skeleton'></ion-skeleton-text> -->
+            </div>
+            <!-- <ion-card class="testYourself"> -->
+            <!-- <ion-card-title *ngIf="visible"> -->
 
-                <!-- <ion-label *ngIf="visible">{{card?.answer}}</ion-label> -->
+            <!-- <ion-label *ngIf="visible">{{card?.answer}}</ion-label> -->
 
-                <!-- </ion-card-title> -->
-                <!-- </ion-card> -->
-                <!-- </ion-card> -->
-              </ion-col>
-            </ion-row>
-            <ion-row class="segmentHeight" *ngIf="!visible">
-              <ion-col>
-<!-- <ion-item> -->
-  <ion-label>Translate aloud</ion-label>
-<!-- </ion-item> -->
-              </ion-col>
-              <ion-col>
-                  <ion-button color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">
-                      Play
-                      <ion-ripple-effect  type="unbounded"></ion-ripple-effect>
-                  </ion-button>
-              </ion-col>
-              <!-- <ion-segment *ngIf="!visible"> -->
-                <!-- <ion-segment-button>
+            <!-- </ion-card-title> -->
+            <!-- </ion-card> -->
+            <!-- </ion-card> -->
+          </ion-col>
+        </ion-row>
+        <ion-row class="segmentHeight" *ngIf="!visible">
+          <ion-col>
+            <!-- <ion-item> -->
+            <ion-label>Translate aloud</ion-label><br>
+            <ion-button size="small" (click)="startPlay()">start</ion-button>
+            <ion-button size="small" (click)="stopPlay()">Replay</ion-button>
+            <!-- </ion-item> -->
+          </ion-col>
+          <ion-col>
+            <ion-button size="large" color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">
+              Play
+              <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+          </ion-col>
+          <!-- <ion-segment *ngIf="!visible"> -->
+          <!-- <ion-segment-button>
                   <ion-label color="primary">
                     <b>Translate aloud</b>
                   </ion-label>
@@ -112,26 +116,26 @@
                   <ion-icon size="large" name="play-circle-outline"></ion-icon>
                 </ion-segment-button>
               </ion-segment> -->
-            </ion-row>
-            <ion-row class="segmentHeight">
-              <ion-segment *ngIf="visible" (ionChange)="segmentChanged($event,card,i)" value="'card?.users3.items[0].status == done' ? 'done' : 'doing'">
-                <ion-segment-button  color="primary" value="doing" layout="icon-bottom">
-                  <ion-fab-button color="warning">
-                    <ion-icon size="large" name="sad-outline"></ion-icon>
-                  </ion-fab-button>
-                </ion-segment-button>
-                <ion-segment-button value="done" layout="icon-bottom">
-                  <ion-fab-button color="success">
-                    <ion-icon size="large" name="happy-outline"></ion-icon>
-                  </ion-fab-button>
-                </ion-segment-button>
-              </ion-segment>
-            </ion-row>
-          </ion-grid>
+        </ion-row>
+        <ion-row class="segmentHeight">
+          <ion-segment *ngIf="visible" (ionChange)="segmentChanged($event,card,i)" value="'card?.users3.items[0].status == done' ? 'done' : 'doing'">
+            <ion-segment-button color="primary" value="doing" layout="icon-bottom">
+              <ion-fab-button color="warning">
+                <ion-icon size="large" name="sad-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-segment-button>
+            <ion-segment-button value="done" layout="icon-bottom">
+              <ion-fab-button color="success">
+                <ion-icon size="large" name="happy-outline"></ion-icon>
+              </ion-fab-button>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-row>
+      </ion-grid>
 
 
-        </ion-slide>
-      <!-- </div>
+    </ion-slide>
+    <!-- </div>
     </div> -->
     <ion-slide>
       <ion-card>

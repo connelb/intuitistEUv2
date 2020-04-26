@@ -34,6 +34,9 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 
 import { pluck} from 'rxjs/operators';
 import {pipe } from 'rxjs'
+import Recorder from 'recorder-js';
+
+declare var MediaRecorder: any;
 
 //import { User3Card3 } from './../../models';
 
@@ -780,6 +783,15 @@ export class CardsPage implements OnInit {
   totalTally: any;
   loading: any;
 
+  blobFile;
+  recordAudio;
+  sendObj = {
+    audio: this.blobFile
+  };
+  // audioContext =  new (AudioContext)({sampleRate: 16000});
+  audioContext =  new (AudioContext);
+  recorder = new Recorder(this.audioContext, {});
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -797,7 +809,7 @@ export class CardsPage implements OnInit {
   }
 
   async ngOnInit() {
-
+    this.getLocation();
 
     await Auth.currentAuthenticatedUser({
       bypassCache: false
@@ -841,6 +853,65 @@ export class CardsPage implements OnInit {
     // };
 
 
+  }
+
+  async startPlay() {
+    this.recorder = await this.recordAudio();
+    this.recorder.start();
+  }
+
+  async stopPlay() {
+    const audio = await this.recorder.stop();
+    audio.play();
+  }
+
+  getLocation(){
+    this.recordAudio = () => {
+      return new Promise(resolve => {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(stream => {
+            const mediaRecorder = new MediaRecorder(stream, {
+              mimeType: 'audio/webm',
+              numberOfAudioChannels: 1,
+              audioBitsPerSecond : 16000,
+            });
+            const audioChunks = [];
+
+            mediaRecorder.addEventListener("dataavailable", event => {
+              audioChunks.push(event.data);
+            });
+
+            const start = () => {
+              mediaRecorder.start();
+            };
+
+            const stop = () => {
+              return new Promise(resolve => {
+                mediaRecorder.addEventListener('stop', () => {
+                  const audioBlob = new Blob(audioChunks, { 'type' : 'audio/wav; codecs=MS_PCM' });
+                  const reader = new FileReader();
+                  reader.readAsDataURL(audioBlob);
+                  reader.addEventListener('load', () => {
+                    const base64data =  reader.result;
+                    this.sendObj.audio = base64data;
+                    // this.http.post('apiUrl', this.sendObj, httpOptions).subscribe(data => console.log(data));
+                  }, false);
+                  const audioUrl = URL.createObjectURL(audioBlob);
+                  console.log('Audiourl', audioUrl);
+                  const audio = new Audio(audioUrl);
+                  const play = () => {
+                    audio.play();
+                  };
+                  resolve({ audioBlob, audioUrl, play });
+                });
+
+                mediaRecorder.stop();
+              });
+            };
+            resolve({ start, stop });
+          });
+      });
+    };
   }
 
   updateScores(data) {
