@@ -26,12 +26,12 @@
       <div *ngIf=!card._deleted> -->
     <ion-slide *ngFor="let card of lessonCards ; index as i">
 
-      <!-- <ion-fab vertical="top" horizontal="end" slot="fixed">
+     <ion-fab vertical="top" horizontal="end" slot="fixed">
         <ion-fab-button size="large" color="ion-fab-button" disabled="true">
           {{(card?.users3?.items[0]?.status=="done") ? "happy" : "sad"}}
         </ion-fab-button>
       </ion-fab>
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <!--  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="ion-fab-button" disabled="true" size="small">
           <ion-icon size="small" name="happy-outline"></ion-icon>:{{lessonCards|totalScore:'done'}}
         </ion-fab-button>
@@ -60,7 +60,8 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <div class="ion-text-wrap">
+              <!-- <div class="ion-text-wrap"> -->
+            <!-- <div> -->
               <div [@myInsertRemoveTrigger]="visible ? 'open' : 'closed'" class="insert-remove-container">
                 <p class="testYourself">{{card?.answer}}</p>
               </div>
@@ -79,7 +80,7 @@
                       <span *ngIf="visible">{{card?.answer}}</span>
                   </h3> -->
               <!-- <ion-skeleton-text animated  *ngIf="visible" class ='custom-skeleton'></ion-skeleton-text> -->
-            </div>
+            <!-- </div> -->
             <!-- <ion-card class="testYourself"> -->
             <!-- <ion-card-title *ngIf="visible"> -->
 
@@ -91,14 +92,14 @@
           </ion-col>
         </ion-row>
         <ion-row class="segmentHeight" *ngIf="!visible">
-          <ion-col>
+          <ion-col size=7>
             <!-- <ion-item> -->
             <ion-label>Translate aloud</ion-label><br>
             <ion-button *ngIf="audioSupported" size="small" (click)="startPlay()">start</ion-button>
             <ion-button *ngIf="audioSupported" size="small" (click)="stopPlay()">Replay</ion-button>
             <!-- </ion-item> -->
           </ion-col>
-          <ion-col>
+          <ion-col size=5>
             <ion-button size="large" color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">
               Play
               <ion-ripple-effect type="unbounded"></ion-ripple-effect>

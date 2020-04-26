@@ -767,8 +767,8 @@ export class CardsPage implements OnInit {
 
 
   public slideOptions = {
-    slidesPerView: 1,
-    spaceBetween: 0,
+    slidesPerView: 1.1,
+    spaceBetween: 20,
     centeredSlides: true,
     pagination: {
       el: ".swiper-pagination",

@@ -47,21 +47,21 @@ ion-segment{
   height:6em;
 }
 
-p .testyourself{
-  font-size: 2em;
-}
+// p .testyourself{
+//   font-size: 2em;
+// }
 
 // h3{
 //   height:3em;
 // }
 
 
-ion-card {
-  min-height: 25%;
-}
-ion-card .testYourself{
-  margin: 0 0 0 0;
-}
+// ion-card {
+//   min-height: 25%;
+// }
+// ion-card .testYourself{
+//   margin: 0 0 0 0;
+// }
 
 ion-slides {
   height: 100%;
@@ -79,16 +79,16 @@ ion-slides {
       //height: 400px !important;
       
 
-    //   &:nth-child(1) {
-    //     background-color: lightpink;
-    //   }
+      &:nth-child(1) {
+        background-color: lightpink;
+      }
 
-    //   &:nth-child(2) {
-    //     background-color: lightgreen;
-    //   }
+      &:nth-child(2) {
+        background-color: lightgreen;
+      }
 
-    //   &:nth-child(3) {
-    //     background-color: lightblue;
-    //   }
+      &:nth-child(3) {
+        background-color: lightblue;
+      }
     }
   }
