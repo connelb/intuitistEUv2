@@ -17,7 +17,7 @@
         </ion-row>
         <ion-row *ngIf='modelVideoId'>
           <ion-col class="ion-align-items-center">
-            <ion-button size="large" expand="block" fill="outline" color="secondary" shape="round" (click)="presentVideo()">Play video</ion-button>
+            <ion-button size="large" expand="block" fill="outline" color="primary" shape="round" (click)="presentVideo()">Play video</ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -51,7 +51,7 @@
         <ion-row>
           <ion-col>
             <div class="insert-remove-container">
-              <p>{{card?.question}}</p>
+              <p class="testYourself">{{card?.question}}</p>
             </div>
             <!-- <div class="ion-text-wrap">
                   <h3>{{card?.question}}</h3>
@@ -59,10 +59,10 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="testYourself">
+          <ion-col>
             <div class="ion-text-wrap">
               <div [@myInsertRemoveTrigger]="visible ? 'open' : 'closed'" class="insert-remove-container">
-                <p>{{card?.answer}}</p>
+                <p class="testYourself">{{card?.answer}}</p>
               </div>
               <!-- Skeleton screen -->
               <!-- <div *ngIf="!visible">

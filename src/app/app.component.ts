@@ -76,11 +76,11 @@ export class AppComponent implements OnInit {
       url: '/app/tabs/lessons',
       icon: 'calendar'
     },
-    // {
-    //   title: 'About',
-    //   url: '/app/tabs/about',
-    //   icon: 'information-circle'
-    // }
+    {
+      title: 'Profile',
+      url: '/profile',
+      icon: 'information-circle'
+    }
   ];
 
 

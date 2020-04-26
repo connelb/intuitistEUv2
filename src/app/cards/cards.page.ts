@@ -696,7 +696,7 @@ const ListUserCardsByUser = gql
       //   animate('2s')
       // ]),
       transition('closed => open', [
-        animate('3s ease-in-out')
+        animate('3s ease-out', style({ opacity: 0.2}))
 
       ]),
     ])

@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { LessonsPage } from './lessons.page';
 
-import { ChartDirective } from './../directives/chart/chart.directive';
+//import { ChartDirective } from './../directives/chart/chart.directive';
 
 import { AmplifyAngularModule, AmplifyService, AmplifyIonicModule } from 'aws-amplify-angular';
 import { SumScorePipe } from './../pipes/sumScore/sum-score.pipe';
@@ -27,6 +27,6 @@ import { VideoScorePipe } from './../pipes/videoScore/video-score.pipe';
       }
     ])
   ],
-  declarations: [LessonsPage,ChartDirective,SumScorePipe,TotalCardsPipe,VideoScorePipe ]
+  declarations: [LessonsPage,SumScorePipe,TotalCardsPipe,VideoScorePipe ]
 })
 export class LessonsPageModule {}
