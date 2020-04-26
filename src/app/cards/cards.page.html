@@ -94,8 +94,8 @@
           <ion-col>
             <!-- <ion-item> -->
             <ion-label>Translate aloud</ion-label><br>
-            <ion-button size="small" (click)="startPlay()">start</ion-button>
-            <ion-button size="small" (click)="stopPlay()">Replay</ion-button>
+            <ion-button *ngIf="audioSupported" size="small" (click)="startPlay()">start</ion-button>
+            <ion-button *ngIf="audioSupported" size="small" (click)="stopPlay()">Replay</ion-button>
             <!-- </ion-item> -->
           </ion-col>
           <ion-col>

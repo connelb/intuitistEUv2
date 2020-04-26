@@ -63,6 +63,40 @@ mutation updateCard(
   }
 }`;
 
+// id:card.id,
+// card3Lesson3Id: this.lesson.id,
+// question: card.question,
+// answer: card.answer,
+// //audio: (card.audio)?card.audio:"na" ,
+// level: (card.level)?card.level:"na",
+// order: 0,
+// keywords: (card.keywords)?card.keywords:"na",
+
+const UpdateCard2 = gql`
+mutation updateCard(
+  $id: ID!,
+  $card3Lesson3Id: ID,
+  $question:String,
+  $answer:String,
+  $level:String,
+  $order:Int,
+  $keywords:String,
+ $_version:Int
+ ) {
+  updateCard3(input: {
+    id: $id,
+    card3Lesson3Id:$card3Lesson3Id,
+    question: $question,
+    answer: $answer,
+    level:$level,
+    order:$order,
+    keywords:$keywords,
+  _version:$_version
+  }) {
+    id
+  }
+}`;
+
 const URL = 'http://localhost:8100/fileupload/';
 
 @Component({
@@ -232,12 +266,14 @@ export class CardCreatePage implements OnInit {
       return element.name == temp;
     });
 
-    this.createCard(this.cardForm.value)
+    this.updateCard(this.cardForm.value)
 
   }
 
-  createCard(card) {
-    console.log( 'card values: ',{card3Lesson3Id: this.lesson.id,
+  updateCard(card) {
+    console.log( 'card values: ',{
+      id:this.cardId,
+      card3Lesson3Id: this.lesson.id,
       question: card.question,
       answer: card.answer,
       audio: (card.audio)?card.audio:"na" ,
@@ -247,16 +283,18 @@ export class CardCreatePage implements OnInit {
 
     this.appsync.hc().then(client => {
       const observable: ObservableQuery = client.mutate({
-        mutation: CreateCard,
+        mutation: UpdateCard2,
         variables: {
+          id:this.cardId,
           card3Lesson3Id: this.lesson.id,
           question: card.question,
           answer: card.answer,
-          audio: (card.audio)?card.audio:"na" ,
+          //audio: (card.audio)?card.audio:"na" ,
           level: (card.level)?card.level:"na",
           order: 0,
           keywords: (card.keywords)?card.keywords:"na",
-          __typename: 'CreateCard3Input'
+          _version:2,
+          __typename: 'UpdateCard3Input'
         },
         // optimisticResponse: () => ({
         //   UpdateCard: {

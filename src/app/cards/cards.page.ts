@@ -32,9 +32,10 @@ import { User3Card3, Card3, User3, User3Video3 } from "./../../models";
 // import * as anime from 'animejs';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 
-import { pluck} from 'rxjs/operators';
-import {pipe } from 'rxjs'
+import { pluck } from 'rxjs/operators';
+import { pipe } from 'rxjs'
 import Recorder from 'recorder-js';
+import { isSupported, AudioContext, OfflineAudioContext } from 'standardized-audio-context';
 
 declare var MediaRecorder: any;
 
@@ -696,8 +697,8 @@ const ListUserCardsByUser = gql
       // ]),
       transition('closed => open', [
         animate('3s ease-in-out')
-      
-    ]),
+
+      ]),
     ])
   ]
   //changeDetection: ChangeDetectionStrategy.OnPush
@@ -789,8 +790,15 @@ export class CardsPage implements OnInit {
     audio: this.blobFile
   };
   // audioContext =  new (AudioContext)({sampleRate: 16000});
-  audioContext =  new (AudioContext);
+  //audioContext =  new AudioContext();
+  audioContext = new AudioContext();
+
+  // var audioCtx = new AudioContext({
+  //   latencyHint: 'interactive',
+  //   sampleRate: 44100,
+  // });
   recorder = new Recorder(this.audioContext, {});
+  audioSupported: boolean;
 
 
   constructor(
@@ -809,7 +817,19 @@ export class CardsPage implements OnInit {
   }
 
   async ngOnInit() {
-    this.getLocation();
+
+    isSupported()
+    .then((isSupported) => {
+        if (isSupported) {
+          this.audioSupported = true;
+          this.getLocation();
+            // yeah everything should work
+        } else {
+          this.audioSupported = false;
+            // oh no this browser seems to be outdated
+        }
+    });
+   
 
     await Auth.currentAuthenticatedUser({
       bypassCache: false
@@ -865,7 +885,7 @@ export class CardsPage implements OnInit {
     audio.play();
   }
 
-  getLocation(){
+  getLocation() {
     this.recordAudio = () => {
       return new Promise(resolve => {
         navigator.mediaDevices.getUserMedia({ audio: true })
@@ -873,7 +893,7 @@ export class CardsPage implements OnInit {
             const mediaRecorder = new MediaRecorder(stream, {
               mimeType: 'audio/webm',
               numberOfAudioChannels: 1,
-              audioBitsPerSecond : 16000,
+              audioBitsPerSecond: 16000,
             });
             const audioChunks = [];
 
@@ -888,11 +908,11 @@ export class CardsPage implements OnInit {
             const stop = () => {
               return new Promise(resolve => {
                 mediaRecorder.addEventListener('stop', () => {
-                  const audioBlob = new Blob(audioChunks, { 'type' : 'audio/wav; codecs=MS_PCM' });
+                  const audioBlob = new Blob(audioChunks, { 'type': 'audio/wav; codecs=MS_PCM' });
                   const reader = new FileReader();
                   reader.readAsDataURL(audioBlob);
                   reader.addEventListener('load', () => {
-                    const base64data =  reader.result;
+                    const base64data = reader.result;
                     this.sendObj.audio = base64data;
                     // this.http.post('apiUrl', this.sendObj, httpOptions).subscribe(data => console.log(data));
                   }, false);
@@ -958,18 +978,18 @@ export class CardsPage implements OnInit {
     const { role, data } = await loading.onDidDismiss();
   }
 
-//   callAnime() {
-//     anime({
-//       targets: '.animate-me',
-//       translateX: [
-//         { value: 100, duration: 1200 },
-//         { value: 0, duration: 800 }
-//       ],
-//       rotate: '1turn',
-//       backgroundColor: '#ff00ff',
-//       duration: 2000
-//     });
-// }
+  //   callAnime() {
+  //     anime({
+  //       targets: '.animate-me',
+  //       translateX: [
+  //         { value: 100, duration: 1200 },
+  //         { value: 0, duration: 800 }
+  //       ],
+  //       rotate: '1turn',
+  //       backgroundColor: '#ff00ff',
+  //       duration: 2000
+  //     });
+  // }
 
   // toggleAnswer(){
   //   this.isVisible1 = !this.isVisible1;
@@ -1144,13 +1164,13 @@ export class CardsPage implements OnInit {
     //https://intuitist53b02b3475654d4bb2b5df4edb81424372056-dev.s3.amazonaws.com/public/audio/023867a3-46ea-404e-9577-33cedf90081d.mp3
     let sound = new Howl({
       src: this.urlAudio,
-      onend: function() {
+      onend: function () {
         this.visible = false;
       }
     })
 
     // sound.on('')
-    
+
     sound.once('load', function () {
       this.visible = true;//show answer
       sound.play();
@@ -1505,13 +1525,13 @@ export class CardsPage implements OnInit {
   //   }
   // }
 
-  myCreateUserCard(card, i){
+  myCreateUserCard(card, i) {
 
     const myUser3Card3 = {
       user3Card3User3Id: this.user.attributes.sub,
-      user3: {id:this.user.attributes.sub, username: this.user.username, __typename:"User3"},
+      user3: { id: this.user.attributes.sub, username: this.user.username, __typename: "User3" },
       user3Card3Card3Id: card.id,
-      card3: {id:card.id, __typename:"Card3"},
+      card3: { id: card.id, __typename: "Card3" },
       status: this.status,
       score: this.score,
       _version: 1
@@ -1529,9 +1549,9 @@ export class CardsPage implements OnInit {
             __typename: "User3Card3"
           }
         }),
-       
+
         update: (proxy, { data: { createUser3Card3: _myUser3Card3 } }) => {
-         
+
           const options = {
             //   //getUserCard
             query: ListUserCardsByUser,
@@ -1542,8 +1562,14 @@ export class CardsPage implements OnInit {
             },
             //__typename: "ModelUser3Card3Connection"//{ conversationId: this.conversation.id, first: constants.messageFirst }
           };
-          proxy.writeQuery({ ...options, data: { listUser3Card3s: { items: [{ ..._myUser3Card3 }],
-            "__typename": "ModelUser3Card3Connection" } } });
+          proxy.writeQuery({
+            ...options, data: {
+              listUser3Card3s: {
+                items: [{ ..._myUser3Card3 }],
+                "__typename": "ModelUser3Card3Connection"
+              }
+            }
+          });
         }
       }).then(({ data }) => {
         console.log("created a new User3Card3")
@@ -1553,7 +1579,7 @@ export class CardsPage implements OnInit {
   }
 
 
-  myUpdateUserCard(res, card, i){
+  myUpdateUserCard(res, card, i) {
     //console.log('res??',res.listUser3Card3s.items[0].id)
     const UserCardToUpdate = {
       id: res.data.listUser3Card3s.items[0].id,
@@ -1581,7 +1607,7 @@ export class CardsPage implements OnInit {
           }
         }),
         update: (proxy, { data: { updateUser3Card3: _UserCardToUpdate } }) => {
-         
+
           const options = {
             query: ListUserCardsByUser,
             fetchPolicy: 'network-only',
@@ -1591,8 +1617,14 @@ export class CardsPage implements OnInit {
             __typename: "ModelUser3Card3Connection"
           };
 
-          proxy.writeQuery({ ...options, data: { listUser3Card3s: { items: [{ ..._UserCardToUpdate  }],
-            "__typename": "ModelUser3Card3Connection" } } });
+          proxy.writeQuery({
+            ...options, data: {
+              listUser3Card3s: {
+                items: [{ ..._UserCardToUpdate }],
+                "__typename": "ModelUser3Card3Connection"
+              }
+            }
+          });
         }
       }).then(({ data }) => {
         console.log("updated a User3Card3")
@@ -1633,40 +1665,41 @@ export class CardsPage implements OnInit {
 
     this.appsync.hc().then(client => {
 
-//       client.query({ query: getUserCardId,
-//         variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id },
-//          fetchPolicy: 'network-only' 
-//        })
-//           .then(function logData(data) {
-//               console.log('results of query: ', data);
-//           })
-//           .catch(console.error);
+      //       client.query({ query: getUserCardId,
+      //         variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id },
+      //          fetchPolicy: 'network-only' 
+      //        })
+      //           .then(function logData(data) {
+      //               console.log('results of query: ', data);
+      //           })
+      //           .catch(console.error);
 
-//  console.log("user b79bcfaf-86b8-470a-8f92-b0441da1bbe3",this.user.attributes.sub )
-//  console.log("card 473f56e0-4d4d-4027-9558-9fb6927e57c6", card.id )
-          // user b79bcfaf-86b8-470a-8f92-b0441da1bbe3
-          // card 473f56e0-4d4d-4027-9558-9fb6927e57c6
+      //  console.log("user b79bcfaf-86b8-470a-8f92-b0441da1bbe3",this.user.attributes.sub )
+      //  console.log("card 473f56e0-4d4d-4027-9558-9fb6927e57c6", card.id )
+      // user b79bcfaf-86b8-470a-8f92-b0441da1bbe3
+      // card 473f56e0-4d4d-4027-9558-9fb6927e57c6
 
-      client.query({ query: getUserCardId,
+      client.query({
+        query: getUserCardId,
         variables: { user3Card3User3Id: this.user.attributes.sub, user3Card3Card3Id: card.id },
         fetchPolicy: 'network-only'
       })
-      //client.query({ query: query, fetchPolicy: 'network-only' })   //Uncomment for AWS Lambda
-          .then(data=> {
+        //client.query({ query: query, fetchPolicy: 'network-only' })   //Uncomment for AWS Lambda
+        .then(data => {
 
           //   function logData(data) {
           //     console.log('results of query: ', data);
           // }
 
 
-         if((data.data.listUser3Card3s.items.length)?true:false){
-          //console.log('prior to update',data, data.data.listUser3Card3s.items)
-           this.myUpdateUserCard(data, card, i)
-         }else{
-           //console.log('prior to create',data, data.data.listUser3Card3s.items)
-           this.myCreateUserCard(card,i);
-         }
-          
+          if ((data.data.listUser3Card3s.items.length) ? true : false) {
+            //console.log('prior to update',data, data.data.listUser3Card3s.items)
+            this.myUpdateUserCard(data, card, i)
+          } else {
+            //console.log('prior to create',data, data.data.listUser3Card3s.items)
+            this.myCreateUserCard(card, i);
+          }
+
           //console.log('ans?',ans)
           // if(ans){
 
@@ -1676,27 +1709,27 @@ export class CardsPage implements OnInit {
           // }
 
 
-            //   console.log('data.data.listUser3Card3s.items',data.data.listUser3Card3s.items[0].user3Card3Card3Id)
+          //   console.log('data.data.listUser3Card3s.items',data.data.listUser3Card3s.items[0].user3Card3Card3Id)
           //   console.log('data.data.listUser3Card3s.items',card.id)
           //   console.log('data.data.listUser3Card3s.items',data.data.listUser3Card3s.items[0].user3Card3Card3Id == card.id)
 
           //   if (data.data.listUser3Card3s.items[0].user3Card3Card3Id == card.id) {
           //     console.log("update")
           //     this.myUpdateUserCard(data, card, i)
-           
-    
+
+
           // } else {
           //   console.log("create")
           //   //   //console.log(data.listUser3Card3s.items.length<1, typeof(data.listUser3Card3s.items),data.listUser3Card3s.items.length, data)
           //   //   this.myCreateUserCard(card,i);
-              
+
           //   //this.myCreateUserCard(card, i)
-         
+
           //   }
           // }
-              //console.log('results of query: ', data.data);
-          })
-          .catch(console.error);
+          //console.log('results of query: ', data.data);
+        })
+        .catch(console.error);
 
       // this.events = client.watchQuery({
       //   query: gql`
@@ -1743,7 +1776,7 @@ export class CardsPage implements OnInit {
       //     this.myUpdateUserCard(data, card, i)
       //   }
       // });
-      
+
       // .subscribe(({ data }) => {
       //   console.log('register user, fetch cache', data);
       //   if(!data){}
@@ -1779,9 +1812,9 @@ export class CardsPage implements OnInit {
     //             //   __typename: "ModelUser3Card3Connection"
     //           }
     //         }),
-           
+
     //         update: (proxy, { data: { createUser3Card3: _myUser3Card3 } }) => {
-             
+
     //           const options = {
     //             //   //getUserCard
     //             query: ListUserCardsByUser,
@@ -1839,7 +1872,7 @@ export class CardsPage implements OnInit {
     //         }),
     //         update: (proxy, { data: { updateUser3Card3: _UserCardToUpdate } }) => {
     //           //   // console.log('what is proxy??',proxy, );
-             
+
     //           const options = {
     //             query: ListUserCardsByUser,
     //             fetchPolicy: 'cache-only',
