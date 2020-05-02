@@ -1,9 +1,32 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-header no-border>
+    <ion-toolbar>
+      <ion-buttons >
+        <ion-menu-button slot="start">
+        </ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        Profile
+      </ion-title>
+      <!-- <ion-menu-button slot="end">
+          <div *ngIf="online$ | async; else offline"></div>
+          <ng-template #offline>
+            <ion-chip color="warning">
+              <ion-label>Offline
+              </ion-label>
+            </ion-chip>
+          </ng-template>
+        </ion-menu-button> -->
+    </ion-toolbar>
+  </ion-header>
 
 <ion-content>
+
+  <ion-card>
+    <ion-card-header>
+      Score
+    </ion-card-header>
+    <ion-card-content>
     <div *ngIf='myData' appChart [myOriginalData]="myData" [ObjectHeight]="height" [ObjectWidth]="width"></div>
+  </ion-card-content>
+  </ion-card>
 </ion-content>

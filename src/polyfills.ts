@@ -5,6 +5,13 @@
 };
 
 
+declare global {
+  interface Window {
+    AudioContext: typeof AudioContext;
+    webkitAudioContext: typeof AudioContext;
+  }
+}
+
 /**
  * to analyze space:
  * npm install webpack-bundle-analyzer --save-dev

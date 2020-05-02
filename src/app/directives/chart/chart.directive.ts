@@ -201,6 +201,7 @@ export class ChartDirective implements OnInit, AfterViewInit {
   color:any;
 
   hierarchyData: any;
+  totalScore:any;
 
   @Input ('myOriginalData')set myOriginalData(value) {
     this.myData = value;
@@ -239,8 +240,10 @@ export class ChartDirective implements OnInit, AfterViewInit {
     const childrenAccessorFn = ([key, value]) => value.size && Array.from(value)
 
     this.hierarchyData = d3Hierarchy.hierarchy([null, rollupData], childrenAccessorFn)
-      .sum(([key, value]) => value)
-    // // console.log('2',  this.hierarchyData)
+      .sum(([key, value]) => value);
+
+    this.totalScore = d3Array.sum(this.myData, d => d['score']);
+    console.log('this.totalScore',  this.totalScore)
   }
 
   ngAfterViewInit() {
@@ -265,13 +268,12 @@ export class ChartDirective implements OnInit, AfterViewInit {
     const barStep = 27
     const barPadding = 3 / this.barStep
     const duration = 750
-    const max = 1;
-    const color = d3Scale.scaleOrdinal().range([ "steelblue", "#aaa"]).domain([ "true","false"]);
+    //const max = 1;
+    const color = d3Scale.scaleOrdinal().range([ "#5ba7e4", "#FA4556"]).domain([ "true","false"]);
   
     function height1() {
       let max = 1;
-      root2.each(d => d.children && (this.max = Math.max(max, d.children.length)));
-
+      root2.each(d => {d.children && (max = (d.children.length)?Math.max(max, d.children.length):1)});
       return (max * barStep + margin.top + margin.bottom) as number;
     }
 
@@ -296,11 +298,18 @@ export class ChartDirective implements OnInit, AfterViewInit {
       .call(g => g.append("line")
         .attr("stroke", "currentColor")
         .attr("y1", this.margin.top)
-        .attr("y2", +height1 - this.margin.bottom))
+        .attr("y2", +height1() - this.margin.bottom))
 
     const svg = d3Selection.select(this.el.nativeElement).append('svg')
       .attr("viewBox", `0 0 ${this.width} ${this.height}`)
-      .style("font", "10px sans-serif");
+      .style("font", "14px sans-serif");
+
+      svg.append("text")
+        .attr("x", 0)
+        .attr("y", "0.4em")
+        .attr("dy", ".35em")
+        .text(d => 'The current score is '+this.totalScore.toString())
+        .style("font", "14px sans-serif");
 
     x.domain([0, root2.value]);
 
@@ -331,20 +340,20 @@ export class ChartDirective implements OnInit, AfterViewInit {
         .attr("class", "enter")
         .attr("transform", `translate(0,${margin.top + barStep * barPadding})`)
         .attr("text-anchor", "end")
-        .style("font", "10px sans-serif");
+        .style("font", "14px sans-serif");
   
       const bar = g.selectAll("g")
         .data(d.children)
         .join("g")
         .attr("cursor", d => !d.children ? null : "pointer")
-        .on("click", d => !d.children ? console.log('child:',d.data.lesson) : down(svg, d));
+        .on("click", d => {!d.children ? d.data.data.lesson : down(svg, d)});
   
       bar.append("text")
         .attr("x", margin.left - 6)
         .attr("y", barStep * (1 - barPadding) / 2)
         .attr("dy", ".35em")
-        .text(d => d.data.lesson);
-  
+        .text(d => d.data.data.slice(0, 1)[0]);
+  //console.log('d.data.data',d.data.data.slice(0, 1)[0])
       bar.append("rect")
         .attr("x", x(0))
         .attr("width", d => x(d.value) - x(0))
@@ -507,143 +516,143 @@ export class ChartDirective implements OnInit, AfterViewInit {
 
 
 
-  createChart1() {
-    //   root = d3.hierarchy(d3.entries(root)[0], function(d) {
-    //     return d3.entries(d.value)
-    //   })
-    //   .sum(function(d) { return d.value })
-    //   .sort(function(a, b) { return b.value - a.value; });
+  // createChart1() {
+  //   //   root = d3.hierarchy(d3.entries(root)[0], function(d) {
+  //   //     return d3.entries(d.value)
+  //   //   })
+  //   //   .sum(function(d) { return d.value })
+  //   //   .sort(function(a, b) { return b.value - a.value; });
 
-    // partition(root);
+  //   // partition(root);
 
-    // rect = rect
-    //     .data(root.descendants())
-    //   .enter().append("rect")
-    //     .attr("x", function(d) { return d.x0; })
-    //     .attr("y", function(d) { return d.y0; })
-    //     .attr("width", function(d) { return d.x1 - d.x0; })
-    //     .attr("height", function(d) { return d.y1 - d.y0; })
-    //     .attr("fill", function(d) { return color((d.children ? d : d.parent).data.key); })
-    //     .on("click", clicked);
-    var partition = d3Hierarchy.partition()
-      .size([this.width, this.height])
-      .padding(0)
-      .round(true);
+  //   // rect = rect
+  //   //     .data(root.descendants())
+  //   //   .enter().append("rect")
+  //   //     .attr("x", function(d) { return d.x0; })
+  //   //     .attr("y", function(d) { return d.y0; })
+  //   //     .attr("width", function(d) { return d.x1 - d.x0; })
+  //   //     .attr("height", function(d) { return d.y1 - d.y0; })
+  //   //     .attr("fill", function(d) { return color((d.children ? d : d.parent).data.key); })
+  //   //     .on("click", clicked);
+  //   var partition = d3Hierarchy.partition()
+  //     .size([this.width, this.height])
+  //     .padding(0)
+  //     .round(true);
 
-    var color = d3Scale.scaleOrdinal(d3ScaleChromatic.schemeCategory10);
-    this.svg = d3Selection.select(this.el.nativeElement).append('svg')
-      .attr("viewBox", `0 0 ${this.width} ${this.height}`)
-      .style("font", "10px sans-serif");
+  //   var color = d3Scale.scaleOrdinal(d3ScaleChromatic.schemeCategory10);
+  //   this.svg = d3Selection.select(this.el.nativeElement).append('svg')
+  //     .attr("viewBox", `0 0 ${this.width} ${this.height}`)
+  //     .style("font", "10px sans-serif");
 
-    var x = d3Scale.scaleLinear()
-      .range([0, this.width]);
+  //   var x = d3Scale.scaleLinear()
+  //     .range([0, this.width]);
 
-    var y = d3Scale.scaleLinear()
-      .range([0, this.height]);
+  //   var y = d3Scale.scaleLinear()
+  //     .range([0, this.height]);
 
-    this.root2 = d3Hierarchy.hierarchy( this.hierarchyData)
-      .sum(function (d) { return d['value'] })
-      .sort(function (a, b) { return b.value - a.value; });
+  //   this.root2 = d3Hierarchy.hierarchy( this.hierarchyData)
+  //     .sum(function (d) { return d['value'] })
+  //     .sort(function (a, b) { return b.value - a.value; });
 
-    partition(this.root2);
+  //   partition(this.root2);
 
-    const rect1 = this.svg.selectAll("rect")
-      .data(this.root2.descendants())
-      .enter().append("rect")
-      .attr("x", function (d) { return d.x0; })
-      .attr("y", function (d) { return d.y0; })
-      .attr("width", function (d) { return d.x1 - d.x0; })
-      .attr("height", function (d) { return d.y1 - d.y0; })
-      .attr("fill", function (d) { return color((d.children ? d : d.parent).data.key); })
-      .on("click", clicked);
+  //   const rect1 = this.svg.selectAll("rect")
+  //     .data(this.root2.descendants())
+  //     .enter().append("rect")
+  //     .attr("x", function (d) { return d.x0; })
+  //     .attr("y", function (d) { return d.y0; })
+  //     .attr("width", function (d) { return d.x1 - d.x0; })
+  //     .attr("height", function (d) { return d.y1 - d.y0; })
+  //     .attr("fill", function (d) { return color((d.children ? d : d.parent).data.key); })
+  //     .on("click", clicked);
 
-    function clicked(d) {
-      x.domain([d.x0, d.x1]);
-      y.domain([d.y0, this.height.baseVal.value]).range([d.depth ? 20 : 0, this.height.baseVal.value]);
+  //   function clicked(d) {
+  //     x.domain([d.x0, d.x1]);
+  //     y.domain([d.y0, this.height.baseVal.value]).range([d.depth ? 20 : 0, this.height.baseVal.value]);
 
-      rect1.transition()
-        .duration(750)
-        .attr("x", function (d) { return x(d.x0); })
-        .attr("y", function (d) { return y(d.y0); })
-        .attr("width", function (d) { return x(d.x1) - x(d.x0); })
-        .attr("height", function (d) { return y(d.y1) - y(d.y0); });
-    }
-  }
+  //     rect1.transition()
+  //       .duration(750)
+  //       .attr("x", function (d) { return x(d.x0); })
+  //       .attr("y", function (d) { return y(d.y0); })
+  //       .attr("width", function (d) { return x(d.x1) - x(d.x0); })
+  //       .attr("height", function (d) { return y(d.y1) - y(d.y0); });
+  //   }
+  // }
 
-  createChart() {
+  // createChart() {
 
-    const root = this.partition( this.hierarchyData);
-    let focus = root;
+  //   const root = this.partition( this.hierarchyData);
+  //   let focus = root;
 
-    this.svg = d3Selection.select(this.el.nativeElement).append('svg')
-      .attr("viewBox", `0 0 ${this.width} ${this.height}`)
-      .style("font", "10px sans-serif");
+  //   this.svg = d3Selection.select(this.el.nativeElement).append('svg')
+  //     .attr("viewBox", `0 0 ${this.width} ${this.height}`)
+  //     .style("font", "10px sans-serif");
 
-    const cell = this.svg
-      .selectAll("g")
-      .data(this.root.descendants())
-      .join("g")
-      .attr("transform", d => `translate(${d['y0']},${d['x0']})`);
+  //   const cell = this.svg
+  //     .selectAll("g")
+  //     .data(this.root.descendants())
+  //     .join("g")
+  //     .attr("transform", d => `translate(${d['y0']},${d['x0']})`);
 
-    const rect = cell.append("rect")
-      .attr("width", d => d.y1 - d.y0 - 1)
-      .attr("height", d => d.x1 - d.x0 - Math.min(1, (d.x1 - d.x0) / 2))
-      .attr("fill-opacity", 0.6)
-      .attr("fill", d => {
-        if (!d.depth) return "#ccc";
-        while (d.depth > 1) d = d.parent;
-        return this.color(d.data.name);
-      })
-      .style("cursor", "pointer")
-      .on("click", clicked);
+  //   const rect = cell.append("rect")
+  //     .attr("width", d => d.y1 - d.y0 - 1)
+  //     .attr("height", d => d.x1 - d.x0 - Math.min(1, (d.x1 - d.x0) / 2))
+  //     .attr("fill-opacity", 0.6)
+  //     .attr("fill", d => {
+  //       if (!d.depth) return "#ccc";
+  //       while (d.depth > 1) d = d.parent;
+  //       return this.color(d.data.name);
+  //     })
+  //     .style("cursor", "pointer")
+  //     .on("click", clicked);
 
-    const text = cell.append("text")
-      .style("user-select", "none")
-      .attr("pointer-events", "none")
-      .attr("x", 4)
-      .attr("y", 13)
-      .attr("fill-opacity", d => +this.labelVisible(d));
+  //   const text = cell.append("text")
+  //     .style("user-select", "none")
+  //     .attr("pointer-events", "none")
+  //     .attr("x", 4)
+  //     .attr("y", 13)
+  //     .attr("fill-opacity", d => +this.labelVisible(d));
 
-    text.append("tspan")
-      .text(d => d.data.name);
+  //   text.append("tspan")
+  //     .text(d => d.data.name);
 
-    const tspan = text.append("tspan")
-      .attr("fill-opacity", d => +this.labelVisible(d) * 0.7)
-      .text(d => ` ${this.format(d.value)}`);
+  //   const tspan = text.append("tspan")
+  //     .attr("fill-opacity", d => +this.labelVisible(d) * 0.7)
+  //     .text(d => ` ${this.format(d.value)}`);
 
-    cell.append("title")
-      .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${this.format(d.value)}`);
+  //   cell.append("title")
+  //     .text(d => `${d.ancestors().map(d => d.data.name).reverse().join("/")}\n${this.format(d.value)}`);
 
-    function clicked(p) {
-      focus = focus === p ? p = p.parent : p;
+  //   function clicked(p) {
+  //     focus = focus === p ? p = p.parent : p;
 
-      root.each(d => d['target'] = {
-        x0: (d.x0 - p.x0) / (p.x1 - p.x0) * this.height.baseVal.value,
-        x1: (d.x1 - p.x0) / (p.x1 - p.x0) * this.height.baseVal.value,
-        y0: d['y0'] - p['y0'],
-        y1: d.y1 - p.y0
-      });
+  //     root.each(d => d['target'] = {
+  //       x0: (d.x0 - p.x0) / (p.x1 - p.x0) * this.height.baseVal.value,
+  //       x1: (d.x1 - p.x0) / (p.x1 - p.x0) * this.height.baseVal.value,
+  //       y0: d['y0'] - p['y0'],
+  //       y1: d.y1 - p.y0
+  //     });
 
-      const t = cell
-        .transition().duration(750)
-        .attr("transform", d => `translate(${d.target.y0},${d.target.x0})`);
+  //     const t = cell
+  //       .transition().duration(750)
+  //       .attr("transform", d => `translate(${d.target.y0},${d.target.x0})`);
 
-      rect.transition(t).attr("height", d => { console.log('target:', d['target']); return d['target'].x1 });
-      // text.transition(t).attr("fill-opacity", d => {console.log('this.labelVisible(d)',this.labelVisible(d['target']));return this.labelVisible(d['target'])});
-      // tspan.transition(t).attr("fill-opacity", d => this.labelVisible(d['target']) * 0.7);
+  //     rect.transition(t).attr("height", d => { console.log('target:', d['target']); return d['target'].x1 });
+  //     // text.transition(t).attr("fill-opacity", d => {console.log('this.labelVisible(d)',this.labelVisible(d['target']));return this.labelVisible(d['target'])});
+  //     // tspan.transition(t).attr("fill-opacity", d => this.labelVisible(d['target']) * 0.7);
 
 
-      // original
-      //     const t = cell.transition().duration(750)
-      //     .attr("transform", d => `translate(${d.target.y0},${d.target.x0})`);
+  //     // original
+  //     //     const t = cell.transition().duration(750)
+  //     //     .attr("transform", d => `translate(${d.target.y0},${d.target.x0})`);
 
-      // rect.transition(t).attr("height", d => rectHeight(d.target));
-      // text.transition(t).attr("fill-opacity", d => +labelVisible(d.target));
-      // tspan.transition(t).attr("fill-opacity", d => labelVisible(d.target) * 0.7);
-    }
+  //     // rect.transition(t).attr("height", d => rectHeight(d.target));
+  //     // text.transition(t).attr("fill-opacity", d => +labelVisible(d.target));
+  //     // tspan.transition(t).attr("fill-opacity", d => labelVisible(d.target) * 0.7);
+  //   }
 
-    return this.svg.node();
-  }
+  //   return this.svg.node();
+  // }
 
   rectHeight(d) {
     return d.x1 - d.x0 - Math.min(1, (d.x1 - d.x0) / 2);

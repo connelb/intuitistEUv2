@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, ValidatorFn, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform, ToastController, Config, LoadingController } from '@ionic/angular';
@@ -30,13 +30,18 @@ import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform
 import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { User3Card3, Card3, User3, User3Video3 } from "./../../models";
 // import * as anime from 'animejs';
-import { trigger, state, transition, animate, style } from '@angular/animations';
+import { trigger, state, group, transition, animate, style } from '@angular/animations';
 
 import { pluck } from 'rxjs/operators';
 import { pipe } from 'rxjs'
 import Recorder from 'recorder-js';
 import { isSupported, AudioContext, OfflineAudioContext } from 'standardized-audio-context';
+import { Stream } from 'aws-sdk/clients/glacier';
+//import { isSupported, AudioContext } from 'angular-audio-context';
+//import { isSupported } from 'angular-audio-context';
 
+
+// declare var MediaRecorder: any;
 declare var MediaRecorder: any;
 
 //import { User3Card3 } from './../../models';
@@ -672,38 +677,50 @@ const ListUserCardsByUser = gql
   templateUrl: './cards.page.html',
   styleUrls: ['./cards.page.scss'],
   animations: [
-    trigger('myInsertRemoveTrigger', [
-      // transition('open', [
-      //   style({ opacity: 0, background:'yellow' }),
-      //   animate('7s', style({ opacity: 1 })),
-      // ]),
-      // transition('closed', [
-      //   animate('700ms', style({ opacity: 0.2, background:'red'  }))
-      // ]),
-      state('open', style({
-        // height: '100px',
-        fontSize: '2em',
-        opacity: 1,
-        // backgroundColor: 'yellow'
+    trigger('testYourselfTrigger', [
+      state('from', style({
+        backgroundColor: '#e8f2f7',
+        fontSize:'1em',
+        opacity: 0
       })),
-      state('closed', style({
-        // height: '100px',
-        fontSize: '2em',
-        opacity: 0,
-        // backgroundColor: 'green'
+      state('to', style({
+        backgroundColor: '#e8f2f7',
+        fontSize:'2em',
+        opacity: 1
       })),
-      // transition('open => closed', [
-      //   animate('2s')
-      // ]),
-      transition('closed => open', [
-        animate('3s ease-out', style({ opacity: 0.2}))
-
+      transition('from => to', [
+        group([
+        animate('200ms ease', style({ opacity: 0.4, fontSize:'2em', })),
+        animate('2s ease', style({ opacity: 1})),
+        animate('1s 2s ease-out', style({ backgroundColor: 'white' })),
+        ])
+      ]),
+    ]),
+    trigger('animateTrigger', [
+      state('from', style({
+        backgroundColor: 'red',
+    
+      })),
+      state('to', style({
+        backgroundColor: 'green',
+ 
+      })),
+      transition('from => to', [
+        group([
+        animate('1s 2s ease-out', style({ backgroundColor: 'white' })),
+        ])
       ]),
     ])
   ]
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardsPage implements OnInit {
+  animate:boolean = false;
+
+  frequency: number;
+  bufferSize(arg0: any, arg1: any, arg2: any): any {
+    throw new Error("Method not implemented.");
+  }
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
   // @ViewChild('slides', { static: false }) slides1;
   @ViewChild('video', { static: false }) videoElement: ElementRef;
@@ -784,22 +801,39 @@ export class CardsPage implements OnInit {
   totalTally: any;
   loading: any;
 
+  // blobFile;
+  // recordAudio;
+  // sendObj = {
+  //   audio: this.blobFile
+  // };
+  // audioContext: any;
+  // recorder: any;
+  audioSupported: any;
+
   blobFile;
   recordAudio;
   sendObj = {
     audio: this.blobFile
   };
+  //audioContext = new AudioContext() || new window.webkitAudioContext();//new (AudioContext)({sampleRate: 16000});
+  // recorder = new Recorder(this.audioContext, {});
+  
+  //audioCtx: any;
+  audioNode: any;
+  // private audioCtx = new AudioContext();
+  // private gainNode = this.audioCtx.createGain();
+  MediaRecorder:any; 
+
+ gumStream:any;
+ rec: any = {};
+input:any = {};
+constraints = { audio: true, video:false };
+AudioContext = AudioContext || window.webkitAudioContext;
+audioContext //audio context to help us record
+
+  // @Inject(isSupported) public isSupported
   // audioContext =  new (AudioContext)({sampleRate: 16000});
   //audioContext =  new AudioContext();
-  audioContext = new AudioContext();
-
-  // var audioCtx = new AudioContext({
-  //   latencyHint: 'interactive',
-  //   sampleRate: 44100,
-  // });
-  recorder = new Recorder(this.audioContext, {});
-  audioSupported: boolean;
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -810,26 +844,101 @@ export class CardsPage implements OnInit {
     private appsync: AppsyncService,
     public toastController: ToastController,
     public config: Config,
-    public loadingController: LoadingController
-  ) {
+    public loadingController: LoadingController,
+    //private _audioContext: AudioContext,
+    // @Inject(isSupported) public isSupported
+  ) { }
 
 
+
+  startRecording() {
+    // var constraints = { audio: true, video:false };
+    // navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
+    //   console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
+    //   // let audioContext =  new AudioContext();//new (window['AudioContext'] || window['webkitAudioContext'])();
+     
+    //   // var AudioContext = window.AudioContext || window.webkitAudioContext;
+    //   // var audioContext = new AudioContext()({sampleRate: 16000});
+    //   let audioContext = new AudioContext();
+    // //  console.log('stream',stream);
+    //   let gumStream = stream;
+    //   let input = audioContext.createMediaStreamSource(stream);
+    //   let rec = new Recorder(input,{numChannels:1});
+    //   rec.record();
+
+    //   console.log("Recording started");
+    // }).catch(function(err) {console.log(err)})
+
+    // this.recorder && this.recorder.record();
+    // button.disabled = true;
+    // button.nextElementSibling.disabled = false;
+    // __log('Recording...');
+
+    //navigator.getUserMedia = navigator.getUserMedia;
+    const callback = stream => {
+      var ctx = new AudioContext();
+      var mic = ctx.createMediaStreamSource(stream);
+      var analyser = ctx.createAnalyser();
+      var osc = ctx.createOscillator();
+      mic.connect(analyser);
+      osc.connect(ctx.destination);
+      // osc.start(0);
+      var data = new Uint8Array(analyser.frequencyBinCount);
+      analyser.minDecibels = -45;
+
+      const play = () => {
+        analyser.getByteFrequencyData(data);
+        // get fullest bin
+        var idx = 0;
+        for (var j = 0; j < analyser.frequencyBinCount; j++) {
+          if (data[j] > data[idx]) {
+            idx = j;
+          }
+        }
+
+        this.frequency = (idx * ctx.sampleRate) / analyser.fftSize;
+        // this.zone.run(() => {
+        //   this.style = {
+        //     backgroundColor: `hsl(${Math.floor(this.frequency)}, 50%, 50%)`,
+        //     // transform: `rotate(${frequency/20}deg)`
+        //     transform: `translateY(${700 - this.frequency / 2}px) rotate(${
+        //       this.frequency
+        //     }deg) scale(${200 / this.frequency})`
+        //   };
+        // });
+        osc.frequency.value = this.frequency;
+        requestAnimationFrame(play);
+      };
+      play();
+    };
+
+    navigator.getUserMedia(
+      { video: false, audio: true },
+      callback,
+      console.log
+    );
+  }
+
+ stopRecording() {
+  console.log("stopButton clicked");
+   	//tell the recorder to stop the recording
+	this.rec.stop();
+
+	//stop microphone access
+	this.gumStream.getAudioTracks()[0].stop();
+    // this.recorder && this.recorder.stop();
+    // button.disabled = true;
+    // button.previousElementSibling.disabled = false;
+    // __log('Stopped recording.');
+    
+    // // create WAV download link using audio data blob
+    // createDownloadLink();
+    
+    // this.recorder.clear();
   }
 
   async ngOnInit() {
-
-    isSupported()
-    .then((isSupported) => {
-        if (isSupported) {
-          this.audioSupported = true;
-          this.getLocation();
-            // yeah everything should work
-        } else {
-          this.audioSupported = false;
-            // oh no this browser seems to be outdated
-        }
-    });
-   
+    isSupported().then((isSupported) => console.log('isSupported:',isSupported));
 
     await Auth.currentAuthenticatedUser({
       bypassCache: false
@@ -837,11 +946,6 @@ export class CardsPage implements OnInit {
       //console.log('user',user)
       this.user = user;
     })
-
-    //this.audioPlaying = false;
-    // this.cardForm = this.formBuilder.group({
-    //   'answer': new FormControl("")
-    // })
 
     this.ios = this.config.get('mode') === 'ios';
 
@@ -873,66 +977,10 @@ export class CardsPage implements OnInit {
     // };
 
 
+
   }
 
-  async startPlay() {
-    this.recorder = await this.recordAudio();
-    this.recorder.start();
-  }
 
-  async stopPlay() {
-    const audio = await this.recorder.stop();
-    audio.play();
-  }
-
-  getLocation() {
-    this.recordAudio = () => {
-      return new Promise(resolve => {
-        navigator.mediaDevices.getUserMedia({ audio: true })
-          .then(stream => {
-            const mediaRecorder = new MediaRecorder(stream, {
-              mimeType: 'audio/webm',
-              numberOfAudioChannels: 1,
-              audioBitsPerSecond: 16000,
-            });
-            const audioChunks = [];
-
-            mediaRecorder.addEventListener("dataavailable", event => {
-              audioChunks.push(event.data);
-            });
-
-            const start = () => {
-              mediaRecorder.start();
-            };
-
-            const stop = () => {
-              return new Promise(resolve => {
-                mediaRecorder.addEventListener('stop', () => {
-                  const audioBlob = new Blob(audioChunks, { 'type': 'audio/wav; codecs=MS_PCM' });
-                  const reader = new FileReader();
-                  reader.readAsDataURL(audioBlob);
-                  reader.addEventListener('load', () => {
-                    const base64data = reader.result;
-                    this.sendObj.audio = base64data;
-                    // this.http.post('apiUrl', this.sendObj, httpOptions).subscribe(data => console.log(data));
-                  }, false);
-                  const audioUrl = URL.createObjectURL(audioBlob);
-                  console.log('Audiourl', audioUrl);
-                  const audio = new Audio(audioUrl);
-                  const play = () => {
-                    audio.play();
-                  };
-                  resolve({ audioBlob, audioUrl, play });
-                });
-
-                mediaRecorder.stop();
-              });
-            };
-            resolve({ start, stop });
-          });
-      });
-    };
-  }
 
   updateScores(data) {
     //
@@ -1498,6 +1546,7 @@ export class CardsPage implements OnInit {
 
 
   segmentChanged(ev: any, card, i) {
+    this.animate = true;
     this.segmentUpdatePWA(ev, card, i);
   }
 

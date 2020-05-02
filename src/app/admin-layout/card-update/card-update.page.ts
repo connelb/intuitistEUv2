@@ -39,7 +39,7 @@ const ListLessons = gql`
 
 const ListCards = `
 query ListCards($card3Lesson3Id: ID)  {
-  listCard3s(filter: {card3Lesson3Id: {eq: $card3Lesson3Id}},limit:600) {
+  listCard3s(filter: {card3Lesson3Id: {eq: $card3Lesson3Id}},limit:1000) {
     items{
       id
       question

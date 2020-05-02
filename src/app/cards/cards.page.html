@@ -7,16 +7,61 @@
 </ion-header>
 <ion-content>
 
+    <!-- <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class="ion-text-start">
+              <h3>text-start</h3>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="ion-text-end">
+              <h3>text-end</h3>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="ion-text-center">
+              <h3>text-center</h3>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <div class="ion-text-justify">
+              <h3>text-justify</h3>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="ion-text-wrap">
+              <h3>text-wrap</h3>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
+            </div>
+          </ion-col>
+          <ion-col>
+            <div class="ion-text-nowrap">
+              <h3>text-nowrap</h3>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid> -->
+
+  <div [@animateTrigger]="animate ? 'to' : 'from'">test</div>
+
   <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="isEnd()">
     <ion-slide>
       <ion-grid>
         <ion-row>
-          <ion-col *ngIf="lessonPlan" class="ion-align-items-center">
+          <ion-col *ngIf="lessonPlan" class="ion-align-self-center">
             <ion-label class="myCard">lessonPlan</ion-label>
           </ion-col>
         </ion-row>
         <ion-row *ngIf='modelVideoId'>
-          <ion-col class="ion-align-items-center">
+          <ion-col class="ion-align-self-center">
             <ion-button size="large" expand="block" fill="outline" color="primary" shape="round" (click)="presentVideo()">Play video</ion-button>
           </ion-col>
         </ion-row>
@@ -26,7 +71,7 @@
       <div *ngIf=!card._deleted> -->
     <ion-slide *ngFor="let card of lessonCards ; index as i">
 
-     <ion-fab vertical="top" horizontal="end" slot="fixed">
+      <ion-fab vertical="top" horizontal="end" slot="fixed">
         <ion-fab-button size="large" color="ion-fab-button" disabled="true">
           {{(card?.users3?.items[0]?.status=="done") ? "happy" : "sad"}}
         </ion-fab-button>
@@ -45,94 +90,173 @@
         <ion-fab-button color="ion-fab-button" disabled="true" size="small">
           <ion-icon size="small" name="film-outline"></ion-icon>:{{userVideo?.score}}
         </ion-fab-button>
-      </ion-fab> -->
+      </ion-fab> class="ion-padding-vertical" -->
 
-      <ion-grid class="ion-padding-vertical">
-        <ion-row>
-          <ion-col>
-            <div class="insert-remove-container">
-              <p class="testYourself">{{card?.question}}</p>
-            </div>
-            <!-- <div class="ion-text-wrap">
+      <ion-grid >
+        <ion-row class="ion-align-items-start">
+          <ion-col size="12" class="ion-align-self-start" class="ion-padding-bottom">
+              <!-- <div class="ion-text-wrap">
                   <h3>{{card?.question}}</h3>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
                 </div> -->
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-              <!-- <div class="ion-text-wrap"> -->
-            <!-- <div> -->
-              <div [@myInsertRemoveTrigger]="visible ? 'open' : 'closed'" class="insert-remove-container">
-                <p class="testYourself">{{card?.answer}}</p>
-              </div>
-              <!-- Skeleton screen -->
-              <!-- <div *ngIf="!visible">
-                      <div class="ion-padding custom-skeleton">
-                        <ion-skeleton-text animated style="width: 60%">{{card?.answer}}</ion-skeleton-text>
-                        <ion-skeleton-text animated>{{card?.answer}}</ion-skeleton-text>
-                        <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
-                        <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
-                        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
-                      </div>
-                      </div> -->
-
-              <!-- <h3 > 
-                      <span *ngIf="visible">{{card?.answer}}</span>
-                  </h3> -->
-              <!-- <ion-skeleton-text animated  *ngIf="visible" class ='custom-skeleton'></ion-skeleton-text> -->
+            <!-- <div class="insert-remove-container"> -->
+            <div class="test-yourself">{{card?.question}}</div>
             <!-- </div> -->
-            <!-- <ion-card class="testYourself"> -->
-            <!-- <ion-card-title *ngIf="visible"> -->
-
-            <!-- <ion-label *ngIf="visible">{{card?.answer}}</ion-label> -->
-
-            <!-- </ion-card-title> -->
-            <!-- </ion-card> -->
-            <!-- </ion-card> -->
           </ion-col>
         </ion-row>
-        <ion-row class="segmentHeight" *ngIf="!visible">
-          <ion-col size=7>
-            <!-- <ion-item> -->
-            <ion-label>Translate aloud</ion-label><br>
-            <ion-button *ngIf="audioSupported" size="small" (click)="startPlay()">start</ion-button>
-            <ion-button *ngIf="audioSupported" size="small" (click)="stopPlay()">Replay</ion-button>
-            <!-- </ion-item> -->
+        <hr>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" class="ion-align-items-center">
+            <!-- <div class="ion-text-wrap"> -->
+            <!-- <div> -->
+            <!-- <span [@myInsertRemoveTrigger]="visible ? 'start' : 'finish'" class="insert-remove-container"> -->
+            <div [@testYourselfTrigger]="visible ? 'to' : 'from'" class="test-yourself">{{card?.answer}}</div>
+            <!-- </span> -->
           </ion-col>
-          <ion-col size=5>
-            <ion-button size="large" color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">
-              Play
-              <ion-ripple-effect type="unbounded"></ion-ripple-effect>
-            </ion-button>
-          </ion-col>
-          <ion-col>
-          </ion-col>
-          <!-- <ion-segment *ngIf="!visible"> -->
-          <!-- <ion-segment-button>
-                  <ion-label color="primary">
-                    <b>Translate aloud</b>
-                  </ion-label>
-                </ion-segment-button>
-                <ion-segment-button (click)="toggleBgMusicPlaying($event,card)">
-                  <ion-icon size="large" name="play-circle-outline"></ion-icon>
-                </ion-segment-button>
-              </ion-segment> -->
         </ion-row>
-        <ion-row class="segmentHeight">
-          <ion-segment *ngIf="visible" (ionChange)="segmentChanged($event,card,i)" value="'card?.users3.items[0].status == done' ? 'done' : 'doing'">
-            <ion-segment-button color="primary" value="doing" layout="icon-bottom">
-              <ion-fab-button color="warning">
-                <ion-icon size="large" name="sad-outline"></ion-icon>
-              </ion-fab-button>
-            </ion-segment-button>
-            <ion-segment-button value="done" layout="icon-bottom">
-              <ion-fab-button color="success">
-                <ion-icon size="large" name="happy-outline"></ion-icon>
-              </ion-fab-button>
-            </ion-segment-button>
-          </ion-segment>
+        <ion-row class="ion-align-items-end">
+          <ion-col size="12" class="">
+          <ng-template [ngIf]="!visible" [ngIfElse]="loading">
+            <!-- <ion-row class="ion-align-items-end"> -->
+            <ion-col size=7>
+              <ion-label>Translate aloud</ion-label>
+              <br>
+              <!-- <span *ngIf="this.isSupported() | async">Yeah, your browser is supported.</span> -->
+              <!--   *ngIf="audioSupported"  *ngIf="audioSupported" <ion-button *ngIf="audioSupported" size="small" (click)="beginAudioCapture()"><ion-icon name="mic-outline"></ion-icon></ion-button> -->
+              <ion-button color="danger" size="small" (click)="startRecording()">
+                <ion-icon name="mic-outline"></ion-icon>
+              </ion-button>
+              <ion-button color="primary" size="small" (click)="stopRecording()">Replay</ion-button>
+            </ion-col>
+            <ion-col size=5>
+              <ion-button size="large" color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">
+                Play
+                <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+              </ion-button>
+            </ion-col>
+            <!-- </ion-row> -->
+          </ng-template>
+
+          <ng-template #loading>
+              <!-- <ion-radio-group  [(ngModel)]="something">
+                  <ion-row>
+                    <ion-col>
+                         <ion-item>
+                            <ion-label>A</ion-label>
+                            <ion-radio mode="md" item-left value="A"></ion-radio>
+                       </ion-item>
+                     </ion-col>
+                
+                    <ion-col>
+                        <ion-item>
+                            <ion-label>B</ion-label>
+                            <ion-radio mode="md" item-left value="B"></ion-radio>
+                       </ion-item>
+                    </ion-col>
+                
+                    <ion-col>
+                        <ion-item>
+                            <ion-label>C</ion-label>
+                            <ion-radio mode="md" item-left value="C"></ion-radio>
+                       </ion-item>
+                    </ion-col>
+                
+                </ion-row>
+                </ion-radio-group> -->
+
+            <!-- <div class="ion-padding speaker-detail">
+                  <p>{{speaker?.about}} Say hello on social media!</p>
+           
+              
+                  <ion-chip color="twitter" button (click)="openExternalUrl('https://twitter.com/' + speaker.twitter)">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                    <ion-label>Twitter</ion-label>
+                  </ion-chip>
+            
+              
+                  <ion-chip color="instagram" button (click)="openExternalUrl('https://instagram.com/ionicframework')">
+                    <ion-icon name="logo-instagram"></ion-icon>
+                    <ion-label>Instagram</ion-label>
+                  </ion-chip>
+                </div>   [(ngModel)]="something"-->
+                <ion-radio-group *ngIf="visible" (ionChange)="segmentChanged($event,card,i)">
+                
+              <!-- <ion-row class="ion-align-items-end"> -->
+               
+
+              <ion-row class="ion-align-items-end">
+                  <ion-col size=6 >
+                    <ion-item color="transparent">
+                      <ion-icon color="warning" size="large" name="happy-outline"></ion-icon>
+                      <ion-label>
+                        <ion-text color="warning">: Later</ion-text>
+                      </ion-label>
+                      <ion-radio mode="md" item-left value="done">
+                        <ion-icon color="warning" size="large" name="happy-outline"></ion-icon>
+                      </ion-radio>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col  size=6 >
+                    <ion-item color="transparent">
+                      <ion-icon color="success" size="large" name="sad-outline"></ion-icon>
+                      <ion-label>
+                        <ion-text color="success">: Got it</ion-text>
+                      </ion-label>
+                      <ion-radio mode="md" item-left value="doing"></ion-radio>
+                    </ion-item>
+                  </ion-col>
+
+             
+              </ion-row>
+            <!-- </ion-grid> -->
+          </ion-radio-group>
+
+            <!-- <ion-row>
+              <ion-col size=6 slot="start" >
+               
+                <ion-button  size="large" color="warning" *ngIf="visible" (ionChange)="segmentChanged($event,card,i)">
+                  <ion-icon size="large" name="sad-outline"></ion-icon>
+                </ion-button>
+             
+              </ion-col>
+              <ion-col size=6 slot="end">
+                
+                <ion-button  size="large" color="success" *ngIf="visible" (ionChange)="segmentChanged($event,card,i)">
+                  <ion-icon size="large" name="happy-outline"></ion-icon>
+                </ion-button>
+            
+              </ion-col>
+            </ion-row> -->
+          </ng-template>
+          </ion-col>
         </ion-row>
       </ion-grid>
+
+      <!-- <ion-footer class="ion-no-border">
+          <ion-toolbar> -->
+      <!-- <ion-grid> -->
+
+      <!-- <ion-title>Footer - No Border</ion-title> -->
+
+      <!-- <ion-row class="segmentHeight">
+                          <ion-segment *ngIf="visible" (ionChange)="segmentChanged($event,card,i)" value="'card?.users3.items[0].status == done' ? 'done' : 'doing'" value="done">
+                            <ion-segment-button value="doing" layout="icon-bottom">
+                              <ion-fab-button color="warning">
+                                <ion-icon size="large" name="sad-outline"></ion-icon>
+                              </ion-fab-button>
+                            </ion-segment-button>
+                            <ion-segment-button value="done" layout="icon-bottom">
+                              <ion-fab-button color="success">
+                                <ion-icon size="large" name="happy-outline"></ion-icon>
+                              </ion-fab-button>
+                            </ion-segment-button>
+                          </ion-segment>
+                        </ion-row> -->
+
+      <!-- </ion-grid> -->
+
+      <!-- </ion-toolbar>
+        </ion-footer> -->
 
 
     </ion-slide>
@@ -142,7 +266,7 @@
       <ion-card>
         <ion-card-header>
           <div class="ion-text-wrap">
-            <ion-label>Congratulations!</ion-label>
+            <ion-label class="finalSlide">Congratulations!</ion-label>
             <br>
             <h2>End of {{lesson?.name}}</h2>
           </div>
@@ -152,7 +276,7 @@
             <ion-row>
               <ion-col size="12" class="ion-padding">
                 <div>You now have {{this.totalScore}}
-                  <ion-text color="primary">Test Yourself</ion-text>
+                  <ion-text color="secondary">Test Yourself</ion-text>
                   <ion-text color="dark">
                     <sup>
                       <ion-icon name="information-outline"></ion-icon>
@@ -172,4 +296,5 @@
       </ion-card>
     </ion-slide>
   </ion-slides>
+
 </ion-content>

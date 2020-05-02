@@ -23,7 +23,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { APIService } from './API.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+//import { AudioContextModule} from 'angular-audio-context';
 
 
 
@@ -33,6 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    //AudioContextModule.forRoot("balanced"),
     AppRoutingModule,
     FormsModule,
     AmplifyAngularModule,
@@ -40,7 +41,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     IonicStorageModule.forRoot(),
     AdminLayoutModule,
     VideoModalPageModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    
   ],
   providers: [
     AmplifyService,
