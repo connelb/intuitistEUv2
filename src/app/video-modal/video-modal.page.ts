@@ -67,7 +67,7 @@ export class VideoModalPage implements OnInit {
 
   playVideo() {
     const video = videojs(this.videoElement.nativeElement, this.options);
-    video.responsive(true);
+    //video.responsive(true);
     this.sources = [{
       src: `https://myvodstreams-dev-output-hgbnm075.s3.amazonaws.com/output/${this.id}.m3u8`,
       type: 'application/x-mpegURL',

@@ -6,49 +6,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+   
 
-    <!-- <ion-grid>
-        <ion-row>
-          <ion-col>
-            <div class="ion-text-start">
-              <h3>text-start</h3>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
-            </div>
-          </ion-col>
-          <ion-col>
-            <div class="ion-text-end">
-              <h3>text-end</h3>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
-            </div>
-          </ion-col>
-          <ion-col>
-            <div class="ion-text-center">
-              <h3>text-center</h3>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
-            </div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <div class="ion-text-justify">
-              <h3>text-justify</h3>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
-            </div>
-          </ion-col>
-          <ion-col>
-            <div class="ion-text-wrap">
-              <h3>text-wrap</h3>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
-            </div>
-          </ion-col>
-          <ion-col>
-            <div class="ion-text-nowrap">
-              <h3>text-nowrap</h3>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </div>
-          </ion-col>
-        </ion-row>
-      </ion-grid> -->
 
   <div [@animateTrigger]="animate ? 'to' : 'from'">test</div>
 
@@ -71,11 +30,11 @@
       <div *ngIf=!card._deleted> -->
     <ion-slide *ngFor="let card of lessonCards ; index as i">
 
-      <ion-fab vertical="top" horizontal="end" slot="fixed">
+      <!-- <ion-fab vertical="top" horizontal="end" slot="fixed">
         <ion-fab-button size="large" color="ion-fab-button" disabled="true">
           {{(card?.users3?.items[0]?.status=="done") ? "happy" : "sad"}}
         </ion-fab-button>
-      </ion-fab>
+      </ion-fab> -->
       <!--  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button color="ion-fab-button" disabled="true" size="small">
           <ion-icon size="small" name="happy-outline"></ion-icon>:{{lessonCards|totalScore:'done'}}
@@ -119,14 +78,17 @@
           <ng-template [ngIf]="!visible" [ngIfElse]="loading">
             <!-- <ion-row class="ion-align-items-end"> -->
             <ion-col size=7>
-              <ion-label>Translate aloud</ion-label>
-              <br>
+              <!-- <ion-label>Translate aloud</ion-label> -->
+              <ion-button size="large" color="primary" disabled>
+                Translate aloud
+              </ion-button>
+              <!-- <br> -->
               <!-- <span *ngIf="this.isSupported() | async">Yeah, your browser is supported.</span> -->
               <!--   *ngIf="audioSupported"  *ngIf="audioSupported" <ion-button *ngIf="audioSupported" size="small" (click)="beginAudioCapture()"><ion-icon name="mic-outline"></ion-icon></ion-button> -->
-              <ion-button color="danger" size="small" (click)="startRecording()">
+              <!-- <ion-button  color="danger" size="small"  *ngIf="!isRecording && !blobUrl"  (click)="startRecording()">
                 <ion-icon name="mic-outline"></ion-icon>
               </ion-button>
-              <ion-button color="primary" size="small" (click)="stopRecording()">Replay</ion-button>
+              <ion-button  color="primary" size="small" *ngIf="!isRecording && !blobUrl"  (click)="stopRecording()">Replay</ion-button> -->
             </ion-col>
             <ion-col size=5>
               <ion-button size="large" color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectionStrategy, Inject, OnDestroy, Renderer2 } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, ValidatorFn, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform, ToastController, Config, LoadingController } from '@ionic/angular';
@@ -22,6 +22,7 @@ import * as d3Array from 'd3-array';
 import * as d3Hierachy from 'd3-hierarchy';
 import * as d3Collection from 'd3-collection';
 import videojs from 'video.js';
+
 import { VideoModalPage } from './../video-modal/video-modal.page'
 // import { AgeValidator } from '../validators/age';
 import { Howl, Howler } from 'howler';
@@ -34,19 +35,7 @@ import { trigger, state, group, transition, animate, style } from '@angular/anim
 
 import { pluck } from 'rxjs/operators';
 import { pipe } from 'rxjs'
-import Recorder from 'recorder-js';
-import { isSupported, AudioContext, OfflineAudioContext } from 'standardized-audio-context';
-import { Stream } from 'aws-sdk/clients/glacier';
-//import { isSupported, AudioContext } from 'angular-audio-context';
-//import { isSupported } from 'angular-audio-context';
 
-
-// declare var MediaRecorder: any;
-declare var MediaRecorder: any;
-
-//import { User3Card3 } from './../../models';
-
-// $user3Card3User3Id: ID!, $user3Card3Card3Id:ID, $status:cardStatus, $score:Int
 
 const GetUser3Video3 =
   gql`query GetUser3Video3Id($user3Video3User3Id: ID!, $user3Video3Video3Id: ID!){
@@ -680,34 +669,35 @@ const ListUserCardsByUser = gql
     trigger('testYourselfTrigger', [
       state('from', style({
         backgroundColor: '#e8f2f7',
-        fontSize:'1em',
+        fontSize: '1em',
         opacity: 0
       })),
       state('to', style({
         backgroundColor: '#e8f2f7',
-        fontSize:'2em',
+        fontSize: '2em',
         opacity: 1
       })),
       transition('from => to', [
         group([
-        animate('200ms ease', style({ opacity: 0.4, fontSize:'2em', })),
-        animate('2s ease', style({ opacity: 1})),
-        animate('1s 2s ease-out', style({ backgroundColor: 'white' })),
+          animate('200ms 2s ease', style({ backgroundColor: 'white' })),
+          animate('200ms ease', style({ opacity: 0.4, fontSize: '2em', })),
+          animate('2s ease', style({ opacity: 1 })),
+          
         ])
       ]),
     ]),
     trigger('animateTrigger', [
       state('from', style({
         backgroundColor: 'red',
-    
+
       })),
       state('to', style({
         backgroundColor: 'green',
- 
+
       })),
       transition('from => to', [
         group([
-        animate('1s 2s ease-out', style({ backgroundColor: 'white' })),
+          animate('1s 2s ease-out', style({ backgroundColor: 'yellow' })),
         ])
       ]),
     ])
@@ -715,12 +705,12 @@ const ListUserCardsByUser = gql
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardsPage implements OnInit {
-  animate:boolean = false;
 
-  frequency: number;
-  bufferSize(arg0: any, arg1: any, arg2: any): any {
-    throw new Error("Method not implemented.");
-  }
+  animate: boolean = false;
+  //Lets initiate Record OBJ
+  private record;
+ 
+  
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
   // @ViewChild('slides', { static: false }) slides1;
   @ViewChild('video', { static: false }) videoElement: ElementRef;
@@ -761,7 +751,7 @@ export class CardsPage implements OnInit {
   progress: any;
 
   //preload: string = 'auto';
-  options: any;
+  options: any = {};
   sources: any;
   // question: any;
   // answer: any;
@@ -801,40 +791,6 @@ export class CardsPage implements OnInit {
   totalTally: any;
   loading: any;
 
-  // blobFile;
-  // recordAudio;
-  // sendObj = {
-  //   audio: this.blobFile
-  // };
-  // audioContext: any;
-  // recorder: any;
-  audioSupported: any;
-
-  blobFile;
-  recordAudio;
-  sendObj = {
-    audio: this.blobFile
-  };
-  //audioContext = new AudioContext() || new window.webkitAudioContext();//new (AudioContext)({sampleRate: 16000});
-  // recorder = new Recorder(this.audioContext, {});
-  
-  //audioCtx: any;
-  audioNode: any;
-  // private audioCtx = new AudioContext();
-  // private gainNode = this.audioCtx.createGain();
-  MediaRecorder:any; 
-
- gumStream:any;
- rec: any = {};
-input:any = {};
-constraints = { audio: true, video:false };
-AudioContext = AudioContext || window.webkitAudioContext;
-audioContext //audio context to help us record
-
-  // @Inject(isSupported) public isSupported
-  // audioContext =  new (AudioContext)({sampleRate: 16000});
-  //audioContext =  new AudioContext();
-
   constructor(
     private formBuilder: FormBuilder,
     private platform: Platform,
@@ -845,100 +801,11 @@ audioContext //audio context to help us record
     public toastController: ToastController,
     public config: Config,
     public loadingController: LoadingController,
-    //private _audioContext: AudioContext,
-    // @Inject(isSupported) public isSupported
   ) { }
 
 
 
-  startRecording() {
-    // var constraints = { audio: true, video:false };
-    // navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-    //   console.log("getUserMedia() success, stream created, initializing Recorder.js ...");
-    //   // let audioContext =  new AudioContext();//new (window['AudioContext'] || window['webkitAudioContext'])();
-     
-    //   // var AudioContext = window.AudioContext || window.webkitAudioContext;
-    //   // var audioContext = new AudioContext()({sampleRate: 16000});
-    //   let audioContext = new AudioContext();
-    // //  console.log('stream',stream);
-    //   let gumStream = stream;
-    //   let input = audioContext.createMediaStreamSource(stream);
-    //   let rec = new Recorder(input,{numChannels:1});
-    //   rec.record();
-
-    //   console.log("Recording started");
-    // }).catch(function(err) {console.log(err)})
-
-    // this.recorder && this.recorder.record();
-    // button.disabled = true;
-    // button.nextElementSibling.disabled = false;
-    // __log('Recording...');
-
-    //navigator.getUserMedia = navigator.getUserMedia;
-    const callback = stream => {
-      var ctx = new AudioContext();
-      var mic = ctx.createMediaStreamSource(stream);
-      var analyser = ctx.createAnalyser();
-      var osc = ctx.createOscillator();
-      mic.connect(analyser);
-      osc.connect(ctx.destination);
-      // osc.start(0);
-      var data = new Uint8Array(analyser.frequencyBinCount);
-      analyser.minDecibels = -45;
-
-      const play = () => {
-        analyser.getByteFrequencyData(data);
-        // get fullest bin
-        var idx = 0;
-        for (var j = 0; j < analyser.frequencyBinCount; j++) {
-          if (data[j] > data[idx]) {
-            idx = j;
-          }
-        }
-
-        this.frequency = (idx * ctx.sampleRate) / analyser.fftSize;
-        // this.zone.run(() => {
-        //   this.style = {
-        //     backgroundColor: `hsl(${Math.floor(this.frequency)}, 50%, 50%)`,
-        //     // transform: `rotate(${frequency/20}deg)`
-        //     transform: `translateY(${700 - this.frequency / 2}px) rotate(${
-        //       this.frequency
-        //     }deg) scale(${200 / this.frequency})`
-        //   };
-        // });
-        osc.frequency.value = this.frequency;
-        requestAnimationFrame(play);
-      };
-      play();
-    };
-
-    navigator.getUserMedia(
-      { video: false, audio: true },
-      callback,
-      console.log
-    );
-  }
-
- stopRecording() {
-  console.log("stopButton clicked");
-   	//tell the recorder to stop the recording
-	this.rec.stop();
-
-	//stop microphone access
-	this.gumStream.getAudioTracks()[0].stop();
-    // this.recorder && this.recorder.stop();
-    // button.disabled = true;
-    // button.previousElementSibling.disabled = false;
-    // __log('Stopped recording.');
-    
-    // // create WAV download link using audio data blob
-    // createDownloadLink();
-    
-    // this.recorder.clear();
-  }
-
   async ngOnInit() {
-    isSupported().then((isSupported) => console.log('isSupported:',isSupported));
 
     await Auth.currentAuthenticatedUser({
       bypassCache: false
@@ -1005,6 +872,8 @@ audioContext //audio context to help us record
 
     this.slides.slideTo(0);
   }
+
+
 
   isEnd() {
     this.slides.isEnd().then((data: boolean) => {

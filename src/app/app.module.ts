@@ -24,6 +24,7 @@ import { APIService } from './API.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { AudioContextModule} from 'angular-audio-context';
+//import { VideoJSRecordComponent } from './cards/cards.page';
 
 
 
@@ -78,3 +79,4 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
