@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, ChangeDetectionStrategy, Inject, OnDestroy, Renderer2 } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, ValidatorFn, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Network } from '@ngx-pwa/offline';
 import { ModalController, Platform, ToastController, Config, LoadingController } from '@ionic/angular';
 import { API, graphqlOperation } from "aws-amplify";
 import { Auth, Storage } from 'aws-amplify';
@@ -666,45 +667,45 @@ const ListUserCardsByUser = gql
   templateUrl: './cards.page.html',
   styleUrls: ['./cards.page.scss'],
   animations: [
-    trigger('testYourselfTrigger', [
+    trigger('testYourselfTrigger2', [
       state('from', style({
-        backgroundColor: '#e8f2f7',
-        fontSize: '1em',
         opacity: 0
       })),
       state('to', style({
-        backgroundColor: '#e8f2f7',
-        fontSize: '2em',
         opacity: 1
       })),
       transition('from => to', [
-        group([
-          animate('200ms 2s ease', style({ backgroundColor: 'white' })),
-          animate('200ms ease', style({ opacity: 0.4, fontSize: '2em', })),
-          animate('2s ease', style({ opacity: 1 })),
+        // animate('2s 200ms ease', style({  opacity: 1 })),
+        // group([
+          animate('1s ease', style({ opacity: 0.8 })),
+          animate('1s ease', style({ textShadow: '2px 2px 5px #5ba7e4' })),
+          animate('1s ease', style({ textShadow: '2px 2px 5px #FA4556',})),
           
-        ])
+        // ])
       ]),
     ]),
     trigger('animateTrigger', [
       state('from', style({
-        backgroundColor: 'red',
-
+        backgroundColor: 'green',
+        transform: 'scale(1)'
       })),
       state('to', style({
-        backgroundColor: 'green',
-
+        backgroundColor: 'red',
+        transform: 'scale(1.5)'
       })),
-      transition('from => to', [
-        group([
-          animate('1s 2s ease-out', style({ backgroundColor: 'yellow' })),
-        ])
-      ]),
+      transition('from => to', animate('1000ms')),
+      transition('to=> from', animate('1500ms'))
+      // transition('from => to', [
+      //   group([
+      //     animate('1s 2s ease-out', style({ backgroundColor: 'yellow' })),
+      //   ])
+      // ]),
     ])
   ]
   //changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CardsPage implements OnInit {
+  online$ = this.network.onlineChanges;
 
   animate: boolean = false;
   //Lets initiate Record OBJ
@@ -801,6 +802,7 @@ export class CardsPage implements OnInit {
     public toastController: ToastController,
     public config: Config,
     public loadingController: LoadingController,
+    protected network: Network,
   ) { }
 
 

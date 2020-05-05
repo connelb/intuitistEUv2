@@ -1,15 +1,26 @@
-<ion-header no-border>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons>
+      <ion-menu-button slot="start">
+      </ion-menu-button>
+      <ion-title>
+        {{lesson?.name}}
+      </ion-title>
+      <div *ngIf="online$ | async; else offline"></div>
+      <ng-template #offline>
+        <ion-chip color="warning">
+          <ion-label>Offline
+          </ion-label>
+        </ion-chip>
+      </ng-template>
     </ion-buttons>
-    <ion-title>{{lesson?.name}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-   
 
 
-  <div [@animateTrigger]="animate ? 'to' : 'from'">test</div>
+
+  <!-- <div [@animateTrigger]="animate ? 'to' : 'from'">test</div> -->
 
   <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="isEnd()">
     <ion-slide>
@@ -45,21 +56,21 @@
           <ion-icon size="small" name="sad-outline"></ion-icon>:{{lessonCards|totalScore:'doing'}}
         </ion-fab-button>
       </ion-fab>
-      <ion-fab vertical="top" horizontal="start" slot="fixed">
+      <ion-fab vertical="top" horizontal="end" slot="fixed" [@animateTrigger]="animate ? 'to' : 'from'">
         <ion-fab-button color="ion-fab-button" disabled="true" size="small">
-          <ion-icon size="small" name="film-outline"></ion-icon>:{{userVideo?.score}}
+          <ion-icon size="small" name="film-outline"></ion-icon>
         </ion-fab-button>
-      </ion-fab> class="ion-padding-vertical" -->
+      </ion-fab> -->
 
-      <ion-grid >
+      <ion-grid>
         <ion-row class="ion-align-items-start">
           <ion-col size="12" class="ion-align-self-start" class="ion-padding-bottom">
-              <!-- <div class="ion-text-wrap">
+            <!-- <div class="ion-text-wrap">
                   <h3>{{card?.question}}</h3>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac vehicula lorem.
                 </div> -->
             <!-- <div class="insert-remove-container"> -->
-            <div class="test-yourself">{{card?.question}}</div>
+            <div class="test-yourself"><h1 class="test-yourself2">{{card?.question}}</h1></div>
             <!-- </div> -->
           </ion-col>
         </ion-row>
@@ -69,37 +80,37 @@
             <!-- <div class="ion-text-wrap"> -->
             <!-- <div> -->
             <!-- <span [@myInsertRemoveTrigger]="visible ? 'start' : 'finish'" class="insert-remove-container"> -->
-            <div [@testYourselfTrigger]="visible ? 'to' : 'from'" class="test-yourself">{{card?.answer}}</div>
+            <div class="test-yourself"><h1 [@testYourselfTrigger2]="visible ? 'to' : 'from'" class="test-yourself2">{{card?.answer}}</h1></div>
             <!-- </span> -->
           </ion-col>
         </ion-row>
         <ion-row class="ion-align-items-end">
           <ion-col size="12" class="">
-          <ng-template [ngIf]="!visible" [ngIfElse]="loading">
-            <!-- <ion-row class="ion-align-items-end"> -->
-            <ion-col size=7>
-              <!-- <ion-label>Translate aloud</ion-label> -->
-              <ion-button size="large" color="primary" disabled>
-                Translate aloud
-              </ion-button>
-              <!-- <br> -->
-              <!-- <span *ngIf="this.isSupported() | async">Yeah, your browser is supported.</span> -->
-              <!--   *ngIf="audioSupported"  *ngIf="audioSupported" <ion-button *ngIf="audioSupported" size="small" (click)="beginAudioCapture()"><ion-icon name="mic-outline"></ion-icon></ion-button> -->
-              <!-- <ion-button  color="danger" size="small"  *ngIf="!isRecording && !blobUrl"  (click)="startRecording()">
+            <ng-template [ngIf]="!visible" [ngIfElse]="loading">
+              <!-- <ion-row class="ion-align-items-end"> -->
+              <ion-col size=7>
+                <!-- <ion-label>Translate aloud</ion-label> -->
+                <ion-button size="large" color="primary" disabled>
+                  Translate aloud
+                </ion-button>
+                <!-- <br> -->
+                <!-- <span *ngIf="this.isSupported() | async">Yeah, your browser is supported.</span> -->
+                <!--   *ngIf="audioSupported"  *ngIf="audioSupported" <ion-button *ngIf="audioSupported" size="small" (click)="beginAudioCapture()"><ion-icon name="mic-outline"></ion-icon></ion-button> -->
+                <!-- <ion-button  color="danger" size="small"  *ngIf="!isRecording && !blobUrl"  (click)="startRecording()">
                 <ion-icon name="mic-outline"></ion-icon>
               </ion-button>
               <ion-button  color="primary" size="small" *ngIf="!isRecording && !blobUrl"  (click)="stopRecording()">Replay</ion-button> -->
-            </ion-col>
-            <ion-col size=5>
-              <ion-button size="large" color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">
-                Play
-                <ion-ripple-effect type="unbounded"></ion-ripple-effect>
-              </ion-button>
-            </ion-col>
-            <!-- </ion-row> -->
-          </ng-template>
+              </ion-col>
+              <ion-col size=5>
+                <ion-button size="large" color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">
+                  Play
+                  <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+                </ion-button>
+              </ion-col>
+              <!-- </ion-row> -->
+            </ng-template>
 
-          <ng-template #loading>
+            <ng-template #loading>
               <!-- <ion-radio-group  [(ngModel)]="something">
                   <ion-row>
                     <ion-col>
@@ -126,7 +137,7 @@
                 </ion-row>
                 </ion-radio-group> -->
 
-            <!-- <div class="ion-padding speaker-detail">
+              <!-- <div class="ion-padding speaker-detail">
                   <p>{{speaker?.about}} Say hello on social media!</p>
            
               
@@ -141,13 +152,25 @@
                     <ion-label>Instagram</ion-label>
                   </ion-chip>
                 </div>   [(ngModel)]="something"-->
-                <ion-radio-group *ngIf="visible" (ionChange)="segmentChanged($event,card,i)">
-                
-              <!-- <ion-row class="ion-align-items-end"> -->
-               
+              <ion-radio-group *ngIf="visible" (ionChange)="segmentChanged($event,card,i)">
 
-              <ion-row class="ion-align-items-end">
-                  <ion-col size=6 >
+                <!-- <ion-row class="ion-align-items-end"> -->
+                <!-- [@animateTrigger]="animate ? 'to' : 'from'"  -->
+                <!-- <ion-progress-bar   value="0.25" buffer="0.5"></ion-progress-bar> -->
+
+                <!-- <div style="width:100px;height:100px; border-radius: 100%; margin: 3rem; background-color: green" [@animateTrigger]="animate ? 'to' : 'from'" ></div> -->
+
+                <ion-row class="ion-align-items-end">
+                  <ion-col size=6>
+                    <ion-item color="transparent">
+                      <ion-icon color="success" size="large" name="sad-outline"></ion-icon>
+                      <ion-label>
+                        <ion-text color="success">: Got it</ion-text>
+                      </ion-label>
+                      <ion-radio mode="md" item-left value="doing"></ion-radio>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size=6>
                     <ion-item color="transparent">
                       <ion-icon color="warning" size="large" name="happy-outline"></ion-icon>
                       <ion-label>
@@ -158,22 +181,11 @@
                       </ion-radio>
                     </ion-item>
                   </ion-col>
-                  <ion-col  size=6 >
-                    <ion-item color="transparent">
-                      <ion-icon color="success" size="large" name="sad-outline"></ion-icon>
-                      <ion-label>
-                        <ion-text color="success">: Got it</ion-text>
-                      </ion-label>
-                      <ion-radio mode="md" item-left value="doing"></ion-radio>
-                    </ion-item>
-                  </ion-col>
+                </ion-row>
+                <!-- </ion-grid> -->
+              </ion-radio-group>
 
-             
-              </ion-row>
-            <!-- </ion-grid> -->
-          </ion-radio-group>
-
-            <!-- <ion-row>
+              <!-- <ion-row>
               <ion-col size=6 slot="start" >
                
                 <ion-button  size="large" color="warning" *ngIf="visible" (ionChange)="segmentChanged($event,card,i)">
@@ -189,7 +201,7 @@
             
               </ion-col>
             </ion-row> -->
-          </ng-template>
+            </ng-template>
           </ion-col>
         </ion-row>
       </ion-grid>

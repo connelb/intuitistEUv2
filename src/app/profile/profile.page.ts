@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform, ModalController, AlertController, ToastController } from '@ionic/angular';
+import { Network } from '@ngx-pwa/offline';
 import gql from 'graphql-tag';
 import { Auth } from 'aws-amplify';
 import { AppsyncService } from '../providers/appsync.service';
@@ -129,12 +130,13 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+  online$ = this.network.onlineChanges;
   public width: number = 0;
   public height: number = 0;
   user: any;
   myData: any[];
 
-  constructor(private platform: Platform, private appsync: AppsyncService) { }
+  constructor(private platform: Platform, private appsync: AppsyncService,protected network: Network) { }
 
   async ngOnInit() {
     await Auth.currentAuthenticatedUser({

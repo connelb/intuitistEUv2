@@ -1,21 +1,19 @@
-<ion-header no-border>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-buttons >
+    <ion-buttons>
       <ion-menu-button slot="start">
       </ion-menu-button>
+      <ion-title>
+        Lessons
+      </ion-title>
+      <div *ngIf="online$ | async; else offline"></div>
+      <ng-template #offline>
+        <ion-chip color="warning">
+          <ion-label>Offline
+          </ion-label>
+        </ion-chip>
+      </ng-template>
     </ion-buttons>
-    <ion-title>
-      Lessons
-    </ion-title>
-    <ion-menu-button slot="end">
-        <div *ngIf="online$ | async; else offline"></div>
-        <ng-template #offline>
-          <ion-chip color="warning">
-            <ion-label>Offline
-            </ion-label>
-          </ion-chip>
-        </ng-template>
-      </ion-menu-button>
   </ion-toolbar>
 </ion-header>
 
@@ -52,54 +50,54 @@
   </ion-segment> -->
 
   <div *ngFor="let lesson of lessons">
-  <ion-card button=true (click)="showCards(lesson?.id)"  *ngIf=!lesson._deleted>
-    <ion-card-header class="ion-text-start" *ngIf=lesson>
-      <ion-card-title>{{ lesson?.name }}
-        <ion-chip>
-          <ion-label class="points">{{lesson |totalCards}} points</ion-label>
-        </ion-chip>
-      </ion-card-title>
-      <!-- <span>({{lesson |totalCards}} points)</span> -->
-      <ion-card-subtitle>{{lesson?.description}}</ion-card-subtitle>
-      <!-- <ion-item detail='true'> -->
-      <!-- <ion-thumbnail slot="start">
+    <ion-card button=true (click)="showCards(lesson?.id)" *ngIf=!lesson._deleted>
+      <ion-card-header class="ion-text-start" *ngIf=lesson>
+        <ion-card-title>{{ lesson?.name }}
+          <ion-chip>
+            <ion-label class="points">{{lesson |totalCards}} points</ion-label>
+          </ion-chip>
+        </ion-card-title>
+        <!-- <span>({{lesson |totalCards}} points)</span> -->
+        <ion-card-subtitle>{{lesson?.description}}</ion-card-subtitle>
+        <!-- <ion-item detail='true'> -->
+        <!-- <ion-thumbnail slot="start">
             <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
           </ion-thumbnail> -->
-      <!-- <ion-label>{{lesson.description}}</ion-label> -->
-      <!-- </ion-item> -->
-    </ion-card-header>
-    <ion-grid *ngIf=lesson>
-      <ion-row>
+        <!-- <ion-label>{{lesson.description}}</ion-label> -->
+        <!-- </ion-item> -->
+      </ion-card-header>
+      <ion-grid *ngIf=lesson>
+        <ion-row>
 
-      </ion-row>
-      <ion-row>
-        <ion-col *ngIf=lesson>
-          <ion-chip color="success">
-            <ion-icon name="happy-outline"></ion-icon>
-            <ion-label>{{lesson |sumScore:'done'}}</ion-label>
-          </ion-chip>
-        </ion-col>
-        <ion-col *ngIf=lesson>
-          <ion-chip color="warning">
-            <ion-icon name="sad-outline"></ion-icon>
-            <ion-label>{{lesson |sumScore:'doing'}}</ion-label>
-          </ion-chip>
-        </ion-col>
-        <ion-col *ngIf=lesson>
-          <ion-chip>
-            <ion-icon name="film-outline"></ion-icon>
-            <ion-label>{{lesson |videoScore:lesson.id}}</ion-label>
-          </ion-chip>
-        </ion-col>
-        <!-- <ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col *ngIf=lesson>
+            <ion-chip color="success">
+              <ion-icon name="happy-outline"></ion-icon>
+              <ion-label>{{lesson |sumScore:'done'}}</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col *ngIf=lesson>
+            <ion-chip color="warning">
+              <ion-icon name="sad-outline"></ion-icon>
+              <ion-label>{{lesson |sumScore:'doing'}}</ion-label>
+            </ion-chip>
+          </ion-col>
+          <ion-col *ngIf=lesson>
+            <ion-chip>
+              <ion-icon name="film-outline"></ion-icon>
+              <ion-label>{{lesson |videoScore:lesson.id}}</ion-label>
+            </ion-chip>
+          </ion-col>
+          <!-- <ion-col>
           <ion-chip>
             <ion-label>/ {{lesson |totalCards}}</ion-label>
           </ion-chip>
         </ion-col> -->
-      </ion-row>
-    </ion-grid>
-  </ion-card>
-</div>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </div>
 </ion-content>
 
 <!-- Option 2:virtual scroll...
