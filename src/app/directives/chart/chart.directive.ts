@@ -243,7 +243,7 @@ export class ChartDirective implements OnInit, AfterViewInit {
       .sum(([key, value]) => value);
 
     this.totalScore = d3Array.sum(this.myData, d => d['score']);
-    console.log('this.totalScore',  this.totalScore)
+    // console.log('this.totalScore',  this.totalScore)
   }
 
   ngAfterViewInit() {
@@ -277,10 +277,11 @@ export class ChartDirective implements OnInit, AfterViewInit {
       return (max * barStep + margin.top + margin.bottom) as number;
     }
 
+    //.sort((a, b) => { return +(a.lesson.replace(/\D/g,'')) - +b.lesson.replace(/\D/g,'')}) 
 
     const root2 = d3Hierarchy.hierarchy( this.hierarchyData)
       .sum(d => d['value'])
-      .sort((a, b) => b.value - a.value)
+      .sort((a, b) => {console.log('a',a);return b.value - a.value})
       .eachAfter(d => d['index'] = d.parent ? d.parent['index'] = d.parent['index'] + 1 || 0 : 0)
 
 
@@ -346,7 +347,7 @@ export class ChartDirective implements OnInit, AfterViewInit {
         .data(d.children)
         .join("g")
         .attr("cursor", d => !d.children ? null : "pointer")
-        .on("click", d => {!d.children ? d.data.data.lesson : down(svg, d)});
+        .on("click", d => {!d.children ? d.data.data.lesson: down(svg, d)});
   
       bar.append("text")
         .attr("x", margin.left - 6)

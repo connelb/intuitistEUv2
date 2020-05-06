@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ChartDirective } from './../directives/chart/chart.directive';
+import { ProgressBarDirective } from './../directives/progress-bar/progress-bar.directive';
 
 import { ProfilePage } from './profile.page';
 
@@ -16,6 +17,6 @@ import { ProfilePage } from './profile.page';
     IonicModule,
     ProfilePageRoutingModule
   ],
-  declarations: [ProfilePage,ChartDirective]
+  declarations: [ProfilePage,ChartDirective,ProgressBarDirective]
 })
 export class ProfilePageModule {}

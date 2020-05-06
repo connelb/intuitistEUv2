@@ -20,6 +20,8 @@
 
 <ion-content>
 
+    <div *ngIf='myData' appProgressBar [myOriginalData]="myData" [ObjectWidth]="width"></div>
+
   <ion-card>
     <ion-card-header>
       Score

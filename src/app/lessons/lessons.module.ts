@@ -10,8 +10,10 @@ import { LessonsPage } from './lessons.page';
 
 import { AmplifyAngularModule, AmplifyService, AmplifyIonicModule } from 'aws-amplify-angular';
 import { SumScorePipe } from './../pipes/sumScore/sum-score.pipe';
+
 import { TotalCardsPipe } from './../pipes/totalCards/total-cards.pipe';
 import { VideoScorePipe } from './../pipes/videoScore/video-score.pipe';
+import { TotalScorePipe } from '../pipes/totalScore/total-score.pipe';
 
 @NgModule({
   imports: [
@@ -27,6 +29,6 @@ import { VideoScorePipe } from './../pipes/videoScore/video-score.pipe';
       }
     ])
   ],
-  declarations: [LessonsPage,SumScorePipe,TotalCardsPipe,VideoScorePipe ]
+  declarations: [LessonsPage,SumScorePipe,TotalCardsPipe,VideoScorePipe,TotalScorePipe ]
 })
 export class LessonsPageModule {}

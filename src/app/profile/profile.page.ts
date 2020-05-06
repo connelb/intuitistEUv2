@@ -4,6 +4,7 @@ import { Network } from '@ngx-pwa/offline';
 import gql from 'graphql-tag';
 import { Auth } from 'aws-amplify';
 import { AppsyncService } from '../providers/appsync.service';
+import { ScoreService } from '../providers/score/score.service'
 
 const ListUserCardsByUser = gql
   `query ListUser3Card3s($filter: ModelUser3Card3FilterInput) {
@@ -136,7 +137,7 @@ export class ProfilePage implements OnInit {
   user: any;
   myData: any[];
 
-  constructor(private platform: Platform, private appsync: AppsyncService,protected network: Network) { }
+  constructor(private platform: Platform, private appsync: AppsyncService,private score:ScoreService,protected network: Network) { }
 
   async ngOnInit() {
     await Auth.currentAuthenticatedUser({
@@ -144,6 +145,8 @@ export class ProfilePage implements OnInit {
     }).then(async user => {
       this.user = user;
     });
+
+    console.log('scores??',this.score.getScores());
 
     this.getUserCards();
   }
@@ -200,7 +203,7 @@ export class ProfilePage implements OnInit {
             }
           })
           console.log('temp', temp)
-          this.myData = temp;
+          this.myData = temp
 
           // const reduceFn = data => d3Array.sum(data, d => d['score']);
 

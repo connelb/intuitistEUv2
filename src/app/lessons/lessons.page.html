@@ -49,7 +49,56 @@
     </span>
   </ion-segment> -->
 
+  <ion-list #scheduleList>
+    <ion-item-group *ngFor="let lesson of lessons">
+      <!-- <ion-item-divider sticky>  /-->
+        <ion-item detail>
+          <ion-label >
+            <h1>{{lesson?.name}} <ion-chip>
+                <ion-label class="points">{{lesson |totalScore:'total'}}/{{lesson |totalCards}} points</ion-label>
+              </ion-chip></h1>
+            
+            <ion-text wrap class="ion-text-wrap">{{lesson?.description}}</ion-text>
+            <!-- <p class="ion-text-wrap">
+                I saw a werewolf with a Chinese menu in his hand.
+                Walking through the <ion-text color="danger"><sub>streets</sub></ion-text> of Soho in the rain.
+                He <ion-text color="primary"><i>was</i></ion-text> looking for a place called Lee Ho Fook's.
+                Gonna get a <ion-text color="secondary"><a>big dish of beef chow mein.</a></ion-text>
+                <ion-text color="danger"><ion-icon name="cut"></ion-icon></ion-text>
+              </p> -->
+          </ion-label>
+          <!-- <h1>{{lesson?.description}}</h1> -->
+          <!-- <ion-note>{{lesson?.description}}</ion-note> -->
+        </ion-item>
+
+      <!-- </ion-item-divider> -->
+
+      <!-- <ion-item-sliding *ngFor="let session of group.sessions" #slidingItem [attr.track]="session.tracks[0] | lowercase"
+          [hidden]="session.hide">
+          <ion-item routerLink="/app/tabs/schedule/session/{{session.id}}">
+            <ion-label>
+              <h3>{{session.name}}</h3>
+              <p>
+                {{session.timeStart}} &mdash; {{session.timeEnd}}: {{session.location}}
+              </p>
+            </ion-label>
+          </ion-item>
+          <ion-item-options>
+            <ion-item-option color="favorite" (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
+              Favorite
+            </ion-item-option>
+            <ion-item-option color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')"
+              *ngIf="segment === 'favorites'">
+              Remove
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding> -->
+    </ion-item-group>
+  </ion-list>
+
+
   <div *ngFor="let lesson of lessons">
+    <!-- detail -->
     <ion-card button=true (click)="showCards(lesson?.id)" *ngIf=!lesson._deleted>
       <ion-card-header class="ion-text-start" *ngIf=lesson>
         <ion-card-title>{{ lesson?.name }}

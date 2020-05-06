@@ -56,10 +56,14 @@ export class TotalScorePipe implements PipeTransform {
         case 'video':
           result = video;
           break;
+          case 'total':
+          result = done+doing+video;
+          break;
         default:
           result = 0
 
       }
+      console.log("result:",done,doing,video)
       return result
     }
   }
