@@ -1,33 +1,37 @@
 <ion-header class="ion-no-border">
-    <ion-toolbar>
-      <ion-buttons>
-        <ion-menu-button slot="start">
-        </ion-menu-button>
-        <ion-title>
-          Profile
-        </ion-title>
-        <div *ngIf="online$ | async; else offline"></div>
-        <ng-template #offline>
-          <ion-chip color="warning">
-            <ion-label>Offline
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-menu-button slot="start">
+      </ion-menu-button>
+      <ion-title>
+        Profile
+        <ion-chip slot="end" color="warning">
+            <ion-label >60/700
             </ion-label>
           </ion-chip>
-        </ng-template>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-
+      </ion-title>
+      <div *ngIf="online$ | async; else offline"></div>
+      <ng-template #offline>
+      </ng-template>
+    </ion-buttons>
+    <ion-chip slot="end" color="dark">
+        <ion-label >{{currentScore}}/{{total}}
+        </ion-label>
+      </ion-chip>
+          <div><ion-progress-bar  color="warning" value="{{doing}}"></ion-progress-bar></div>
+          <div><ion-progress-bar  color="success" value="{{done}}"></ion-progress-bar></div>
+  </ion-toolbar>
+</ion-header>
 <ion-content>
 
-    <div *ngIf='myData' appProgressBar [myOriginalData]="myData" [ObjectWidth]="width"></div>
 
-  <ion-card>
-    <ion-card-header>
-      Score
-    </ion-card-header>
-    <ion-card-content>
-    <div *ngIf='myData' appChart [myOriginalData]="myData" [ObjectHeight]="height" [ObjectWidth]="width"></div>
-  </ion-card-content>
-  </ion-card>
-</ion-content>
+
+    <ion-card>
+      <ion-card-header>
+        Score
+      </ion-card-header>
+      <ion-card-content>
+        <div *ngIf='myData' appChart [myOriginalData]="myData" [ObjectHeight]="height" [ObjectWidth]="width"></div>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>

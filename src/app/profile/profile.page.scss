@@ -14,3 +14,21 @@ ion-toolbar {
   ion-toolbar ion-menu-button {
     --color: #5ba7e4;
   }
+
+//   ion-progress-bar .progress {
+//     --offset-top: 0px;
+//     --offset-bottom: 5px;
+//   }
+
+  ion-content {
+    --offset-bottom: 7;
+      ion-progress-bar {
+    // margin: 1px 0;
+    --offset-bottom: 1;
+  }
+}
+ 
+
+//   ion-card .progress-bar{
+//       margin: 50px 5px 5px 5px
+//   }

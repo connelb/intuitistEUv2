@@ -17,20 +17,27 @@ import * as d3Collection from 'd3-collection';
   selector: '[appProgressBar]'
 })
 export class ProgressBarDirective implements OnInit, AfterViewInit {
-  color = d3Scale.scaleOrdinal().range(["#5ba7e4", "#FA4556", 'grey']).domain(["doing", "done", "toDo"]);
+  color = d3Scale.scaleOrdinal().range(['green', "yellow", 'grey'])//.domain(["doing", "done", "toDo"]);
   myData: any;
-  perc_so_far = 0;
-  height = 20;
-  goal = 600;
+ 
+  height = 30;
+  // goal = 600;
   x: any;
   xAxis: (g: any) => any;
   yAxis: (g: any) => any;
   //color1 = d3.scaleOrdinal(["steelblue", "#aaa"])
-  margin = ({ top: 30, right: 30, bottom: 0, left: 100 })
-  svg: d3Selection.Selection<SVGSVGElement, {}, null, undefined>;
+  margin = ({ top: 2, right: 2, bottom: 2, left: 2 })
+  perc_so_far = this.margin.left;
+  svg: any;
   bar: any;
 
   data: any
+  myScore: { 'toDo': any; 'doing': any; 'done': any; };
+  total: any;
+  myScoreArray: any[];
+  toDo: any;
+  doing: any;
+  done: any;
 
   //data.sort(d3.descending());
 
@@ -48,42 +55,17 @@ export class ProgressBarDirective implements OnInit, AfterViewInit {
 
   width;
   @Input('ObjectWidth') set widthFromApp(value) {
-    this.width = value;
+    this.width = value*0.5;
   }
 
   constructor(private el: ElementRef) { }
 
   ngOnInit() {
-    this.data =  d3Collection.nest()
-      .key(function (d: any) { return d['status']; })
-      .rollup(function (leaves: any) {
-        return {
-          total: d3Array.sum(leaves, function (d) {
-            return d['score'];
-          }), tally: leaves.length
-        } as any
-      })
-      .entries(this.myData);
-
-
-      console.log('this.data', this.data)
-  // }
-
-
-    // console.log("waht is ",this.hierarchyData,this.hierarchyData.node)
-    //this.color = d3.scaleOrdinal(d3.quantize(d3.interpolateRainbow,  this.hierarchyData.children.length + 1));
-
-    // const reduceFn = data => d3Array.sum(data, d => d['score']);
-
-    // const rollupData = d3Array.rollup(this.myData, reduceFn, d => d['lesson']);
-
-    // const childrenAccessorFn = ([key, value]) => value.size && Array.from(value)
-
-    // this.hierarchyData = d3Hierarchy.hierarchy([null, rollupData], childrenAccessorFn)
-    //   .sum(([key, value]) => value);
-
-    // this.totalScore = d3Array.sum(this.myData, d => d['score']);
-    // console.log('this.totalScore',  this.totalScore)
+    this.toDo = (this.myData[0].value.tally) ? this.myData[0].value.tally : 0;
+    this.doing = (this.myData[1].value.tally) ? this.myData[1].value.tally : 0;
+    this.done = (this.myData[2].value.tally) ? this.myData[2].value.tally : 0;
+    this.myScoreArray = [this.done, this.doing, this.toDo]
+    this.total = this.myScoreArray.reduce((a, b) => a + b, 0)
   }
 
   ngAfterViewInit() {
@@ -91,24 +73,49 @@ export class ProgressBarDirective implements OnInit, AfterViewInit {
   }
 
   render() {
+    // const svg = d3Selection.select(element1).append('svg')
+    //   .attr("width", '100%')
+    //   .attr("height", '100%')
+    //   .attr('viewBox', '0 0 ' + Math.min(this.width, this.height) + ' ' + Math.min(this.width, this.height) * 10)
+    //   .append("g")
+    //   .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
+
     this.svg = d3Selection.select(this.el.nativeElement).append('svg')
-      .attr("viewBox", `0 0 ${this.width} ${this.height}`)
-      .style("font", "14px sans-serif");
+    .attr('viewBox', '0 0 ' + Math.min(this.width*1.1) + ' 30');
 
     this.bar = this.svg.selectAll("g")
-      .data(this.myData)
+      .data(this.myScoreArray)
       .enter().append("g");
+      //-this.margin.left-this.margin.right
 
     this.bar.append("rect")
-      .attr("width", function (d) { return ((d / this.total_score) * 100) + "%"; })
-      .attr("x", function (d) {
+      .attr("y",this.margin.top)
+      .attr("width",  d => ((d/this.total) * (this.width)))
+      .attr("x", d => {
         var prev_perc = this.perc_so_far;
-        var this_perc = 100 * (d / this.total_time);
+        var this_perc = this.width * (d / this.total);
         this.perc_so_far = this.perc_so_far + this_perc;
-        return prev_perc + "%";
+        return prev_perc;
       })
-      .attr("height", this.height)
-      .attr("fill", function (d) { return (this.color(d)) });
+      .attr("height", 30)
+      .attr("fill", d => { return (this.color(d)) });
+
+    this.bar.append("text") // adding the text labels to the bar
+      // .data(data)
+      // .enter().append("text")
+      .style("font", "14px sans-serif")
+      .style('fill', 'darkOrange')
+      .attr("x", d => {
+        var prev_perc = this.perc_so_far;
+        var this_perc = this.width * (d / this.total);
+        this.perc_so_far = this.perc_so_far + this_perc;
+        return prev_perc;
+      })
+      .attr("y", 10) // y position of the text inside bar
+      .attr("dx", -3) // padding-right
+      .attr("dy", ".35em") // vertical-align: middle
+      .attr("text-anchor", "end") // text-align: right
+      .text(d => d);
 
     // d3.select(window).on('resize', resize);
   }
