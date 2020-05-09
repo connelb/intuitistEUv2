@@ -6,6 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TotalCardsPipe implements PipeTransform {
 
   transform(lesson: any): any {
-    return (lesson.cards3.items.length*2)+10
+    return (lesson.cards3.items.length)+30
   }
 }

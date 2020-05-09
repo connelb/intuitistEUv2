@@ -8,14 +8,26 @@
       </ion-title>
       <div *ngIf="online$ | async; else offline"></div>
       <ng-template #offline>
-        <ion-chip color="warning">
-          <ion-label>Offline
-          </ion-label>
-        </ion-chip>
       </ng-template>
     </ion-buttons>
+    <ion-chip slot="end" color="dark">
+      <ion-label>{{currentScore}}/{{totalScore}}
+      </ion-label>
+    </ion-chip>
+    <!-- <div>
+      <ion-progress-bar color="warning" value="{{doingScore}}"></ion-progress-bar>
+    </div>
+    <div>
+      <ion-progress-bar color="success" value="{{doneScore}}"></ion-progress-bar>
+    </div>
+    <div>
+      <ion-progress-bar color="danger" value="{{videoScore}}"></ion-progress-bar>
+    </div> -->
   </ion-toolbar>
 </ion-header>
+
+
+
 
 <ion-content class="ion-text-center">
   <!-- <ion-refresher ion-refresher slot="fixed" (ionRefresh)="reloadItems($event)">
@@ -49,27 +61,116 @@
     </span>
   </ion-segment> -->
 
+
+<!-- 
+  <ion-item-sliding *ngFor="let card of cards; index as i">
+      <ion-item>
+        <ion-badge slot="start">{{i+1}}</ion-badge>
+        {{card.question}}
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option expandable (click)="presentModal(card,i)">
+          Edit
+        </ion-item-option>
+          <ion-item-option expandable (click)="delete(card)">
+            Delete
+          </ion-item-option>
+        </ion-item-options>
+    </ion-item-sliding> -->
+
+
+
   <ion-list #scheduleList>
-    <ion-item-group *ngFor="let lesson of lessons">
+    <ion-item-sliding *ngFor="let lesson of lessons">
       <!-- <ion-item-divider sticky>  /-->
-        <ion-item detail>
-          <ion-label >
-            <h1>{{lesson?.name}} <ion-chip>
-                <ion-label class="points">{{lesson |totalScore:'total'}}/{{lesson |totalCards}} points</ion-label>
-              </ion-chip></h1>
-            
-            <ion-text wrap class="ion-text-wrap">{{lesson?.description}}</ion-text>
-            <!-- <p class="ion-text-wrap">
-                I saw a werewolf with a Chinese menu in his hand.
-                Walking through the <ion-text color="danger"><sub>streets</sub></ion-text> of Soho in the rain.
-                He <ion-text color="primary"><i>was</i></ion-text> looking for a place called Lee Ho Fook's.
-                Gonna get a <ion-text color="secondary"><a>big dish of beef chow mein.</a></ion-text>
-                <ion-text color="danger"><ion-icon name="cut"></ion-icon></ion-text>
-              </p> -->
-          </ion-label>
-          <!-- <h1>{{lesson?.description}}</h1> -->
-          <!-- <ion-note>{{lesson?.description}}</ion-note> -->
-        </ion-item>
+      <ion-item detail (click)="showCards(lesson?.id)" *ngIf=!lesson._deleted>
+        <ion-label>
+          <h1>{{lesson?.name}}
+            <ion-chip>
+              <ion-label class="points">{{lesson |totalCards}} points</ion-label>
+            </ion-chip>
+          </h1>
+
+          <ion-text wrap class="ion-text-wrap">{{lesson?.description}}</ion-text>
+          <!-- videoScore: {{lesson |videoScore:lesson.id}}
+done:{{lesson |totalScore:'done'}}
+doing:{{lesson |totalScore:doing}} -->
+          <!-- total:{{lesson |totalScore:'done'}} -->
+          video: {{lesson |videoScore}}
+          <ion-grid>
+              <ion-row>
+                  <!-- <ion-col size=4>
+                      <ion-chip color="warning">
+                          <ion-icon name="sad-outline"></ion-icon>
+                          <ion-label>{{lesson |totalScore:'doing'}}</ion-label>
+                        </ion-chip>
+                    </ion-col> -->
+                  <ion-col size=1>
+                    <div>{{lesson |totalScore:'done'}}:</div>
+                  </ion-col>
+                  <ion-col size=5 class="progress">
+                    <ion-progress-bar color="success" value="{{lesson |totalScore:'done%'}}"></ion-progress-bar>
+                  </ion-col>
+                  
+                    <!-- <ion-col size=3 class="progress"> -->
+                        
+                      <!-- <ion-progress-bar color="warning" value="{{lesson |totalScore:'doing%'}}"></ion-progress-bar> -->
+                    <!-- </ion-col> -->
+                    <ion-col size=1>
+                        <ion-icon name="film-outline"></ion-icon>:
+                        <!-- <span>{{lesson |videoScore:lesson.id}}</span> -->
+                      </ion-col>
+                      <ion-col size=5 class="progress">
+                        <ion-progress-bar color="success" value="{{lesson |videoScore:lesson.id}}"></ion-progress-bar>
+                      </ion-col>
+
+                </ion-row>
+
+            <!-- <ion-row>
+              <ion-col size=1>
+                <span>{{lesson |totalScore:'done'}}</span>
+              </ion-col>
+              <ion-col size=11 class="progress">
+                <ion-progress-bar color="success" value="{{lesson |totalScore:'done%'}}"></ion-progress-bar>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size=1>
+                <span>{{lesson |totalScore:'doing'}}</span>
+              </ion-col>
+              <ion-col size=11>
+                <ion-progress-bar color="warning" value="{{lesson |totalScore:'doing%'}}"></ion-progress-bar>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size=1>
+                <p>{{lesson |videoScore:lesson.id}}</p>
+              </ion-col>
+              <ion-col size=11>
+                <ion-progress-bar color="danger" value="{{lesson |videoScore:lesson.id}}"></ion-progress-bar>
+              </ion-col>
+            </ion-row> -->
+          </ion-grid>
+          <!-- <div>
+              <span></span> 
+          </div>
+          <div>
+              {{lesson |totalScore:'done'}}<ion-progress-bar color="success" value="{{lesson |totalScore:'done%'}}"></ion-progress-bar>
+          </div>
+          <div>
+            <ion-progress-bar color="danger" value="{{lesson |videoScore:lesson.id}}"></ion-progress-bar>
+          </div> -->
+        </ion-label>
+        <!-- <h1>{{lesson?.description}}</h1> -->
+        <!-- <ion-note>{{lesson?.description}}</ion-note> -->
+
+      </ion-item>
+      <ion-item-options side="end">
+          <ion-item-option color="warning" expandable (click)="presentModal(card,i)">
+            Review <ion-icon name="sad-outline"></ion-icon>
+          </ion-item-option>
+          </ion-item-options>
 
       <!-- </ion-item-divider> -->
 
@@ -93,7 +194,7 @@
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding> -->
-    </ion-item-group>
+    </ion-item-sliding>
   </ion-list>
 
 

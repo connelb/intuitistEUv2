@@ -63,9 +63,14 @@ const GetUser3Video3ById =
 const CreateUser3Video3 =
   `mutation CreateUser3Video3($user3Video3User3Id: ID!,$user3Video3Video3Id: ID!,$status:videoStatus, $score:Int )  {
     createUser3Video3(input:{user3Video3User3Id:$user3Video3User3Id, user3Video3Video3Id:$user3Video3Video3Id,status:$status,score:$score}){
+      __typename
       id
       score
       status
+      user3 {
+        id
+        __typename
+     }
       _version
     }
  }`
@@ -73,10 +78,15 @@ const CreateUser3Video3 =
 const UpdateUser3Video3 =
   gql`mutation UpdateUser3Video3($id: ID!,$status:videoStatus, $score:Int, $_version:Int )  {
     updateUser3Video3(input:{id:$id, status:$status, score:$score, _version:$_version}){
+      __typename
       id
       score
       status
-      _version
+      user3 {
+        id
+        __typename
+     }
+       _version
     }
  }`
 
@@ -677,10 +687,10 @@ const ListUserCardsByUser = gql
       transition('from => to', [
         // animate('2s 200ms ease', style({  opacity: 1 })),
         // group([
-          animate('1s ease', style({ opacity: 0.8 })),
-          animate('1s ease', style({ textShadow: '2px 2px 5px #5ba7e4' })),
-          animate('1s ease', style({ textShadow: '2px 2px 5px #FA4556',})),
-          
+        animate('1s ease', style({ opacity: 0.8 })),
+        animate('1s ease', style({ textShadow: '2px 2px 5px #5ba7e4' })),
+        animate('1s ease', style({ textShadow: '2px 2px 5px #FA4556', })),
+
         // ])
       ]),
     ]),
@@ -710,8 +720,8 @@ export class CardsPage implements OnInit {
   animate: boolean = false;
   //Lets initiate Record OBJ
   private record;
- 
-  
+
+
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
   // @ViewChild('slides', { static: false }) slides1;
   @ViewChild('video', { static: false }) videoElement: ElementRef;
@@ -784,13 +794,19 @@ export class CardsPage implements OnInit {
     }
   };
   userCardTest: any;
-  doneScore: any = 0;
-  doingScore: any = 0;
+
   scoresArr: any;
   result: any;
-  totalScore: any;
+
   totalTally: any;
   loading: any;
+
+
+  doneScore: any;
+  doingScore: any;
+  currentScore: any;
+  totalScore: any;
+  videoScore1: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -823,6 +839,16 @@ export class CardsPage implements OnInit {
         this.ListLessonsByUserByLesson(p.id);
       }, 700);
 
+    })
+
+    this.score.getGlobalScores(this.user).then(data => {
+      if (!data) { () => console.log("no data") }
+
+      this.doneScore = data[0];
+      this.doingScore = data[1];
+      this.currentScore = data[2];
+      this.totalScore = data[3];
+      this.videoScore = data[4];
     })
 
     //this.lessonCompleteToast();
@@ -1045,10 +1071,11 @@ export class CardsPage implements OnInit {
 
       var x = d3Scale.scaleLinear()
         .domain([0, this.videoStatus.duration])
-        .range([0, 10]);
+        .range([0, 30]);
 
       let videoScore = Math.ceil(x(this.videoStatus.currentTime));
-      this.videoScoreUpdate(videoScore);
+      // this.videoScoreUpdate(videoScore);
+      this.updateVideoPWA(videoScore);
 
     }).then(() => this.slides.slideTo(1));
   }
@@ -2032,6 +2059,208 @@ export class CardsPage implements OnInit {
     }
   }
 
+
+//   const GetUser3Video3ById =
+//   gql`query GetUser3Video3Id($id: ID!){
+//   getUser3Video3(id:$id){
+//       id
+//       score
+//       status
+//       _version
+//   }
+// }`
+
+
+  async updateVideoPWA(videoScore) {
+    this.presentLoading();
+    
+
+    this.appsync.hc().then(client => {
+      client.query({
+        query: GetUser3Video3ById,
+        variables: { id: this.userVideo.id },
+        fetchPolicy: 'network-only'
+      })
+        .then(data => {
+          console.log('GetUser3Video3ById data ???',(data.data.getUser3Video3) ? true : false)
+          if ((data.data.getUser3Video3) ? true : false) {
+            this.myUpdateUserVideo(data, videoScore)
+          } else {
+            this.myCreateUserVideo(videoScore);
+          }
+        })
+        .catch(console.error);
+    });
+  }
+
+
+  myCreateUserVideo(videoScore) {
+
+    // const myUser3Card3 = {
+    //   user3Card3User3Id: this.user.attributes.sub,
+    //   user3: { id: this.user.attributes.sub, username: this.user.username, __typename: "User3" },
+    //   user3Card3Card3Id: card.id,
+    //   card3: { id: card.id, __typename: "Card3" },
+    //   status: this.status,
+    //   score: this.score,
+    //   _version: 1
+    // }
+
+    // id: ID
+    // status: cardStatus
+    // score: Int
+    // user3: User3! @connection(name:"UserCards3")
+    // card3: Card3! @connection(name: "CardUsers3")  
+
+    // id: ID
+    // status: videoStatus
+    // score: Int
+    // user3: User3! @connection(name:"UserVideos3")
+    // video3: vodAsset! @connection(name:"VideoUsers3") 
+
+    const User3Video3ToCreate = {
+      user3Video3User3Id: this.user.attributes.sub,
+      user3Video3Video3Id: this.userVideo.id,
+      // _version: this.userVideo._version,
+      status: 'done',
+      score: videoScore,
+      user3: { id: this.user.attributes.sub, username: this.user.username, __typename: "User3" },
+      video3: { id: this.userVideo.id, __typename: "vodAsset" },
+      _version: 1
+    }
+
+    console.log(" myCreateUserVideo in progress...")
+    this.appsync.hc().then(client => {
+      client.mutate({
+        mutation: CreateUser3Video3,
+        variables: User3Video3ToCreate,
+
+        optimisticResponse: () => ({
+          createUser3Video3: {
+            ...User3Video3ToCreate,
+            __typename: "User3Video3"
+          }
+        }),
+
+        update: (proxy, { data: { createUser3Video3: _User3Video3ToCreate } }) => {
+
+          const options = {
+            //   //getUserVideo
+            query: GetUser3Video3,
+            fetchPolicy: 'network-only',
+            variables: { user3Video3User3Id: this.user.id, user3Video3Video3Id: this.userVideo.id },
+            //__typename: "ModelUser3Card3Connection"//{ conversationId: this.conversation.id, first: constants.messageFirst }
+          };
+          proxy.writeQuery({
+            ...options, data: {
+              listUser3Video3s: {
+                items: [{ ..._User3Video3ToCreate }],
+                "__typename": "ModelUser3Video3Connection"
+              }
+            }
+          });
+        }
+      }).then(({ data }) => {
+        console.log("created a new User3Video3")
+        this.nextSlide();
+      }).catch(err => console.log('Error creating UserVideo', err));
+    })
+  }
+
+  // const GetUser3Video3 =
+  //   gql`query GetUser3Video3Id($user3Video3User3Id: ID!, $user3Video3Video3Id: ID!){
+  //   listUser3Video3s(filter: {user3Video3User3Id: {eq: $user3Video3User3Id}, user3Video3Video3Id: {eq: $user3Video3Video3Id} }){
+  //     items {
+  //       id
+  //       score
+  //       status
+  //       _version
+  //     }
+  //   }
+  // }`
+
+  // const GetUser3Video3ById =
+  //   gql`query GetUser3Video3Id($id: ID!){
+  //   getUser3Video3(id:$id){
+  //       id
+  //       score
+  //       status
+  //       _version
+  //   }
+  // }`
+
+  // const CreateUser3Video3 =
+  //   `mutation CreateUser3Video3($user3Video3User3Id: ID!,$user3Video3Video3Id: ID!,$status:videoStatus, $score:Int )  {
+  //     createUser3Video3(input:{user3Video3User3Id:$user3Video3User3Id, user3Video3Video3Id:$user3Video3Video3Id,status:$status,score:$score}){
+  //       id
+  //       score
+  //       status
+  //       _version
+  //     }
+  //  }`
+
+  // const UpdateUser3Video3 =
+  //   gql`mutation UpdateUser3Video3($id: ID!,$status:videoStatus, $score:Int, $_version:Int )  {
+  //     updateUser3Video3(input:{id:$id, status:$status, score:$score, _version:$_version}){
+  //       id
+  //       score
+  //       status
+  //       _version
+  //     }
+  //  }`
+
+
+  myUpdateUserVideo(res, videoScore) {
+    console.log('res??',res)
+    const UserVideoToUpdate = {
+      id: res.data.getUser3Video3.id,
+      status: 'done',
+      score: videoScore,
+      user3: { id: this.user.attributes.sub, __typename: "User3" },
+      video3: { id: this.userVideo.id, __typename: "vodAsset" },
+      _version: +res.data.getUser3Video3._version,
+      user3Video3User3Id: this.user.attributes.sub,
+      user3Video3Video3Id: this.userVideo.id,
+      __typename: "User3Video3"
+    }
+
+    console.log(" updateUserVideo in progress...")
+
+    this.appsync.hc().then(client => {
+      client.mutate({
+        mutation: UpdateUser3Video3,
+        variables: UserVideoToUpdate,
+
+        optimisticResponse: () => ({
+          updateUser3Video3: {
+            ...UserVideoToUpdate,
+            __typename: "User3Video3"
+          }
+        }),
+        update: (proxy, { data: { updateUser3Video3: _UserVideoToUpdate } }) => {
+
+          const options = {
+            query: GetUser3Video3,
+            fetchPolicy: 'network-only',
+            variables: { user3Video3User3Id: this.user.id, user3Video3Video3Id: this.userVideo.id },
+            __typename: "ModelUser3Video3Connection"
+          };
+
+          proxy.writeQuery({
+            ...options, data: {
+              listUser3Video3s: {
+                items: [{ ..._UserVideoToUpdate }],
+                "__typename": "ModelUser3Video3Connection"
+              }
+            }
+          });
+        }
+      }).then(({ data }) => {
+        console.log("updated a User3Video3")
+        this.nextSlide();
+      }).catch(err => console.log('Error updating User3Video3', err));
+    })
+  }
 }
 
 
@@ -2651,4 +2880,3 @@ export class CardsPage implements OnInit {
     // this.userCardId = userCard.data.createUser3Card3.id;
     // } else {
     // this.userCardId = userCard.data.listUser3Card3s.items[0].id;
-    // }

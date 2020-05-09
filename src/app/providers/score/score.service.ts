@@ -60,6 +60,72 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
 }
 `
 
+const GetUser3Video3 =
+  gql`query GetUser3Video3Id($user3Video3User3Id: ID!, $user3Video3Video3Id: ID!){
+  listUser3Video3s(filter: {user3Video3User3Id: {eq: $user3Video3User3Id}, user3Video3Video3Id: {eq: $user3Video3Video3Id} }){
+    items {
+      id
+      score
+      status
+      _version
+    }
+  }
+}`
+
+const ListLessonsByUserByLesson = gql`
+query ListLessonsByUserByLesson($id:ID!,$user3Card3User3Id:ID){
+  listLesson3s(filter:{id:{eq:$id}}) {
+    items {
+      __typename
+      id
+      name
+      description
+      section
+      subSection
+      video
+      _version
+      cards3(limit:60) {
+        __typename
+        items {
+          id
+          question
+          answer
+          audio
+          order
+          _version
+          _deleted
+          users3(filter: {user3Card3User3Id: {eq: $user3Card3User3Id}}) {
+            __typename
+            items {
+              __typename
+              id
+              user3 {
+                id
+                username
+                _lastChangedAt
+                _version
+                videos3 {
+                  __typename
+                  items {
+                    id
+                    status
+                    score
+                    _version
+                  }
+                }
+              }
+              score
+              status
+              _version
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
+
 @Injectable({
   providedIn: 'root'
 })
@@ -80,17 +146,34 @@ export class ScoreService {
   total: any;
   myTotalArray: any[];
   score: any;
+  userVideo: any;
+  videoScore: any;
+  lessonCards: any;
+  lesson: any;
+  myLessonScore: any;
 
   constructor(private appsync: AppsyncService) { }
 
 
-  async getLessons(user) {
-    let temp =[];
+  async getUserVideoId(user, lesson) {
+    const [userVideo] = await Promise.all([
+      API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: user.attributes.sub, user3Video3Video3Id: lesson })) as Promise<any>
+    ]);
+    // console.log('userVideo?',(userVideo.data.listUser3Video3s.items.length>0)?userVideo.data.listUser3Video3s.items[0].score:0);
+    return (userVideo.data.listUser3Video3s.items.length > 0) ? userVideo.data.listUser3Video3s.items[0].score : 0.1;
+  }
+
+
+  async getGlobalScores(user) {
+    let temp = [];
+    let globalVideoScore = [];
     const [lessons] = await Promise.all([
-      API.graphql(graphqlOperation(ListLessonsByUser,  { user3Card3User3Id: user.attributes.sub })) as Promise<any>
+      API.graphql(graphqlOperation(ListLessonsByUser, { user3Card3User3Id: user.attributes.sub })) as Promise<any>
     ])
 
     lessons.data.listLesson3s.items.map((lesson: any) => {
+      this.getUserVideoId(user, lesson.video).then(d => globalVideoScore.push(d))
+
       lesson.cards3.items.map((card: any) => {
         temp.push({
           'name': lesson.name,
@@ -102,133 +185,6 @@ export class ScoreService {
     })
 
     this.myScore = d3Collection.nest()
-    .key(function (d: any) { return d['status']; })
-    .rollup(function (leaves: any) {
-      return {
-        total: d3Array.sum(leaves, function (d) {
-          return d['score'];
-        }), tally: leaves.length
-      } as any})
-    .entries(temp);
-
-    this.toDo = (this.myScore[0].value.tally) ? this.myScore[0].value.tally : 0;
-    this.doing = (this.myScore[1].value.tally) ? this.myScore[1].value.tally : 0;
-    this.doingScore = (this.myScore[1].value.total) ? this.myScore[1].value.total : 0;
-    this.done = (this.myScore[2].value.tally) ? this.myScore[2].value.tally : 0;
-    this.doneScore = (this.myScore[2].value.total) ? this.myScore[2].value.total : 0;
-    this.myTotalArray = [this.done, this.doing, this.toDo];
-    this.myScoreArray = [this.done, this.doing];
-    this.total = this.myTotalArray.reduce((a, b) => a + b, 0);
-    this.score = this.myScoreArray.reduce((a, b) => a + b, 0)
-
-    return [this.done/this.total,this.doing/this.total,this.score,this.total]
-  }
-
-  async getScores1() {
-    await Auth.currentAuthenticatedUser({
-      bypassCache: false
-    }).then(async user => {
-      this.user = user;
-    });
-    //console.log('userMMMMMM', user);
-    this.appsync.hc().then(client => {
-      client.query({
-        query: ListLessonsByUser,
-        fetchPolicy: 'network-only',
-        variables: { user3Card3User3Id: this.user.attributes.sub },
-        __typename: "ModelUser3Card3Connection"
-      }).then(data => {
-        data.data.listLesson3s.items.map((lesson: any) => {
-          lesson.cards3.items.map((card: any) => {
-            this.temp.push({
-              'name': lesson.name,
-              'cardId': card.id,
-              'status': (card.users3.items.length > 0) ? card.users3.items[0].status : 0,
-              'score': (card.users3.items.length > 0) ? card.users3.items[0].score : 0
-            })
-          })
-        })
-      })
-    })
-    // console.log('llkl',this.temp)
-    return this.temp
-
-  
-
-    // d3Collection.nest()
-    //   .key(function (d: any) { return d['status']; })
-    //   .rollup(function (leaves: any) {
-    //     return {
-    //       total: d3Array.sum(leaves, function (d) {
-    //         return d['score'];
-    //       }), tally: leaves.length
-    //     } as any
-    //   }).entries(temp)
-  }
-
-  async getScores() {
-    await Auth.currentAuthenticatedUser({
-      bypassCache: false
-    }).then(async user => {
-      this.user = user;
-    });
-
-    // this.appsync.hc().then(client => {
-    //   client.watchQuery({
-    //     query: getMe,
-    //     fetchPolicy: 'cache-only'
-    //   }).subscribe(({data}) => {
-    //     // console.log('register user, fetch cache', data);
-    //     if (data) { this.me = data.me; }
-    //   });
-    // });
-
-    this.appsync.hc().then(client => {
-      const observable = client.watchQuery({
-        query: ListLessonsByUser,
-        fetchPolicy: 'cache-and-network',
-        variables: { user3Card3User3Id: this.user.attributes.sub },
-        __typename: "ModelUser3Card3Connection"
-      });
-
-      observable.subscribe(({ data }) => {
-        if (!data) {
-          return console.log('User3Card3 - no data');
-        }
-
-        data.listLesson3s.items.map((lesson: any) => {
-          lesson.cards3.items.map((card: any) => {
-            this.temp.push({
-              'name': lesson.name,
-              'cardId': card.id,
-              'status': (card.users3.items.length > 0) ? card.users3.items[0].status : 0,
-              'score': (card.users3.items.length > 0) ? card.users3.items[0].score : 0
-            })
-          })
-        })
-      });
-
-      //   observable.subscribeToMore({
-      //     document: subscribeToNewUserUsers,
-      //     updateQuery: (prev: UsersQuery, {subscriptionData: {data: {subscribeToNewUsers: user }}}) => {
-      //       console.log('updateQuery on convo subscription', user, prev);
-      //       return this._user.id === user.id ? prev : addUser(prev, user);
-      //     }
-      //   });
-      // });
-
-      this.observedQuery = observable;
-      return observable;
-    })
-
-    //return this.someFunction(this.temp);
-  }
-
-  async someFunction(temp) {
-    // return "hello2"
-    console.log('rr length', temp.length);
-    let temp2 = [];
-    await d3Collection.nest()
       .key(function (d: any) { return d['status']; })
       .rollup(function (leaves: any) {
         return {
@@ -236,24 +192,118 @@ export class ScoreService {
             return d['score'];
           }), tally: leaves.length
         } as any
-      }).entries(temp).map((d: any) => {
-        for (let key in d) {
-          if (d[key] === "0") {
-            return this.toDoScore = d['value']
-            // console.log('this.toDoScore???',d['value'])//, d[key] === "done", d['value'].total, d['value'].tally)
-          }
-          if (d[key] === "done") {
-            //console.log('done???', d[key] === "done", d['value'].total, d['value'].tally)
-            return this.doneScore = d['value']
-          }
-          if (d[key] === "doing") {
-            //console.log('done???', d[key] === "doing", d['value'].total, d['value'].tally)
-            return this.doingScore = d['value']
-          }
-        }
-        temp2.push({ "a": this.toDoScore })
-      });
-    console.log('somefunc temp2', temp2);
-    return temp2;
+      })
+      .entries(temp);
+
+    this.toDo = (this.myScore[0].value.tally) ? this.myScore[0].value.tally : 0;
+    this.doing = (this.myScore[1].value.tally) ? this.myScore[1].value.tally : 0;
+    this.done = (this.myScore[2].value.tally) ? this.myScore[2].value.tally : 0;
+    this.myTotalArray = [this.done, this.doing, this.toDo];
+
+    this.doingScore = (this.myScore[1].value.total) ? this.myScore[1].value.total : 0;
+    this.doneScore = (this.myScore[2].value.total) ? this.myScore[2].value.total : 0;
+
+
+    this.myScoreArray = [this.done, this.doing];
+
+    this.total = this.myTotalArray.reduce((a, b) => a + b, 0);
+    this.score = this.myScoreArray.reduce((a, b) => a + b, 0);
+    this.videoScore = globalVideoScore.reduce((a, b) => a + b, 0);
+
+    return [this.done / this.total, this.doing / this.total, this.score, this.total, this.videoScore]
   }
+
+
+  // async ListLessonsByUserByLesson(lessonId) {
+
+  //   this.appsync.hc().then(client => {
+  //     const observable = client.watchQuery({
+  //       query: ListLessonsByUserByLesson,
+  //       variables: { id: lessonId, user3Card3User3Id: this.user.attributes.sub },
+  //       fetchPolicy: 'cache-and-network'
+  //     });
+
+  //     observable.subscribe(({ data }) => {
+  //       if (!data) {
+  //         return console.log('ListLessonsByUserByLesson - no data');
+  //       }
+
+  //       this.lesson = data.listLesson3s.items[0];
+  //       this.lessonCards = data.listLesson3s.items[0].cards3.items.sort((a, b) => +a['order'] - +b['order']);
+
+  //       this.getModelVideo(this.lesson);
+
+  //       this.getUserVideoId(this.lesson);
+
+  //     });
+  //   })
+  // }
+
+  async getLessonScores(user, lesson) {
+    let videoScore;
+    let temp = [];
+
+    this.appsync.hc().then(client => {
+      const observable = client.watchQuery({
+        query: ListLessonsByUserByLesson,
+        variables: { id: lesson.id, user3Card3User3Id: this.user.attributes.sub },
+        fetchPolicy: 'cache-and-network'
+      });
+
+      observable.subscribe(({ data }) => {
+        if (!data) {
+          return console.log('ListLessonsByUserByLesson - no data');
+        }
+
+        this.lesson = data.listLesson3s.items[0];
+
+        // get video score
+        this.getUserVideoId(user, this.lesson.video).then(d => videoScore = d)
+
+
+        this.lessonCards = data.listLesson3s.items[0].cards3.items;
+
+        this.lessonCards.map((card: any) => {
+          temp.push({
+            'name': lesson.name,
+            'cardId': card.id,
+            'status': (card.users3.items.length > 0) ? card.users3.items[0].status : 0,
+            'score': (card.users3.items.length > 0) ? card.users3.items[0].score : 0
+          })
+        })
+      })
+
+      this.myLessonScore = d3Collection.nest()
+        .key(function (d: any) { return d['status']; })
+        .rollup(function (leaves: any) {
+          return {
+            total: d3Array.sum(leaves, function (d) {
+              return d['score'];
+            }), tally: leaves.length
+          } as any
+        })
+        .entries(temp);
+
+      let toDo = (this.myLessonScore[0].value.tally) ? this.myLessonScore[0].value.tally : 0;
+      let doing = (this.myLessonScore[1].value.tally) ? this.myLessonScore[1].value.tally : 0;
+      let done = (this.myLessonScore[2].value.tally) ? this.myLessonScore[2].value.tally : 0;
+      let myTotalArray = [this.done, this.doing, this.toDo];
+
+      let doingScore = (this.myLessonScore[1].value.total) ? this.myLessonScore[1].value.total : 0;
+      let doneScore = (this.myLessonScore[2].value.total) ? this.myLessonScore[2].value.total : 0;
+
+
+      let myScoreArray = [this.done, this.doing];
+
+      let total = this.myTotalArray.reduce((a, b) => a + b, 0);
+      let score = this.myScoreArray.reduce((a, b) => a + b, 0);
+      // let videoScore = globalVideoScore.reduce((a, b) => a + b, 0);
+
+
+
+      return [done / total, doing / total, score, total, videoScore]
+    })
+  }
+
+
 }

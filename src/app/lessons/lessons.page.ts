@@ -21,6 +21,7 @@ import * as d3Collection from 'd3-collection';
 import { User3Card3, Lesson3, Card3, User3, User3Video3 } from "./../../models";
 import { from } from 'rxjs';
 import { Network } from '@ngx-pwa/offline';
+import { ScoreService } from '../providers/score/score.service';
 
 //import Amplify from "@aws-amplify/core";
 
@@ -362,13 +363,25 @@ export class LessonsPage {
   user: any;
   currentScores: any;
 
+  doneScore: any;
+  doingScore: any;
+  currentScore: any;
+  totalScore: any;
+  videoScore: any;
+  doneScore1: any;
+  doingScore1: any;
+  currentScore1: any;
+  totalScore1: any;
+  videoScore1: any;
+
   constructor(
     protected network: Network,
     protected amplifyService: AmplifyService,
     private appsync: AppsyncService,
     //private modalController: ModalController,
     private router: Router, private platform: Platform,
-    public toastController: ToastController, ) {
+    public toastController: ToastController,
+    private score: ScoreService, ) {
 
   }
 
@@ -386,6 +399,16 @@ export class LessonsPage {
       this.ListLessonsByUser()
     }, 500);
 
+    this.score.getGlobalScores(this.user).then(data => {
+      if (!data) { () => console.log("no data") }
+
+      this.doneScore1 = data[0];
+      this.doingScore1 = data[1];
+      this.currentScore1 = data[2];
+      this.totalScore1 = data[3];
+      this.videoScore1 = data[4];
+    })
+
   }
 
   ngAfterViewInit() {
@@ -394,6 +417,9 @@ export class LessonsPage {
       this.height = this.platform.height();
     });
   }
+
+
+
 
   // getTotal(res) {
   //   return res.data.getUser3.cards3.items.reduce(function (tot, record) {

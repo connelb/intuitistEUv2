@@ -141,15 +141,14 @@ export class ProfilePage implements OnInit {
   user: any;
   myData: any[];
   toDoScore: any;
-  doneScore: any;
-  doingScore: any;
   myScore: any;
   temp2: any;
   temp: any[];
-  done: any;
-  doing: any;
+  doneScore: any;
+  doingScore: any;
   currentScore: any;
-  total: any;
+  totalScore: any;
+  videoScore: any;
 
   constructor(private platform: Platform, private appsync: AppsyncService, private score: ScoreService, protected network: Network) { }
 
@@ -162,28 +161,14 @@ export class ProfilePage implements OnInit {
 
     this.getUserCards();
 
-    this.score.getLessons(this.user).then(data => {
+    this.score.getGlobalScores(this.user).then(data => {
       if (!data) { () => console.log("no data") }
 
-      this.myScore = data;
-      // this.done = (data[0]>0.1)?data[0]:0.05;
-      // this.doing = (data[1]>0.1)?data[1]:0.05;
-      this.done = data[0];
-      // this.doing = (data[1]>0.1)?data[1]:0.05;
-      this.doing = data[1];
+      this.doneScore = data[0];
+      this.doingScore = data[1];
       this.currentScore = data[2];
-      this.total = data[3];
-
-      console.log(this.myScore, this.done, this.doing);
-      // = d3Collection.nest()
-      //   .key(function (d: any) { return d['status']; })
-      //   .rollup(function (leaves: any) {
-      //     return {
-      //       total: d3Array.sum(leaves, function (d) {
-      //         return d['score'];
-      //       }), tally: leaves.length
-      //     } as any})
-      //   .entries(data);
+      this.totalScore = data[3];
+      this.videoScore = data[4];
     })
   }
 

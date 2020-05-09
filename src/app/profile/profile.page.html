@@ -5,21 +5,21 @@
       </ion-menu-button>
       <ion-title>
         Profile
-        <ion-chip slot="end" color="warning">
+        <!-- <ion-chip slot="end" color="warning">
             <ion-label >60/700
             </ion-label>
-          </ion-chip>
+          </ion-chip> -->
       </ion-title>
       <div *ngIf="online$ | async; else offline"></div>
       <ng-template #offline>
       </ng-template>
     </ion-buttons>
     <ion-chip slot="end" color="dark">
-        <ion-label >{{currentScore}}/{{total}}
+        <ion-label >{{currentScore}}/{{totalScore}}
         </ion-label>
       </ion-chip>
-          <div><ion-progress-bar  color="warning" value="{{doing}}"></ion-progress-bar></div>
-          <div><ion-progress-bar  color="success" value="{{done}}"></ion-progress-bar></div>
+          <div><ion-progress-bar  color="warning" value="{{doingScore}}"></ion-progress-bar></div>
+          <div><ion-progress-bar  color="success" value="{{doneScore}}"></ion-progress-bar></div>
   </ion-toolbar>
 </ion-header>
 <ion-content>
