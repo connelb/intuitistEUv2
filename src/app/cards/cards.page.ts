@@ -843,12 +843,12 @@ export class CardsPage implements OnInit {
 
     this.score.getGlobalScores(this.user).then(data => {
       if (!data) { () => console.log("no data") }
-
-      this.doneScore = data[0];
-      this.doingScore = data[1];
-      this.currentScore = data[2];
-      this.totalScore = data[3];
-      this.videoScore = data[4];
+console.log('this.score.getGlobalScores', data)
+      // this.doneScore = data[0];
+      // this.doingScore = data[1];
+      // this.currentScore = data[2];
+      // this.totalScore = data[3];
+      // this.videoScore = data[4];
     })
 
     //this.lessonCompleteToast();

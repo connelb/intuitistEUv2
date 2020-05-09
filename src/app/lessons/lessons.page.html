@@ -97,33 +97,36 @@
 done:{{lesson |totalScore:'done'}}
 doing:{{lesson |totalScore:doing}} -->
           <!-- total:{{lesson |totalScore:'done'}} -->
-          video: {{lesson |videoScore}}
+          video: {{lesson | videoScore}}
+          <!-- video: {{lesson |'videoScore'}} -->
           <ion-grid>
               <ion-row>
+                  <ion-col size=1>
+                      <ion-icon name="film-outline"></ion-icon>:
+                      <!-- <span>{{lesson |videoScore:lesson.id}}</span> -->
+                    </ion-col>
+                    <ion-col size=5 class="progress">
+                      <ion-progress-bar color="primary" value="{{lesson |videoScore}}"></ion-progress-bar>
+                    </ion-col>
                   <!-- <ion-col size=4>
                       <ion-chip color="warning">
                           <ion-icon name="sad-outline"></ion-icon>
                           <ion-label>{{lesson |totalScore:'doing'}}</ion-label>
                         </ion-chip>
                     </ion-col> -->
+                    <ion-col size=5 class="progress">
+                        <ion-progress-bar color="success" value="{{lesson |totalScore:'done%'}}"></ion-progress-bar>
+                      </ion-col>
                   <ion-col size=1>
-                    <div>{{lesson |totalScore:'done'}}:</div>
+                    <div>{{lesson |totalScore:'done'}}/{{lesson |totalScore:''}}</div>
                   </ion-col>
-                  <ion-col size=5 class="progress">
-                    <ion-progress-bar color="success" value="{{lesson |totalScore:'done%'}}"></ion-progress-bar>
-                  </ion-col>
+                 
                   
                     <!-- <ion-col size=3 class="progress"> -->
                         
                       <!-- <ion-progress-bar color="warning" value="{{lesson |totalScore:'doing%'}}"></ion-progress-bar> -->
                     <!-- </ion-col> -->
-                    <ion-col size=1>
-                        <ion-icon name="film-outline"></ion-icon>:
-                        <!-- <span>{{lesson |videoScore:lesson.id}}</span> -->
-                      </ion-col>
-                      <ion-col size=5 class="progress">
-                        <ion-progress-bar color="success" value="{{lesson |videoScore:lesson.id}}"></ion-progress-bar>
-                      </ion-col>
+
 
                 </ion-row>
 
@@ -168,7 +171,20 @@ doing:{{lesson |totalScore:doing}} -->
       </ion-item>
       <ion-item-options side="end">
           <ion-item-option color="warning" expandable (click)="presentModal(card,i)">
-            Review <ion-icon name="sad-outline"></ion-icon>
+           <ion-grid>
+             <ion-row>
+                Review 
+             </ion-row>
+             <ion-row>
+                <ion-icon name="sad-outline"></ion-icon>
+             </ion-row>
+             <ion-row>
+                {{lesson |totalScore:'doing'}} cards
+             </ion-row>
+           </ion-grid>
+            <!-- <div> Review </div><br>
+            <ion-icon name="sad-outline"></ion-icon> <br>
+            <div>{{lesson |totalScore:'doing'}} cards</div> -->
           </ion-item-option>
           </ion-item-options>
 

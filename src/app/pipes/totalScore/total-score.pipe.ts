@@ -59,9 +59,9 @@ export class TotalScorePipe implements PipeTransform {
 
     let score = myScoreArray.reduce((a, b) => a + b, 0);
 
-    console.log('myTotalArray=',myTotalArray)
-    console.log('done=',done)
-    console.log('total=',total)
+    // console.log('myTotalArray=',myTotalArray)
+    // console.log('done=',done)
+    // console.log('total=',total)
 
 
 

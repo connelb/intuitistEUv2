@@ -29,67 +29,64 @@ const GetUser3Video3 =
 export class VideoScorePipe implements PipeTransform {
   user: any;
   result: any;
-  transform(lesson: any, type?: any): any {
+  async transform(lesson: any, type?: any) {
+    // this.result = 0;
     Auth.currentAuthenticatedUser({
       bypassCache: false
     }).then(async user => {
       this.user = user;
+    })
+  
 
+      // console.log('lesson.video ',lesson.video )
+if(this.user){
       const [userVideo] = await Promise.all([
-        API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: user.attributes.sub, user3Video3Video3Id: lesson.video })) as Promise<any>
-      ]);
-      console.log('userVideo?',userVideo)
-      console.log('userVideo?',(userVideo.data.listUser3Video3s.items.length>0)?userVideo.data.listUser3Video3s.items[0].score:0);
+        API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: this.user.attributes.sub, user3Video3Video3Id: lesson.video })) as Promise<any>
+      ])
+      // console.log('userVideo?',userVideo)
+      //listUser3Video3s
+    
       this.result = (userVideo.data.listUser3Video3s.items.length > 0) ? userVideo.data.listUser3Video3s.items[0].score : 0.1;
-
-
-    });
-
-
-
-    let result;
-
-
-
-
-    if (lesson) {
-      // console.log('in video score, what is lesson (updated??),type?',lesson, type)
-      if (lesson.cards3.items.length < 0) {
-        result = 0;
-      }
-      if (lesson.cards3.items.length > 0) {
-
-        for (let i = 0; i < lesson.cards3.items.length; i++) {
-
-          //if (lesson.cards3.items.users3.items[0] != null) {
-
-          if (lesson.cards3.items[i].lesson3.id == type) {
-
-            if (lesson.cards3.items[i].users3.items.length>0) {
-              result = (lesson.cards3.items[i].users3.items[0].user3.videos3.items[0]) ?lesson.cards3.items[i].users3.items[0].user3.videos3.items[0].score:0;
-              // if (lesson.cards3.items[i].users3.items[0].user3.videos3.items.length == 0) {
-              //   result = 1001
-              // }else{
-              //   result = lesson.cards3.items[i].users3.items[0].user3.videos3.items[0].score;
-              // }
-            }
-
-          }
-
-          //}
-        }
-      }
     }
-    return this.result;
+
+
+    return this.result
+
+    //console.log('userVideo comfirming this.result?',result);
+
+    // let result;
+
+
+
+
+    // if (lesson) {
+    //   // console.log('in video score, what is lesson (updated??),type?',lesson, type)
+    //   if (lesson.cards3.items.length < 0) {
+    //     result = 0;
+    //   }
+    //   if (lesson.cards3.items.length > 0) {
+
+    //     for (let i = 0; i < lesson.cards3.items.length; i++) {
+
+    //       //if (lesson.cards3.items.users3.items[0] != null) {
+
+    //       if (lesson.cards3.items[i].lesson3.id == type) {
+
+    //         if (lesson.cards3.items[i].users3.items.length>0) {
+    //           result = (lesson.cards3.items[i].users3.items[0].user3.videos3.items[0]) ?lesson.cards3.items[i].users3.items[0].user3.videos3.items[0].score:0;
+    //           // if (lesson.cards3.items[i].users3.items[0].user3.videos3.items.length == 0) {
+    //           //   result = 1001
+    //           // }else{
+    //           //   result = lesson.cards3.items[i].users3.items[0].user3.videos3.items[0].score;
+    //           // }
+    //         }
+
+    //       }
+
+    //       //}
+    //     }
+    //   }
+    // }
+    //return this.result;
   }
-
-  // async getUserVideoId(user, lesson) {
-  //   const [userVideo] = await Promise.all([
-  //     API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: user.attributes.sub, user3Video3Video3Id: lesson })) as Promise<any>
-  //   ]);
-  //   // console.log('userVideo?',(userVideo.data.listUser3Video3s.items.length>0)?userVideo.data.listUser3Video3s.items[0].score:0);
-  //   return (userVideo.data.listUser3Video3s.items.length > 0) ? userVideo.data.listUser3Video3s.items[0].score : 0.1;
-  // }
-
-
 }
