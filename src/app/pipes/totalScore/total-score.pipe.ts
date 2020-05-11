@@ -1,6 +1,23 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as d3Array from 'd3-array';
 import * as d3Collection from 'd3-collection';
+import { AppsyncService } from '../../providers/appsync.service';
+import { ObservableQuery } from 'apollo-client';
+import { API, graphqlOperation } from "aws-amplify";
+import gql from 'graphql-tag';
+import { Auth } from 'aws-amplify';
+
+const GetUser3Video3 =
+  gql`query GetUser3Video3Id($user3Video3User3Id: ID!, $user3Video3Video3Id: ID!){
+  listUser3Video3s(filter: {user3Video3User3Id: {eq: $user3Video3User3Id}, user3Video3Video3Id: {eq: $user3Video3Video3Id} }){
+    items {
+      id
+      score
+      status
+      _version
+    }
+  }
+}`
 
 @Pipe({
   name: 'totalScore'
@@ -8,9 +25,54 @@ import * as d3Collection from 'd3-collection';
 export class TotalScorePipe implements PipeTransform {
   lessonCards: any;
   myLessonScore: any;
+  lesson: any;
+  user: any;
+  globalVideoArray=[];
+  // videoScore:any;
+  cachedData: any;
+  videoScore: any;
+  constructor(private appsync: AppsyncService) { }
 
-  transform(lesson: any, type?: any): any {
+  transform(lesson: any, userId: any, type?: any): any {
 
+    // let videoScore = [];
+    // this.lesson = Object.assign({}, lesson);
+
+    // console.log('esson.video, userId), type??????',  lesson.video, userId, type);
+
+    // Auth.currentAuthenticatedUser({
+    //   bypassCache: false
+    // }).then(user => {
+    //   this.user = user;
+    this.getUserVideoId(userId, lesson.video).then(d=> {
+      // console.log(d);
+      // console.log('d3',d3Collection.entries(d));
+      // this.videoScore = Object.assign({}, d);
+      this.globalVideoArray.push(d);
+
+    })
+    
+
+      // this.appsync.hc().then(client => {
+      //   const observable = client.watchQuery({
+      //     query: GetUser3Video3,
+      //     variables: { user3Video3User3Id: userId, user3Video3Video3Id: lesson.video },
+      //     fetchPolicy: 'cache-and-network'
+      //   });
+  
+      //   observable.subscribe(result => {
+      //     // console.log('result0000',(result.data.listUser3Video3s.items));
+      //     // console.log('result123',(result.data.listUser3Video3s.items.length > 0) ? result.data.listUser3Video3s.items[0].score : 0);
+      //     this.cachedData = (result.data.listUser3Video3s.items.length > 0) ? result.data.listUser3Video3s.items[0].score : 0;
+          
+      //     // this.cachedData = result
+      //   });
+      // })
+    // })
+   
+
+    // this.lesson = Object.assign({}, lesson);
+   
    
     // let video = 0;
     // let done = 0;
@@ -42,7 +104,7 @@ export class TotalScorePipe implements PipeTransform {
       })
       .entries(temp);
 
-      // console.log('is lesson this.myLessonScore??', this.myLessonScore);
+      // console.log('is lesson this.myLessonScore??', this.myLessonScore, this.videoScore);
 
     let toDo = (this.myLessonScore[0].value.tally) ? this.myLessonScore[0].value.tally : 0;
     let doing = (this.myLessonScore[1]) ? this.myLessonScore[1].value.tally : 0;
@@ -112,6 +174,9 @@ export class TotalScorePipe implements PipeTransform {
         case 'doing':
         result = doing;
         break;
+      case 'video':
+        result = this.globalVideoArray.reduce((a, b) => a + b, 0);
+        break;
       case 'total':
         result = total;
         break;
@@ -119,7 +184,21 @@ export class TotalScorePipe implements PipeTransform {
         result = 0
 
     }
-    // console.log("result:", done, doing)
+    console.log("result:", done, doing,total,this.globalVideoArray.reduce((a, b) => a + b, 0))
     return result
+  }
+
+  async getUserVideoId(userId, lessonVideo) {
+    // console.log('user-',userId,);
+    // console.log('lesson-',lessonVideo);
+    const [userVideo] = await Promise.all([
+      API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: userId, user3Video3Video3Id: lessonVideo })) as Promise<any>
+    ]);
+
+    // console.log('userVideo?',userVideo.data.listUser3Video3s.items[0].score);
+
+
+    // console.log('userVideo?',(userVideo.data.listUser3Video3s.items.length>0)?userVideo.data.listUser3Video3s.items[0].score:0);
+    return (userVideo.data.listUser3Video3s.items.length > 0) ? userVideo.data.listUser3Video3s.items[0].score : 0;
   }
 }

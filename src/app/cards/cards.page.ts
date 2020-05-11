@@ -12,7 +12,7 @@ import { Observer, of } from 'rxjs';
 //import OnUpdateUser3Card3 from './../../graphql/subscriptions/OnUpdateUser3Card3';
 import * as _ from 'lodash';
 import { map } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
+import { Observable as rxObservable, Subject } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import awsconfig from './../../aws-exports';
 //import { VgAPI } from 'videogular2/compiled/src/core/services/vg-api';
@@ -36,6 +36,15 @@ import { trigger, state, group, transition, animate, style } from '@angular/anim
 
 import { pluck } from 'rxjs/operators';
 import { pipe } from 'rxjs'
+import { ScoreService } from '../providers/score/score.service';
+// import { DataStore, Predicates } from "@aws-amplify/datastore";
+// import { User3Card3, Lesson3, Card3, User3, User3Video3 } from "./../../models";
+// import { Observable as rxObservable, of } from "rxjs";
+import * as Observable from "zen-observable";
+
+
+
+// import {OnUpdateUser3Card3} from './../../graphql/subscriptions.graphql';
 
 
 const GetUser3Video3 =
@@ -220,7 +229,7 @@ query getAllLessonCards($id: ID!) {
 } 
 `;
 
-const OnUpdateUser3Card3 = `
+const OnUpdateUser3Card3 = gql`
 subscription OnUpdateUser3Card3 {
   onUpdateUser3Card3 {
     id
@@ -807,6 +816,11 @@ export class CardsPage implements OnInit {
   currentScore: any;
   totalScore: any;
   videoScore1: any;
+  doneScore1: any;
+  totalScore1: any;
+  donePercent: any;
+  doingPercent: any;
+  videoPercent: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -819,7 +833,8 @@ export class CardsPage implements OnInit {
     public config: Config,
     public loadingController: LoadingController,
     protected network: Network,
-  ) { }
+    private score1: ScoreService
+  ) {}
 
 
 
@@ -830,6 +845,10 @@ export class CardsPage implements OnInit {
     }).then(async user => {
       //console.log('user',user)
       this.user = user;
+      this.upDateScores();
+      // this.score.getGlobalScores
+
+
     })
 
     this.ios = this.config.get('mode') === 'ios';
@@ -841,15 +860,20 @@ export class CardsPage implements OnInit {
 
     })
 
-    this.score.getGlobalScores(this.user).then(data => {
-      if (!data) { () => console.log("no data") }
-console.log('this.score.getGlobalScores', data)
-      // this.doneScore = data[0];
-      // this.doingScore = data[1];
-      // this.currentScore = data[2];
-      // this.totalScore = data[3];
-      // this.videoScore = data[4];
-    })
+
+  
+
+
+
+//     this.score.getGlobalScores(this.user).then(data => {
+//       if (!data) { () => console.log("no data") }
+// // console.log('this.score.getGlobalScores', data)
+//       this.doneScore = data[0];
+//       // this.doingScore = data[1];
+//       // this.currentScore = data[2];
+//       this.totalScore = data[1];
+//       // this.videoScore = data[4];
+//     })
 
     //this.lessonCompleteToast();
 
@@ -877,20 +901,22 @@ console.log('this.score.getGlobalScores', data)
 
 
 
-  updateScores(data) {
-    //
-    console.log(data.length);
-    data.forEach((n) => {
-      console.log('n?', n)
 
-      if (data.status == 'done') {
-        this.doneScore += n.score
-      } else {
-        this.doingScore += n.score
-      }
-    })
 
-  }
+  // updateScores(data) {
+  //   //
+  //   console.log(data.length);
+  //   data.forEach((n) => {
+  //     console.log('n?', n)
+
+  //     if (data.status == 'done') {
+  //       this.doneScore += n.score
+  //     } else {
+  //       this.doingScore += n.score
+  //     }
+  //   })
+
+  // }
 
   ngAfterViewInit() {
     this.platform.ready().then(() => {
@@ -1273,6 +1299,21 @@ console.log('this.score.getGlobalScores', data)
 
   }
 
+  async upDateScores(){
+    this.score1.getGlobalScores(this.user).then(data => {
+      if (!data) { () => console.log("no data") }
+
+      console.log('data 7',data);
+
+      this.doneScore1 = data[0];//includes video
+      this.totalScore1 = data[1];
+      this.donePercent = data[2];
+      this.doingPercent = data[3];
+      this.videoPercent = data[4];
+     
+    })
+  }
+
   async getScores() {
     this.doingScore;
     this.doneScore;
@@ -1316,6 +1357,19 @@ console.log('this.score.getGlobalScores', data)
             // console.log('this.totalScore',this.totalScore, this.doneScore.total)
           });
       });
+
+      // observable.subscribeToMore({
+      //   document: OnUpdateUser3Card3,
+      //   updateQuery: (prev: User3Card3, {subscriptionData: {data: {updateUser3Card3, user3card3 }}}) => {
+      //     console.log('update subscription??????', user3card3, prev);
+      //     // return this._user.id === user.id ? prev : addUser(prev, user);
+      //   }
+      // });
+
+
+
+
+
     })
   }
 
@@ -1520,6 +1574,11 @@ console.log('this.score.getGlobalScores', data)
         }
       }).then(({ data }) => {
         console.log("created a new User3Card3")
+        // this.score1.getGlobalScores(this.user).then(data => {
+        //   if (!data) { () => console.log("no data") }
+        //   this.doneScore1 = data[0];
+        //   this.totalScore1 = data[1];
+        // })
         this.nextSlide();
       }).catch(err => console.log('Error creating UserCard', err));
     })
@@ -1575,7 +1634,13 @@ console.log('this.score.getGlobalScores', data)
         }
       }).then(({ data }) => {
         console.log("updated a User3Card3")
+        // this.score1.getGlobalScores(this.user).then(data => {
+        //   if (!data) { () => console.log("no data") }
+        //   this.doneScore1 = data[0];
+        //   this.totalScore1 = data[1];
+        // })
         this.nextSlide();
+
       }).catch(err => console.log('Error updating User3Card3', err));
     })
   }
@@ -1876,6 +1941,19 @@ console.log('this.score.getGlobalScores', data)
 
   nextSlide() {
     this.visible = false;
+    this.upDateScores();
+    // this.score1.getGlobalScores(this.user).then(data => {
+    //   if (!data) { () => console.log("no data") }
+
+    //   console.log('data 7',data);
+
+    //   this.doneScore1 = data[0];//includes video
+    //   this.totalScore1 = data[1];
+    //   this.donePercent = data[2];
+    //   this.doingPercent = data[3];
+    //   this.videoPercent = data[4];
+     
+    // })
     //console.log('next slide called')
     //this.slides.slideTo(i + 1);
 
@@ -2095,6 +2173,8 @@ console.log('this.score.getGlobalScores', data)
 
 
   myCreateUserVideo(videoScore) {
+   
+    // const observable$ = from(getPromise());
 
     // const myUser3Card3 = {
     //   user3Card3User3Id: this.user.attributes.sub,
@@ -2160,11 +2240,20 @@ console.log('this.score.getGlobalScores', data)
             }
           });
         }
+
+
       }).then(({ data }) => {
         console.log("created a new User3Video3")
+
+        // API.graphql(graphqlOperation(OnUpdateUser3Card3)).subscribe({
+        //   next: (eventData) => console.log(eventData)
+        // })
+        
+        
         this.nextSlide();
       }).catch(err => console.log('Error creating UserVideo', err));
     })
+
   }
 
   // const GetUser3Video3 =
@@ -2211,7 +2300,7 @@ console.log('this.score.getGlobalScores', data)
 
 
   myUpdateUserVideo(res, videoScore) {
-    console.log('res??',res)
+ 
     const UserVideoToUpdate = {
       id: res.data.getUser3Video3.id,
       status: 'done',

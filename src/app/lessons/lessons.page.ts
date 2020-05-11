@@ -17,7 +17,7 @@ import * as d3Array from 'd3-array';
 import * as d3Hierachy from 'd3-hierarchy';
 import * as d3Collection from 'd3-collection';
 
-// import { DataStore, Predicates } from "@aws-amplify/datastore";
+import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { User3Card3, Lesson3, Card3, User3, User3Video3 } from "./../../models";
 import { from } from 'rxjs';
 import { Network } from '@ngx-pwa/offline';
@@ -252,6 +252,7 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
               id
               score
               status
+              
             }
           }
         }
@@ -381,7 +382,7 @@ export class LessonsPage {
     //private modalController: ModalController,
     private router: Router, private platform: Platform,
     public toastController: ToastController,
-    private score: ScoreService, ) {
+    private score1: ScoreService, ) {
 
   }
 
@@ -394,21 +395,69 @@ export class LessonsPage {
     });
 
     this.idAdmin = this.user.signInUserSession.accessToken.payload["cognito:groups"][0] == 'Admin';
-    
-    setTimeout(() => {
+    this.upDateScores();
+    // setTimeout(() => {
       this.ListLessonsByUser()
-    }, 500);
+    // }, 500);
 
-    this.score.getGlobalScores(this.user).then(data => {
+
+
+    // let subscription = DataStore.observe(User3Card3, '0524f4f6-b9d7-4fe2-80a7-4bb242b17851').subscribe(msg => {
+    //   console.log("subscription",msg.model, msg.opType, msg.element);
+    // });
+
+    
+    // const post = await DataStore.query(User3Card3, '0524f4f6-b9d7-4fe2-80a7-4bb242b17851');
+    // console.log('subscription post',subscription , post);
+
+    await DataStore.save(
+      new User3Video3({
+        "score": 21,
+        "status": "DONE",
+        "user3": {id:"e12517c0-479f-4088-aa10-a2cf57a24ba2", "username":"user1"},
+        "video3":{id:"7f49bdc2-ac62-4f4d-92f7-5fef7b92cbbb",title:"aa",description:"c"}
+      })
+    );
+
+
+    // id: ID
+    // status: videoStatus
+    // score: Int
+    // user3: User3! @connection(name:"UserVideos3")
+    // video3: vodAsset! @connection(name:"VideoUsers3")
+    
+    // id:ID!
+    // title:String!
+    // description:String!
+    // users3: [User3Video3] @connection(name:"VideoUsers3")
+  
+    // #DO NOT EDIT
+    // video:videoObject @connection
+
+    // await DataStore.save(
+    //   new Post({
+    //     title: "My First Post",
+    //     rating: 10,
+    //     status: PostStatus.ACTIVE
+    //   })
+    // );
+
+  }
+
+
+  async upDateScores(){
+    this.score1.getGlobalScores(this.user).then(data => {
       if (!data) { () => console.log("no data") }
 
-      this.doneScore1 = data[0];
-      this.doingScore1 = data[1];
-      this.currentScore1 = data[2];
-      this.totalScore1 = data[3];
-      this.videoScore1 = data[4];
-    })
+      console.log('data 7',data);
 
+      this.doneScore1 = data[0];//includes video
+      this.totalScore1 = data[1];
+      // this.donePercent = data[2];
+      // this.doingPercent = data[3];
+      // this.videoPercent = data[4];
+     
+    })
   }
 
   ngAfterViewInit() {
@@ -480,6 +529,15 @@ export class LessonsPage {
         //console.log('this.lessons',this.lessons)
         //this.formatListLessonsByUser(data);
       });
+
+
+      // observable.subscribeToMore({
+      //   document: subscribeToNewUserUsers,
+      //   updateQuery: (prev: UsersQuery, {subscriptionData: {data: {subscribeToNewUsers: user }}}) => {
+      //     console.log('updateQuery on convo subscription', user, prev);
+      //     // return this._user.id === user.id ? prev : addUser(prev, user);
+      //   }
+      // });
 
       this.observedQuery = observable;
       return observable;

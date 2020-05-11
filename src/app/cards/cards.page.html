@@ -11,23 +11,21 @@
       </ng-template>
     </ion-buttons>
     <ion-chip slot="end" color="dark">
-      <ion-label>{{currentScore}}/{{totalScore}}
+      <ion-label>{{doneScore1}}/{{totalScore1}}
       </ion-label>
     </ion-chip>
     <div>
-      <ion-progress-bar color="warning" value="{{doingScore}}"></ion-progress-bar>
+      <ion-progress-bar color="warning" value="{{doingPercent}}"></ion-progress-bar>
     </div>
     <div>
-      <ion-progress-bar color="success" value="{{doneScore}}"></ion-progress-bar>
+      <ion-progress-bar color="success" value="{{donePercent}}"></ion-progress-bar>
     </div>
     <div>
-        <ion-progress-bar color="danger" value="{{videoScore}}"></ion-progress-bar>
-      </div>
+      <ion-progress-bar color="primary" value="{{videoPercent}}"></ion-progress-bar>
+    </div>
     </ion-toolbar>
 </ion-header>
 <ion-content>
-
-
 
   <!-- <div [@animateTrigger]="animate ? 'to' : 'from'">test</div> -->
 

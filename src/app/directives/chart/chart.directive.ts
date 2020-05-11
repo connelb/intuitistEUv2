@@ -281,7 +281,7 @@ export class ChartDirective implements OnInit, AfterViewInit {
 
     const root2 = d3Hierarchy.hierarchy( this.hierarchyData)
       .sum(d => d['value'])
-      .sort((a, b) => {console.log('a',a);return b.value - a.value})
+      .sort((a, b) => {return b.value - a.value})
       .eachAfter(d => d['index'] = d.parent ? d.parent['index'] = d.parent['index'] + 1 || 0 : 0)
 
 

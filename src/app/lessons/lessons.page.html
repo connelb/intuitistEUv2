@@ -11,7 +11,7 @@
       </ng-template>
     </ion-buttons>
     <ion-chip slot="end" color="dark">
-      <ion-label>{{currentScore}}/{{totalScore}}
+      <ion-label>{{doneScore1}}/{{totalScore1}}
       </ion-label>
     </ion-chip>
     <!-- <div>
@@ -97,7 +97,7 @@
 done:{{lesson |totalScore:'done'}}
 doing:{{lesson |totalScore:doing}} -->
           <!-- total:{{lesson |totalScore:'done'}} -->
-          video: {{lesson | videoScore}}
+          <!-- video: {{lesson | totalScore:this.user:'video'}} -->
           <!-- video: {{lesson |'videoScore'}} -->
           <ion-grid>
               <ion-row>
@@ -106,7 +106,7 @@ doing:{{lesson |totalScore:doing}} -->
                       <!-- <span>{{lesson |videoScore:lesson.id}}</span> -->
                     </ion-col>
                     <ion-col size=5 class="progress">
-                      <ion-progress-bar color="primary" value="{{lesson |videoScore}}"></ion-progress-bar>
+                      <ion-progress-bar color="primary" value="{{lesson |totalScore:this.user.attributes.sub:'video'}}"></ion-progress-bar>
                     </ion-col>
                   <!-- <ion-col size=4>
                       <ion-chip color="warning">
@@ -114,11 +114,11 @@ doing:{{lesson |totalScore:doing}} -->
                           <ion-label>{{lesson |totalScore:'doing'}}</ion-label>
                         </ion-chip>
                     </ion-col> -->
-                    <ion-col size=5 class="progress">
-                        <ion-progress-bar color="success" value="{{lesson |totalScore:'done%'}}"></ion-progress-bar>
+                    <ion-col size=4 class="progress">
+                        <ion-progress-bar color="success" value="{{lesson |totalScore:this.user.attributes.sub:'done%'}}"></ion-progress-bar>
                       </ion-col>
-                  <ion-col size=1>
-                    <div>{{lesson |totalScore:'done'}}/{{lesson |totalScore:''}}</div>
+                  <ion-col size=2>
+                    <div>{{lesson |totalScore:this.user.attributes.sub:'done'}}/{{lesson |totalScore:this.user.attributes.sub:'total'}}</div>
                   </ion-col>
                  
                   
@@ -252,7 +252,7 @@ doing:{{lesson |totalScore:doing}} -->
           <ion-col *ngIf=lesson>
             <ion-chip>
               <ion-icon name="film-outline"></ion-icon>
-              <ion-label>{{lesson |videoScore:lesson.id}}</ion-label>
+              <ion-label>{{lesson |videoScore:lesson}}</ion-label>
             </ion-chip>
           </ion-col>
           <!-- <ion-col>

@@ -141,38 +141,46 @@ export class ScoreService {
   temp = [];
   toDo: any;
   doing: any;
-  done: any;
+  done: any = 0;
   myScoreArray: any[];
-  total: any;
+  total: any = 0;
   myTotalArray: any[];
   score: any;
   userVideo: any;
-  videoScore: any;
+  videoScore: any =0;
   lessonCards: any;
   lesson: any;
   myLessonScore: any;
+  // globalVideoScore =[];
+  globalVideoTotal: number = 0;
+  globalVideoScore = [];
 
   constructor(private appsync: AppsyncService) { }
 
 
   async getUserVideoId(user, lesson) {
+    this.lesson = Object.assign({}, lesson);
+
+
     const [userVideo] = await Promise.all([
-      API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: user.attributes.sub, user3Video3Video3Id: lesson })) as Promise<any>
+      API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: user.attributes.sub, user3Video3Video3Id: lesson.video })) as Promise<any>
     ]);
     // console.log('userVideo?',(userVideo.data.listUser3Video3s.items.length>0)?userVideo.data.listUser3Video3s.items[0].score:0);
-    return (userVideo.data.listUser3Video3s.items.length > 0) ? userVideo.data.listUser3Video3s.items[0].score : 0.1;
+    return (userVideo.data.listUser3Video3s.items.length > 0) ? userVideo.data.listUser3Video3s.items[0].score : 0;
   }
 
 
   async getGlobalScores(user) {
     let temp = [];
-    let globalVideoScore = [];
+ 
     const [lessons] = await Promise.all([
       API.graphql(graphqlOperation(ListLessonsByUser, { user3Card3User3Id: user.attributes.sub })) as Promise<any>
     ])
 
+    this.globalVideoTotal = lessons.data.listLesson3s.items.length*30;
+
     lessons.data.listLesson3s.items.map((lesson: any) => {
-      this.getUserVideoId(user, lesson.video).then(d => globalVideoScore.push(d))
+      this.getUserVideoId(user, lesson).then(d => this.globalVideoScore.push(d))
 
       lesson.cards3.items.map((card: any) => {
         temp.push({
@@ -195,6 +203,8 @@ export class ScoreService {
       })
       .entries(temp);
 
+      // console.log('getGlobalScores this.myScore??', this.myScore)
+
     this.toDo = (this.myScore[0].value.tally) ? this.myScore[0].value.tally : 0;
     this.doing = (this.myScore[1].value.tally) ? this.myScore[1].value.tally : 0;
     this.done = (this.myScore[2].value.tally) ? this.myScore[2].value.tally : 0;
@@ -204,13 +214,19 @@ export class ScoreService {
     this.doneScore = (this.myScore[2].value.total) ? this.myScore[2].value.total : 0;
 
 
-    this.myScoreArray = [this.done, this.doing];
+    // this.myScoreArray = [this.done, this.doing];
 
     this.total = this.myTotalArray.reduce((a, b) => a + b, 0);
-    this.score = this.myScoreArray.reduce((a, b) => a + b, 0);
-    this.videoScore = globalVideoScore.reduce((a, b) => a + b, 0);
+    // this.score = this.myScoreArray.reduce((a, b) => a + b, 0);
+    // this.videoScore = globalVideoScore.reduce((a, b) => a + b, 0);
+    this.videoScore = this.globalVideoScore.reduce((a, b) => a + b, 0);
 
-    return [this.done / this.total, this.doing / this.total, this.score, this.total, this.videoScore]
+    
+    // console.log('this.globalVideoScore',this.globalVideoScore);
+    // console.log('this.done',this.done);
+    // console.log('this.videoScore',this.videoScore);
+
+    return [Math.round(this.done), this.total, (this.done/this.total).toFixed(2), (this.doing/this.total).toFixed(2),  (this.videoScore/this.globalVideoTotal).toFixed(2)]
   }
 
 
