@@ -1302,15 +1302,11 @@ export class CardsPage implements OnInit {
   async upDateScores(){
     this.score1.getGlobalScores(this.user).then(data => {
       if (!data) { () => console.log("no data") }
-
-      console.log('data 7',data);
-
       this.doneScore1 = data[0];//includes video
       this.totalScore1 = data[1];
       this.donePercent = data[2];
       this.doingPercent = data[3];
       this.videoPercent = data[4];
-     
     })
   }
 
@@ -1649,10 +1645,10 @@ export class CardsPage implements OnInit {
     this.presentLoading();
     //score based on event
     if (ev.detail.value == "done") {
-      this.score = 2;
+      this.score = 1;
       this.status = ev.detail.value;
     } else if (ev.detail.value == "doing") {
-      this.score = 1;
+      this.score = 0;
       this.status = ev.detail.value;
     } else {
       this.score = 0;

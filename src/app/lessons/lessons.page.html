@@ -88,13 +88,13 @@
         <ion-label>
           <h1>{{lesson?.name}}
             <ion-chip>
-              <ion-label class="points">{{lesson |totalCards}} points</ion-label>
+              <ion-label class="points">{{lesson |totalScore:this.user.attributes.sub:'total'}} points</ion-label>
             </ion-chip>
           </h1>
 
           <ion-text wrap class="ion-text-wrap">{{lesson?.description}}</ion-text>
-          <!-- videoScore: {{lesson |videoScore:lesson.id}}
-done:{{lesson |totalScore:'done'}}
+   videoScore: {{lesson |videoScore:this.user.attributes.sub| json}}
+       <!-- done:{{lesson |totalScore:'done'}}
 doing:{{lesson |totalScore:doing}} -->
           <!-- total:{{lesson |totalScore:'done'}} -->
           <!-- video: {{lesson | totalScore:this.user:'video'}} -->
@@ -179,7 +179,7 @@ doing:{{lesson |totalScore:doing}} -->
                 <ion-icon name="sad-outline"></ion-icon>
              </ion-row>
              <ion-row>
-                {{lesson |totalScore:'doing'}} cards
+                {{lesson |totalScore:this.user.attributes.sub:'doing'}} cards
              </ion-row>
            </ion-grid>
             <!-- <div> Review </div><br>
@@ -214,8 +214,8 @@ doing:{{lesson |totalScore:doing}} -->
   </ion-list>
 
 
-  <div *ngFor="let lesson of lessons">
-    <!-- detail -->
+  <!-- <div *ngFor="let lesson of lessons">
+   
     <ion-card button=true (click)="showCards(lesson?.id)" *ngIf=!lesson._deleted>
       <ion-card-header class="ion-text-start" *ngIf=lesson>
         <ion-card-title>{{ lesson?.name }}
@@ -223,14 +223,9 @@ doing:{{lesson |totalScore:doing}} -->
             <ion-label class="points">{{lesson |totalCards}} points</ion-label>
           </ion-chip>
         </ion-card-title>
-        <!-- <span>({{lesson |totalCards}} points)</span> -->
+       
         <ion-card-subtitle>{{lesson?.description}}</ion-card-subtitle>
-        <!-- <ion-item detail='true'> -->
-        <!-- <ion-thumbnail slot="start">
-            <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
-          </ion-thumbnail> -->
-        <!-- <ion-label>{{lesson.description}}</ion-label> -->
-        <!-- </ion-item> -->
+     
       </ion-card-header>
       <ion-grid *ngIf=lesson>
         <ion-row>
@@ -255,15 +250,11 @@ doing:{{lesson |totalScore:doing}} -->
               <ion-label>{{lesson |videoScore:lesson}}</ion-label>
             </ion-chip>
           </ion-col>
-          <!-- <ion-col>
-          <ion-chip>
-            <ion-label>/ {{lesson |totalCards}}</ion-label>
-          </ion-chip>
-        </ion-col> -->
+        
         </ion-row>
       </ion-grid>
     </ion-card>
-  </div>
+  </div> -->
 </ion-content>
 
 <!-- Option 2:virtual scroll...

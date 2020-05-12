@@ -14,14 +14,14 @@
       <ion-label>{{doneScore1}}/{{totalScore1}}
       </ion-label>
     </ion-chip>
-    <div>
-      <ion-progress-bar color="warning" value="{{doingPercent}}"></ion-progress-bar>
+    <div *ngIf ="lesson?.video">
+      <ion-progress-bar color="warning" value="{{lesson |totalCards:this.user.attributes.sub:'doing%'}}"></ion-progress-bar>
     </div>
-    <div>
-      <ion-progress-bar color="success" value="{{donePercent}}"></ion-progress-bar>
+    <div *ngIf ="lesson?.video">
+      <ion-progress-bar color="success" value="{{lesson |totalCards:this.user.attributes.sub:'done%'}}"></ion-progress-bar>
     </div>
-    <div>
-      <ion-progress-bar color="primary" value="{{videoPercent}}"></ion-progress-bar>
+    <div *ngIf ="lesson?.video">
+      <ion-progress-bar color="primary" value="{{lesson |videoScoreCards:this.user.attributes.sub}}"></ion-progress-bar>
     </div>
     </ion-toolbar>
 </ion-header>
@@ -37,7 +37,7 @@
             <ion-label class="myCard">lessonPlan</ion-label>
           </ion-col>
         </ion-row>
-        <ion-row *ngIf='modelVideoId'>
+        <ion-row *ngIf='userVideo'>
           <ion-col class="ion-align-self-center">
             <ion-button size="large" expand="block" fill="outline" color="primary" shape="round" (click)="presentVideo()">Play video</ion-button>
           </ion-col>

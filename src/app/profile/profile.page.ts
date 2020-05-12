@@ -163,6 +163,7 @@ export class ProfilePage implements OnInit {
 
     this.score.getGlobalScores(this.user).then(data => {
       if (!data) { () => console.log("no data") }
+      // return [done / total, doing / total, score, total, videoScore]
 
       this.doneScore = data[0];
       this.doingScore = data[1];

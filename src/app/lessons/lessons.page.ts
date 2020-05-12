@@ -22,6 +22,7 @@ import { User3Card3, Lesson3, Card3, User3, User3Video3 } from "./../../models";
 import { from } from 'rxjs';
 import { Network } from '@ngx-pwa/offline';
 import { ScoreService } from '../providers/score/score.service';
+import { TotalScorePipe } from '../pipes/totalScore/total-score.pipe';
 
 //import Amplify from "@aws-amplify/core";
 
@@ -410,14 +411,14 @@ export class LessonsPage {
     // const post = await DataStore.query(User3Card3, '0524f4f6-b9d7-4fe2-80a7-4bb242b17851');
     // console.log('subscription post',subscription , post);
 
-    await DataStore.save(
-      new User3Video3({
-        "score": 21,
-        "status": "DONE",
-        "user3": {id:"e12517c0-479f-4088-aa10-a2cf57a24ba2", "username":"user1"},
-        "video3":{id:"7f49bdc2-ac62-4f4d-92f7-5fef7b92cbbb",title:"aa",description:"c"}
-      })
-    );
+    // await DataStore.save(
+    //   new User3Video3({
+    //     "score": 21,
+    //     "status": "DONE",
+    //     "user3": {id:"e12517c0-479f-4088-aa10-a2cf57a24ba2", "username":"user1"},
+    //     "video3":{id:"7f49bdc2-ac62-4f4d-92f7-5fef7b92cbbb",title:"aa",description:"c"}
+    //   })
+    // );
 
 
     // id: ID
@@ -449,7 +450,7 @@ export class LessonsPage {
     this.score1.getGlobalScores(this.user).then(data => {
       if (!data) { () => console.log("no data") }
 
-      console.log('data 7',data);
+      console.log('lessons refresh scores',data);
 
       this.doneScore1 = data[0];//includes video
       this.totalScore1 = data[1];

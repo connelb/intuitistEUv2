@@ -25,15 +25,20 @@ const GetUser3Video3 =
 }`
 
 @Pipe({
-  name: 'videoScore'
+  name: 'videoScoreCards'
 })
-export class VideoScorePipe implements PipeTransform {
+export class VideoScoreCardsPipe implements PipeTransform {
+
+  // transform(value: any, ...args: any[]): any {
+  // transform(lesson: any, userId: any, type?: any) {
   constructor(private appsync: AppsyncService) { }
+
   lesson: any;
   cachedData:any;
   transform(lesson: any, userId: any, type?: any) {
-    this.cachedData = 0;
     this.lesson = Object.assign({}, lesson);
+    this.cachedData = 0;
+
     this.appsync.hc().then(client => {
       client.watchQuery({
         query: GetUser3Video3,
@@ -41,16 +46,16 @@ export class VideoScorePipe implements PipeTransform {
         fetchPolicy: 'cache-only'
         // fetchPolicy: 'cache-and-network'
       }).subscribe(result => {
-        // console.log('result?',result, result.data)
-        if (!result) {};
+        if (!result) { };
         if (result.data.listUser3Video3s) {
           this.cachedData = (result.data.listUser3Video3s.items.length > 0) ? result.data.listUser3Video3s.items[0].score : 0.1
-          // console.log('result of videoScore pipe?',this.cachedData)
-          }
+          console.log('result of videoScoreCards pipe?', this.cachedData)
+        }
       });
     })
+
     console.log('return this.cachedData', this.cachedData)
-    return this.cachedData/30;
+    return this.cachedData / 30;
 
   }
 }

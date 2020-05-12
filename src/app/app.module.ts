@@ -23,6 +23,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { APIService } from './API.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { VideoScoreCardsPipe } from './pipes/videoScoreCards/video-score-cards.pipe';
+// import { TotalScorePipe } from './pipes/totalScore/total-score.pipe';
 // import { ProgressBarDirective } from './directives/progress-bar/progress-bar.directive';
 //import { AudioContextModule} from 'angular-audio-context';
 //import { VideoJSRecordComponent } from './cards/cards.page';

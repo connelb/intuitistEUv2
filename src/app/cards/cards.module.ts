@@ -4,7 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CardsPageRoutingModule } from './cards-routing.module';
 import { CardsPage } from './cards.page';
-//import { TotalScorePipe } from './../pipes/totalScore/total-score.pipe';
+// import { TotalScorePipe } from './../pipes/totalScore/total-score.pipe';
+import { TotalCardsPipe } from '../pipes/totalCards/total-cards.pipe';
+import { VideoScoreCardsPipe } from '../pipes/videoScoreCards/video-score-cards.pipe';
 // import { AudioContextModule } from 'angular-audio-context/build/es2019/audio-context.module';
 //import { AudioContextModule } from 'angular-audio-context';
 // import { AudioContextModule } from 'angular-audio-context';
@@ -19,6 +21,6 @@ import { CardsPage } from './cards.page';
     IonicModule,
     CardsPageRoutingModule
   ],
-  declarations: [CardsPage]
+  declarations: [CardsPage,TotalCardsPipe,VideoScoreCardsPipe]
 })
 export class CardsPageModule{}

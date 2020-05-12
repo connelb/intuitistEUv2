@@ -38,7 +38,7 @@ export class TotalScorePipe implements PipeTransform {
     // let videoScore = [];
     // this.lesson = Object.assign({}, lesson);
 
-    // console.log('esson.video, userId), type??????',  lesson.video, userId, type);
+   console.log('lesson.name??????',  lesson.name);
 
     // Auth.currentAuthenticatedUser({
     //   bypassCache: false
