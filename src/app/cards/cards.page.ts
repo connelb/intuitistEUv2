@@ -1534,6 +1534,23 @@ export class CardsPage implements OnInit {
       _version: 1
     }
 
+
+    // Missing field id in {
+    //   "user3Card3User3Id": "e12517c0-479f-4088-aa10-a2cf57a24ba2",
+    //   "user3": {
+    //     "id": "e12517c0-47
+
+
+//     const createUserCardId1 = gql`
+// mutation createUser3Card3($user3Card3User3Id: ID!,$user3Card3Card3Id: ID!, $status:cardStatus, $score:Int) {
+//     createUser3Card3(input: {user3Card3User3Id: $user3Card3User3Id, user3Card3Card3Id: $user3Card3Card3Id, status: $status, score:$score}) {
+//       id
+//       status
+//       score
+//     }
+// }
+// `
+
     console.log(" myCreateUserCard in progress...")
     this.appsync.hc().then(client => {
       client.mutate({

@@ -206,12 +206,12 @@ export class ScoreService {
       // console.log('getGlobalScores this.myScore??', this.myScore)
 
     this.toDo = (this.myScore[0].value.tally) ? this.myScore[0].value.tally : 0;
-    this.doing = (this.myScore[1].value.tally) ? this.myScore[1].value.tally : 0;
-    this.done = (this.myScore[2].value.tally) ? this.myScore[2].value.tally : 0;
+    this.doing = (this.myScore[1]) ? this.myScore[1].value.tally : 0;
+    this.done = (this.myScore[2]) ? this.myScore[2].value.tally : 0;
     this.myTotalArray = [this.done, this.doing, this.toDo];
 
-    this.doingScore = (this.myScore[1].value.total) ? this.myScore[1].value.total : 0;
-    this.doneScore = (this.myScore[2].value.total) ? this.myScore[2].value.total : 0;
+    this.doingScore = (this.myScore[1]) ? this.myScore[1].value.total : 0;
+    this.doneScore = (this.myScore[2]) ? this.myScore[2].value.total : 0;
 
 
     // this.myScoreArray = [this.done, this.doing];

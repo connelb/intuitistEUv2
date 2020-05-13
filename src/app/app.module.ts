@@ -21,6 +21,7 @@ import { VideoModalPageModule } from './video-modal/video-modal.module';
 import { AuthGuard } from './providers/auth-guard.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { APIService } from './API.service';
+import { MyAPIService } from './API.my';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { VideoScoreCardsPipe } from './pipes/videoScoreCards/video-score-cards.pipe';
@@ -63,8 +64,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     InAppBrowser, SplashScreen, StatusBar,
     //AmplifyService,
     APIService,
+    MyAPIService,
     AppsyncService,
     AuthGuard,
+
 
     // StatusBar,
     // AmplifyService,

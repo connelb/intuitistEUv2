@@ -35,7 +35,7 @@ export class VideoScorePipe implements PipeTransform {
     this.cachedData = 0;
     this.lesson = Object.assign({}, lesson);
     this.appsync.hc().then(client => {
-      client.watchQuery({
+      return client.watchQuery({
         query: GetUser3Video3,
         variables: { user3Video3User3Id: userId, user3Video3Video3Id: this.lesson.video },
         fetchPolicy: 'cache-only'
@@ -43,6 +43,12 @@ export class VideoScorePipe implements PipeTransform {
       }).subscribe(result => {
         // console.log('result?',result, result.data)
         if (!result) {};
+
+        next: (anything:any) => {
+          console.log('anything??',anything)
+        }
+
+
         if (result.data.listUser3Video3s) {
           this.cachedData = (result.data.listUser3Video3s.items.length > 0) ? result.data.listUser3Video3s.items[0].score : 0.1
           // console.log('result of videoScore pipe?',this.cachedData)

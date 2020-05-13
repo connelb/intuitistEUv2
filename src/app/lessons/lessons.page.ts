@@ -445,6 +445,23 @@ export class LessonsPage {
 
   }
 
+  // counter;
+  // constructor(private appsyncService: AppsyncService) {}
+  // ngOnInit() {
+  //   this.getVote();
+  //   this.subscriptionVote();
+  // }
+  // getVote(): void {
+  //   this.appsyncService.getAppsyncVote().subscribe(result => {
+  //     this.counter = result;
+  //   });
+  // }
+  // subscriptionVote(): void {
+  //   this.appsyncService.onUpdateAppsyncVote().subscribe(result => {
+  //     this.counter = result['value']['data']['onUpdateAppsyncVote']['vote'];
+  //   });
+  // }
+
 
   async upDateScores(){
     this.score1.getGlobalScores(this.user).then(data => {
