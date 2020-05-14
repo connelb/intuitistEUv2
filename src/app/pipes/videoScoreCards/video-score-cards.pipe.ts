@@ -33,6 +33,12 @@ export class VideoScoreCardsPipe implements PipeTransform {
   // transform(lesson: any, userId: any, type?: any) {
   constructor(private appsync: AppsyncService) { }
 
+  // const query = API.graphql(graphqlOperation(listDeckNames)) as Promise<any>;
+
+  // query.then(res => {
+  //   this.decks = res.data.listDecks.items;
+  // });
+
   lesson: any;
   cachedData:any;
   transform(lesson: any, userId: any, type?: any) {

@@ -24,6 +24,7 @@ import { APIService } from './API.service';
 import { MyAPIService } from './API.my';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+// import { ScoreComponent } from './score/score.component';
 // import { VideoScoreCardsPipe } from './pipes/videoScoreCards/video-score-cards.pipe';
 // import { TotalScorePipe } from './pipes/totalScore/total-score.pipe';
 // import { ProgressBarDirective } from './directives/progress-bar/progress-bar.directive';

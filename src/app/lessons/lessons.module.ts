@@ -14,6 +14,7 @@ import { SumScorePipe } from './../pipes/sumScore/sum-score.pipe';
 // import { TotalCardsPipe } from './../pipes/totalCards/total-cards.pipe';
 import { VideoScorePipe } from './../pipes/videoScore/video-score.pipe';
 import { TotalScorePipe } from '../pipes/totalScore/total-score.pipe';
+import { ScoreComponent } from '../score/score.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,6 @@ import { TotalScorePipe } from '../pipes/totalScore/total-score.pipe';
       }
     ])
   ],
-  declarations: [LessonsPage,SumScorePipe,VideoScorePipe,TotalScorePipe]
+  declarations: [LessonsPage,SumScorePipe,VideoScorePipe,TotalScorePipe,ScoreComponent]
 })
 export class LessonsPageModule {}

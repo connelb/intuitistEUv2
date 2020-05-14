@@ -24,6 +24,11 @@ import { Network } from '@ngx-pwa/offline';
 import { ScoreService } from '../providers/score/score.service';
 import { TotalScorePipe } from '../pipes/totalScore/total-score.pipe';
 
+import { MyAPIService } from '../API.my';
+import {ModelUser3Video3FilterInput} from "../API.service";
+import { filter } from 'rxjs/operators';
+
+
 //import Amplify from "@aws-amplify/core";
 
 
@@ -383,7 +388,8 @@ export class LessonsPage {
     //private modalController: ModalController,
     private router: Router, private platform: Platform,
     public toastController: ToastController,
-    private score1: ScoreService, ) {
+    private score1: ScoreService,
+    private myApi: MyAPIService ) {
 
   }
 
@@ -399,6 +405,14 @@ export class LessonsPage {
     this.upDateScores();
     // setTimeout(() => {
       this.ListLessonsByUser()
+
+    // const cognitUser = await Auth.currentAuthenticatedUser();
+    // const videStuu: ModelUser3Video3FilterInput ={
+    //   'id': "285219b3-062c-4a63-968e-04e10fdbff6a"
+    // }
+    // const loginedUser = await this.myApi.ListUser3Video3s(filter:{videStuu})//GetUser(cognitUser.username);
+    // console.log('loginedUser',loginedUser.items);
+    //this.user007 = loginedUser;
     // }, 500);
 
 
