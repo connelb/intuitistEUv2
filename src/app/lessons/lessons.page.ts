@@ -407,7 +407,7 @@ export class LessonsPage {
       this.ListLessonsByUser()
 
       //getVideoByLesson(userId,videoId)
-      this.appsync.getVideoByLesson("e12517c0-479f-4088-aa10-a2cf57a24ba2", "8dedf06d-79d0-40b4-a65e-a3ca6812ded6")
+      this.appsync.getVideos("e12517c0-479f-4088-aa10-a2cf57a24ba2", "8dedf06d-79d0-40b4-a65e-a3ca6812ded6")
       .subscribe(d=>console.log(d))
 
       // this.appsync.ListUser3Card3s("e12517c0-479f-4088-aa10-a2cf57a24ba2").subscribe(d=>console.log(d))

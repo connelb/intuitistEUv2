@@ -32,6 +32,10 @@ export class VideoScorePipe implements PipeTransform {
   lesson: any;
   cachedData: any;
   transform(lesson: any, userId: any, type?: any) {
+
+    return this.appsync.getVideos(userId, lesson.video)
+    .subscribe(d=>{d[0]['score']
+    })
 //     this.cachedData = 0;
 //     this.lesson = Object.assign({}, lesson);
 //     return this.appsync.hc().then(client => {

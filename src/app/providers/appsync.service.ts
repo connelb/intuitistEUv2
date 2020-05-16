@@ -12,8 +12,8 @@ import { Auth } from 'aws-amplify';
 // import { Injectable } from '@angular/core';
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 // import { environment } from '../../environments/environment';
-import { Observable, BehaviorSubject, from, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, BehaviorSubject, from, of, iif } from 'rxjs';
+import { defaultIfEmpty,tap, map, flatMap } from 'rxjs/operators';
 
 
 
@@ -130,11 +130,42 @@ export class AppsyncService {
     }
     `,
     {
+      'user3Video3User3Id': {id: userId},
+      'user3Video3Video3Id':videoId
+    }
+  ))).pipe(
+    // tap(res=>console.log('res',userId,videoId)),
+    // defaultIfEmpty('Observable.of() Empty!'),
+  // iif(
+  //     () => v > 0,
+  //     'l',
+  //     'k'
+  //   ),
+      map(result => result['data']['listUser3Video3s'])
+    );
+  }
+
+  public getVideos(userId,videoId): Observable<Array<object>> {
+    return from(API.graphql(graphqlOperation(`
+    query ListLessonsByUserByLesson($user3Video3Video3Id: ID!, $user3Card3User3Id: ID) {
+      getVodAsset(id: $user3Video3Video3Id) {
+        users3(filter: {user3Video3User3Id: {eq: $user3Card3User3Id}}) {
+          items {
+            id
+            score
+          }
+        }
+      }
+    }
+    `,
+    {
       "user3Card3User3Id": userId,
       "user3Video3Video3Id":videoId
     }
   ))).pipe(
-      map(result => result['data']['listUser3Video3s'])
+    // flatMap(res=>console.log(res)),
+    tap(res=>console.log('res',userId,videoId, res['data']['getVodAsset']['users3']['items'])),
+      map(result => (result['data']['getVodAsset']['users3'])?result['data']['getVodAsset']['users3']['items']:0)
     );
   }
 
