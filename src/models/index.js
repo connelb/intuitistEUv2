@@ -7,6 +7,7 @@ const CardStatus = {
   "DOING": "doing",
   "DONE": "done"
 };
+
 const VideoStatus = {
   "TO_DO": "toDo",
   "DOING": "doing",

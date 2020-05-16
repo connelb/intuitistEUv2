@@ -7,6 +7,7 @@ import { CardsPage } from './cards.page';
 // import { TotalScorePipe } from './../pipes/totalScore/total-score.pipe';
 import { TotalCardsPipe } from '../pipes/totalCards/total-cards.pipe';
 import { VideoScoreCardsPipe } from '../pipes/videoScoreCards/video-score-cards.pipe';
+import { ScoreComponent } from '../score/score.component';
 // import { AudioContextModule } from 'angular-audio-context/build/es2019/audio-context.module';
 //import { AudioContextModule } from 'angular-audio-context';
 // import { AudioContextModule } from 'angular-audio-context';
@@ -21,6 +22,6 @@ import { VideoScoreCardsPipe } from '../pipes/videoScoreCards/video-score-cards.
     IonicModule,
     CardsPageRoutingModule
   ],
-  declarations: [CardsPage,TotalCardsPipe,VideoScoreCardsPipe]
+  declarations: [CardsPage,TotalCardsPipe,VideoScoreCardsPipe,ScoreComponent]
 })
 export class CardsPageModule{}

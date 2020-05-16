@@ -184,7 +184,7 @@ export class TotalScorePipe implements PipeTransform {
         result = 0
 
     }
-    console.log("result:", done, doing,total,this.globalVideoArray.reduce((a, b) => a + b, 0))
+    // console.log("result:", done, doing,total,this.globalVideoArray.reduce((a, b) => a + b, 0))
     return result
   }
 

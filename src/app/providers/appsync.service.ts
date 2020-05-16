@@ -117,6 +117,29 @@ export class AppsyncService {
     );
   }
 
+
+  public getVideoByLesson(userId,videoId): Observable<Array<object>> {
+    return from(API.graphql(graphqlOperation(`
+    query ListLessonsByUser($user3Card3User3Id: ID, $user3Video3Video3Id:ID) {
+      listUser3Video3s(filter: {user3Video3User3Id: {eq: $user3Card3User3Id}, user3Video3Video3Id: {eq: $user3Video3Video3Id}}){
+        items{
+          id
+          score
+        }
+      }
+    }
+    `,
+    {
+      "user3Card3User3Id": userId,
+      "user3Video3Video3Id":videoId
+    }
+  ))).pipe(
+      map(result => result['data']['listUser3Video3s'])
+    );
+  }
+
+
+
   public ListUser3Card3s(userId): Observable<Array<object>> {
     return from(API.graphql(graphqlOperation(`
     query ListLessonsByUser($user3Card3User3Id: ID!) {
@@ -183,14 +206,85 @@ export class AppsyncService {
     );
   }
 
-  public onUpdateAppsyncVote(): any {
+
+
+
+
+  public onUpdateUserCard(): any {
     // return API.graphql(graphqlOperation(query:///.OnUpdateUser3Card3Listener
     return API.graphql(graphqlOperation(
-      `subscription testsub {
-      onUpdateAppsyncVote(id: "test") {
-        vote
-      }
-    }`
+      `subscription OnUpdateUser3Card3 {
+        onUpdateUser3Card3 {
+          __typename
+          id
+          status
+          score
+          user3 {
+            __typename
+            id
+            username
+            firstName
+            lastName
+            email
+            image
+            level
+            progress
+            createdAt
+            updatedAt
+            userState
+            cards3 {
+              __typename
+              nextToken
+              startedAt
+            }
+            videos3 {
+              __typename
+              nextToken
+              startedAt
+            }
+            _version
+            _deleted
+            _lastChangedAt
+            owner
+          }
+          card3 {
+            __typename
+            id
+            question
+            answer
+            audio
+            video
+            level
+            order
+            keywords
+            lesson3 {
+              __typename
+              id
+              name
+              description
+              section
+              subSection
+              level
+              video
+              keywords
+              _version
+              _deleted
+              _lastChangedAt
+            }
+            users3 {
+              __typename
+              nextToken
+              startedAt
+            }
+            _version
+            _deleted
+            _lastChangedAt
+          }
+          _version
+          _deleted
+          _lastChangedAt
+        }
+      }`
   ));
   }
 

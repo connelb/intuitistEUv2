@@ -27,6 +27,8 @@ query SyncLesson3s(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -55,6 +57,8 @@ query GetLesson3($id: ID!) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -62,6 +66,8 @@ query GetLesson3($id: ID!) {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 query ListLesson3s(
@@ -86,6 +92,8 @@ query ListLesson3s(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -124,6 +132,8 @@ query SyncCard3s(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       users3 {
         nextToken
@@ -132,6 +142,8 @@ query SyncCard3s(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -163,6 +175,8 @@ query GetCard3($id: ID!) {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     users3 {
       items {
@@ -172,6 +186,8 @@ query GetCard3($id: ID!) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -179,6 +195,55 @@ query GetCard3($id: ID!) {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+query GetMe($id: ID!) {
+  getMe(id: $id) {
+    id
+    username
+    firstName
+    lastName
+    email
+    image
+    level
+    progress
+    createdAt
+    updatedAt
+    userState
+    cards3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+    videos3 {
+      items {
+        id
+        status
+        score
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    owner
   }
 }
 query ListCard3s(
@@ -208,6 +273,8 @@ query ListCard3s(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       users3 {
         nextToken
@@ -216,6 +283,8 @@ query ListCard3s(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -283,6 +352,8 @@ query GetUser3($id: ID!) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -295,49 +366,8 @@ query GetUser3($id: ID!) {
         _version
         _deleted
         _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-    _version
-    _deleted
-    _lastChangedAt
-    owner
-  }
-}
-query GetMe($id: ID!) {
-  getMe(id: $id) {
-    id
-    username
-    firstName
-    lastName
-    email
-    image
-    level
-    progress
-    createdAt
-    updatedAt
-    userState
-    cards3 {
-      items {
-        id
-        status
-        score
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-    videos3 {
-      items {
-        id
-        status
-        score
-        _version
-        _deleted
-        _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -428,10 +458,14 @@ query SyncUser3Card3s(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -488,6 +522,8 @@ query GetUser3Card3($id: ID!) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       users3 {
         nextToken
@@ -496,10 +532,14 @@ query GetUser3Card3($id: ID!) {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 query ListUser3Card3s(
@@ -541,10 +581,14 @@ query ListUser3Card3s(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -590,10 +634,14 @@ query SyncUser3Video3s(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -643,14 +691,20 @@ query GetUser3Video3($id: ID!) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 query ListUser3Video3s(
@@ -687,10 +741,14 @@ query ListUser3Video3s(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -722,10 +780,14 @@ query SyncVodAssets(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -744,6 +806,8 @@ query GetVodAsset($id: ID!) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -754,10 +818,14 @@ query GetVodAsset($id: ID!) {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 query ListVodAssets(
@@ -780,10 +848,14 @@ query ListVodAssets(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -807,6 +879,8 @@ query SyncVideoObjects(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt
@@ -819,6 +893,8 @@ query GetVideoObject($id: ID!) {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 query ListVideoObjects(
@@ -833,6 +909,8 @@ query ListVideoObjects(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     nextToken
     startedAt

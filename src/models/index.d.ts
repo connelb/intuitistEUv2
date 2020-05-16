@@ -12,6 +12,8 @@ export enum VideoStatus {
   DONE = "done"
 }
 
+
+
 export declare class Lesson3 {
   readonly id: string;
   readonly name: string;
@@ -43,8 +45,6 @@ export declare class Card3 {
 
 export declare class User3Card3 {
   readonly id: string;
-  // readonly user3Card3User3Id: string;
-	// readonly user3Card3Card3Id: string;
   readonly status?: CardStatus | keyof typeof CardStatus;
   readonly score?: number;
   readonly user3: User3;

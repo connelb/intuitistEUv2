@@ -10,18 +10,17 @@
       <ng-template #offline>
       </ng-template>
     </ion-buttons>
-    <ion-chip slot="end" color="dark">
-      <ion-label>{{doneScore1}}/{{totalScore1}}
-      </ion-label>
-    </ion-chip>
+      <ion-chip slot="end" color="dark">
+        <app-score></app-score>
+      </ion-chip>
     <div *ngIf ="lesson?.video">
       <ion-progress-bar color="warning" value="{{lesson |totalCards:this.user.attributes.sub:'doing%'}}"></ion-progress-bar>
     </div>
     <div *ngIf ="lesson?.video">
       <ion-progress-bar color="success" value="{{lesson |totalCards:this.user.attributes.sub:'done%'}}"></ion-progress-bar>
     </div>
-    <div *ngIf ="lesson?.video">
-      <ion-progress-bar color="primary" value="{{lesson |videoScoreCards:this.user.attributes.sub}}"></ion-progress-bar>
+    <div>
+      <!-- <ion-progress-bar color="primary" value="{{lesson |videoScoreCards:this.user.attributes.sub}}"></ion-progress-bar> -->
     </div>
     </ion-toolbar>
 </ion-header>
@@ -170,21 +169,23 @@
                 <ion-row class="ion-align-items-end">
                   <ion-col size=6>
                     <ion-item color="transparent">
-                      <ion-icon color="success" size="large" name="sad-outline"></ion-icon>
+                      <ion-icon color="success" size="large" name="happy-outline"></ion-icon>
                       <ion-label>
                         <ion-text color="success">: Got it</ion-text>
                       </ion-label>
-                      <ion-radio mode="md" item-left value="doing"></ion-radio>
+                      <ion-radio mode="md" item-left value="done">
+                        <ion-icon color="warning" size="large" name="happy-outline"></ion-icon>
+                      </ion-radio>
                     </ion-item>
                   </ion-col>
                   <ion-col size=6>
                     <ion-item color="transparent">
-                      <ion-icon color="warning" size="large" name="happy-outline"></ion-icon>
+                      <ion-icon color="warning" size="large" name="sad-outline"></ion-icon>
                       <ion-label>
                         <ion-text color="warning">: Later</ion-text>
                       </ion-label>
-                      <ion-radio mode="md" item-left value="done">
-                        <ion-icon color="warning" size="large" name="happy-outline"></ion-icon>
+                      <ion-radio mode="md" item-left value="doing">
+                        <ion-icon color="warning" size="large" name="sad-outline"></ion-icon>
                       </ion-radio>
                     </ion-item>
                   </ion-col>

@@ -406,6 +406,12 @@ export class LessonsPage {
     // setTimeout(() => {
       this.ListLessonsByUser()
 
+      //getVideoByLesson(userId,videoId)
+      this.appsync.getVideoByLesson("e12517c0-479f-4088-aa10-a2cf57a24ba2", "8dedf06d-79d0-40b4-a65e-a3ca6812ded6")
+      .subscribe(d=>console.log(d))
+
+      // this.appsync.ListUser3Card3s("e12517c0-479f-4088-aa10-a2cf57a24ba2").subscribe(d=>console.log(d))
+
     // const cognitUser = await Auth.currentAuthenticatedUser();
     // const videStuu: ModelUser3Video3FilterInput ={
     //   'id': "285219b3-062c-4a63-968e-04e10fdbff6a"
@@ -422,15 +428,13 @@ export class LessonsPage {
     // });
 
     
-    // const post = await DataStore.query(User3Card3, '0524f4f6-b9d7-4fe2-80a7-4bb242b17851');
-    // console.log('subscription post',subscription , post);
+    // const post = await DataStore.query(User3Card3, "02311b36-75f8-4fe3-9d94-9bba395d017d");
+    // console.log('post',post);
 
     // await DataStore.save(
-    //   new User3Video3({
-    //     "score": 21,
-    //     "status": "DONE",
-    //     "user3": {id:"e12517c0-479f-4088-aa10-a2cf57a24ba2", "username":"user1"},
-    //     "video3":{id:"7f49bdc2-ac62-4f4d-92f7-5fef7b92cbbb",title:"aa",description:"c"}
+    //   new Lesson3({
+    //     "name": "testingDatamodels",
+    //     "description": "testingDatamodels"
     //   })
     // );
 

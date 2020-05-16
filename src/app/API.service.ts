@@ -4,7 +4,10 @@
 import { Injectable } from "@angular/core";
 import API, { graphqlOperation } from "@aws-amplify/api";
 import { GraphQLResult } from "@aws-amplify/api/lib/types";
+// import * as Observable from "zen-observable";
 import * as Observable from "zen-observable";
+import { Observable as rxObservable, Subject } from 'rxjs';
+
 
 export type CreateLesson3Input = {
   id?: string | null;
@@ -96,23 +99,8 @@ export type CreateCard3Input = {
   level?: string | null;
   order?: number | null;
   keywords?: string | null;
-  lesson3?: Lesson3Input | null;
   _version?: number | null;
   card3Lesson3Id?: string | null;
-};
-
-export type Lesson3Input = {
-  id: string;
-  name: string;
-  description?: string | null;
-  section?: string | null;
-  subSection?: string | null;
-  level?: string | null;
-  video?: string | null;
-  keywords?: string | null;
-  _version: number;
-  _deleted?: boolean | null;
-  _lastChangedAt: number;
 };
 
 export type ModelCard3ConditionInput = {
@@ -155,7 +143,6 @@ export type UpdateCard3Input = {
   level?: string | null;
   order?: number | null;
   keywords?: string | null;
-  lesson3?: Lesson3Input | null;
   _version?: number | null;
   card3Lesson3Id?: string | null;
 };
@@ -226,41 +213,9 @@ export type CreateUser3Card3Input = {
   id?: string | null;
   status?: cardStatus | null;
   score?: number | null;
-  user3: User3Input;
-  card3: Card3Input;
   _version?: number | null;
-};
-
-export type User3Input = {
-  id?: string | null;
-  username: string;
-  firstName?: string | null;
-  lastName?: string | null;
-  email?: string | null;
-  image?: string | null;
-  level?: string | null;
-  progress?: string | null;
-  createdAt?: string | null;
-  updatedAt?: string | null;
-  userState?: string | null;
-  _version: number;
-  _deleted?: boolean | null;
-  _lastChangedAt: number;
-};
-
-export type Card3Input = {
-  id: string;
-  question: string;
-  answer: string;
-  audio?: string | null;
-  video?: string | null;
-  level?: string | null;
-  order?: number | null;
-  keywords?: string | null;
-  lesson3?: Lesson3Input | null;
-  _version: number;
-  _deleted?: boolean | null;
-  _lastChangedAt: number;
+  user3Card3User3Id?: string | null;
+  user3Card3Card3Id?: string | null;
 };
 
 export type ModelUser3Card3ConditionInput = {
@@ -280,8 +235,6 @@ export type UpdateUser3Card3Input = {
   id?: string | null;
   status?: cardStatus | null;
   score?: number | null;
-  user3?: User3Input | null;
-  card3?: Card3Input | null;
   _version?: number | null;
   user3Card3User3Id?: string | null;
   user3Card3Card3Id?: string | null;
@@ -296,10 +249,9 @@ export type CreateUser3Video3Input = {
   id?: string | null;
   status?: videoStatus | null;
   score?: number | null;
-  user3?: User3Input | null;
   _version?: number | null;
-  user3Video3User3Id: string;
-  user3Video3Video3Id: string;
+  user3Video3User3Id?: string | null;
+  user3Video3Video3Id?: string | null;
 };
 
 export type ModelUser3Video3ConditionInput = {
@@ -319,7 +271,6 @@ export type UpdateUser3Video3Input = {
   id: string;
   status?: videoStatus | null;
   score?: number | null;
-  user3?: User3Input | null;
   _version?: number | null;
   user3Video3User3Id?: string | null;
   user3Video3Video3Id?: string | null;
@@ -334,19 +285,8 @@ export type CreateVodAssetInput = {
   id?: string | null;
   title: string;
   description: string;
-  users3?: Array<User3Video3Input | null> | null;
   _version?: number | null;
   vodAssetVideoId?: string | null;
-};
-
-export type User3Video3Input = {
-  id?: string | null;
-  status?: videoStatus | null;
-  score?: number | null;
-  user3: User3Input;
-  _version: number;
-  _deleted?: boolean | null;
-  _lastChangedAt: number;
 };
 
 export type ModelvodAssetConditionInput = {
@@ -361,7 +301,6 @@ export type UpdateVodAssetInput = {
   id: string;
   title?: string | null;
   description?: string | null;
-  users3?: Array<User3Video3Input | null> | null;
   _version?: number | null;
   vodAssetVideoId?: string | null;
 };
@@ -520,6 +459,8 @@ export type CreateLesson3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -527,6 +468,8 @@ export type CreateLesson3Mutation = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateLesson3Mutation = {
@@ -554,6 +497,8 @@ export type UpdateLesson3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -561,6 +506,8 @@ export type UpdateLesson3Mutation = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteLesson3Mutation = {
@@ -588,6 +535,8 @@ export type DeleteLesson3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -595,6 +544,8 @@ export type DeleteLesson3Mutation = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CreateCard3Mutation = {
@@ -625,6 +576,8 @@ export type CreateCard3Mutation = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   users3: {
     __typename: "ModelUser3Card3Connection";
@@ -636,6 +589,8 @@ export type CreateCard3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -643,6 +598,8 @@ export type CreateCard3Mutation = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateCard3Mutation = {
@@ -673,6 +630,8 @@ export type UpdateCard3Mutation = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   users3: {
     __typename: "ModelUser3Card3Connection";
@@ -684,6 +643,8 @@ export type UpdateCard3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -691,6 +652,8 @@ export type UpdateCard3Mutation = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteCard3Mutation = {
@@ -721,6 +684,8 @@ export type DeleteCard3Mutation = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   users3: {
     __typename: "ModelUser3Card3Connection";
@@ -732,6 +697,8 @@ export type DeleteCard3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -739,6 +706,8 @@ export type DeleteCard3Mutation = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CreateUser3Mutation = {
@@ -764,6 +733,8 @@ export type CreateUser3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -778,6 +749,8 @@ export type CreateUser3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -811,6 +784,8 @@ export type UpdateUser3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -825,6 +800,8 @@ export type UpdateUser3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -858,6 +835,8 @@ export type DeleteUser3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -872,6 +851,8 @@ export type DeleteUser3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -938,6 +919,8 @@ export type CreateUser3Card3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     users3: {
       __typename: "ModelUser3Card3Connection";
@@ -947,10 +930,14 @@ export type CreateUser3Card3Mutation = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateUser3Card3Mutation = {
@@ -1009,6 +996,8 @@ export type UpdateUser3Card3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     users3: {
       __typename: "ModelUser3Card3Connection";
@@ -1018,10 +1007,14 @@ export type UpdateUser3Card3Mutation = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteUser3Card3Mutation = {
@@ -1080,6 +1073,8 @@ export type DeleteUser3Card3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     users3: {
       __typename: "ModelUser3Card3Connection";
@@ -1089,10 +1084,14 @@ export type DeleteUser3Card3Mutation = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CreateUser3Video3Mutation = {
@@ -1145,14 +1144,20 @@ export type CreateUser3Video3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateUser3Video3Mutation = {
@@ -1205,14 +1210,20 @@ export type UpdateUser3Video3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteUser3Video3Mutation = {
@@ -1265,14 +1276,20 @@ export type DeleteUser3Video3Mutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CreateVodAssetMutation = {
@@ -1290,6 +1307,8 @@ export type CreateVodAssetMutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -1301,10 +1320,14 @@ export type CreateVodAssetMutation = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateVodAssetMutation = {
@@ -1322,6 +1345,8 @@ export type UpdateVodAssetMutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -1333,10 +1358,14 @@ export type UpdateVodAssetMutation = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteVodAssetMutation = {
@@ -1354,6 +1383,8 @@ export type DeleteVodAssetMutation = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -1365,10 +1396,14 @@ export type DeleteVodAssetMutation = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type CreateVideoObjectMutation = {
@@ -1378,6 +1413,8 @@ export type CreateVideoObjectMutation = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type UpdateVideoObjectMutation = {
@@ -1387,6 +1424,8 @@ export type UpdateVideoObjectMutation = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type DeleteVideoObjectMutation = {
@@ -1396,6 +1435,8 @@ export type DeleteVideoObjectMutation = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type SyncLesson3sQuery = {
@@ -1418,6 +1459,8 @@ export type SyncLesson3sQuery = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -1448,6 +1491,8 @@ export type GetLesson3Query = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -1455,6 +1500,8 @@ export type GetLesson3Query = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListLesson3sQuery = {
@@ -1477,6 +1524,8 @@ export type ListLesson3sQuery = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -1507,6 +1556,8 @@ export type SyncCard3sQuery = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     users3: {
       __typename: "ModelUser3Card3Connection";
@@ -1516,6 +1567,8 @@ export type SyncCard3sQuery = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -1549,6 +1602,8 @@ export type GetCard3Query = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   users3: {
     __typename: "ModelUser3Card3Connection";
@@ -1560,6 +1615,8 @@ export type GetCard3Query = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -1567,6 +1624,59 @@ export type GetCard3Query = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GetMeQuery = {
+  __typename: "User3";
+  id: string | null;
+  username: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  image: string | null;
+  level: string | null;
+  progress: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  userState: string | null;
+  cards3: {
+    __typename: "ModelUser3Card3Connection";
+    items: Array<{
+      __typename: "User3Card3";
+      id: string | null;
+      status: cardStatus | null;
+      score: number | null;
+      _version: number;
+      _deleted: boolean | null;
+      _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
+    } | null> | null;
+    nextToken: string | null;
+    startedAt: number | null;
+  } | null;
+  videos3: {
+    __typename: "ModelUser3Video3Connection";
+    items: Array<{
+      __typename: "User3Video3";
+      id: string | null;
+      status: videoStatus | null;
+      score: number | null;
+      _version: number;
+      _deleted: boolean | null;
+      _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
+    } | null> | null;
+    nextToken: string | null;
+    startedAt: number | null;
+  } | null;
+  _version: number;
+  _deleted: boolean | null;
+  _lastChangedAt: number;
+  owner: string | null;
 };
 
 export type ListCard3sQuery = {
@@ -1594,6 +1704,8 @@ export type ListCard3sQuery = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     users3: {
       __typename: "ModelUser3Card3Connection";
@@ -1603,6 +1715,8 @@ export type ListCard3sQuery = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -1665,6 +1779,8 @@ export type GetUser3Query = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -1679,53 +1795,8 @@ export type GetUser3Query = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
-    } | null> | null;
-    nextToken: string | null;
-    startedAt: number | null;
-  } | null;
-  _version: number;
-  _deleted: boolean | null;
-  _lastChangedAt: number;
-  owner: string | null;
-};
-
-export type GetMeQuery = {
-  __typename: "User3";
-  id: string | null;
-  username: string;
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  image: string | null;
-  level: string | null;
-  progress: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
-  userState: string | null;
-  cards3: {
-    __typename: "ModelUser3Card3Connection";
-    items: Array<{
-      __typename: "User3Card3";
-      id: string | null;
-      status: cardStatus | null;
-      score: number | null;
-      _version: number;
-      _deleted: boolean | null;
-      _lastChangedAt: number;
-    } | null> | null;
-    nextToken: string | null;
-    startedAt: number | null;
-  } | null;
-  videos3: {
-    __typename: "ModelUser3Video3Connection";
-    items: Array<{
-      __typename: "User3Video3";
-      id: string | null;
-      status: videoStatus | null;
-      score: number | null;
-      _version: number;
-      _deleted: boolean | null;
-      _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -1808,10 +1879,14 @@ export type SyncUser3Card3sQuery = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     };
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -1873,6 +1948,8 @@ export type GetUser3Card3Query = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     users3: {
       __typename: "ModelUser3Card3Connection";
@@ -1882,10 +1959,14 @@ export type GetUser3Card3Query = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListUser3Card3sQuery = {
@@ -1926,10 +2007,14 @@ export type ListUser3Card3sQuery = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     };
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -1968,10 +2053,14 @@ export type SyncUser3Video3sQuery = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     };
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -2027,14 +2116,20 @@ export type GetUser3Video3Query = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListUser3Video3sQuery = {
@@ -2070,10 +2165,14 @@ export type ListUser3Video3sQuery = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     };
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -2098,10 +2197,14 @@ export type SyncVodAssetsQuery = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -2122,6 +2225,8 @@ export type GetVodAssetQuery = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2133,10 +2238,14 @@ export type GetVodAssetQuery = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListVodAssetsQuery = {
@@ -2158,10 +2267,14 @@ export type ListVodAssetsQuery = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -2176,6 +2289,8 @@ export type SyncVideoObjectsQuery = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -2188,6 +2303,8 @@ export type GetVideoObjectQuery = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type ListVideoObjectsQuery = {
@@ -2199,6 +2316,8 @@ export type ListVideoObjectsQuery = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null> | null;
   nextToken: string | null;
   startedAt: number | null;
@@ -2229,6 +2348,8 @@ export type OnCreateLesson3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2236,6 +2357,8 @@ export type OnCreateLesson3Subscription = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnUpdateLesson3Subscription = {
@@ -2263,6 +2386,8 @@ export type OnUpdateLesson3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2270,6 +2395,8 @@ export type OnUpdateLesson3Subscription = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnDeleteLesson3Subscription = {
@@ -2297,6 +2424,8 @@ export type OnDeleteLesson3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2304,6 +2433,8 @@ export type OnDeleteLesson3Subscription = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnCreateCard3Subscription = {
@@ -2334,6 +2465,8 @@ export type OnCreateCard3Subscription = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   users3: {
     __typename: "ModelUser3Card3Connection";
@@ -2345,6 +2478,8 @@ export type OnCreateCard3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2352,6 +2487,8 @@ export type OnCreateCard3Subscription = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnUpdateCard3Subscription = {
@@ -2382,6 +2519,8 @@ export type OnUpdateCard3Subscription = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   users3: {
     __typename: "ModelUser3Card3Connection";
@@ -2393,6 +2532,8 @@ export type OnUpdateCard3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2400,6 +2541,8 @@ export type OnUpdateCard3Subscription = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnDeleteCard3Subscription = {
@@ -2430,6 +2573,8 @@ export type OnDeleteCard3Subscription = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   users3: {
     __typename: "ModelUser3Card3Connection";
@@ -2441,6 +2586,8 @@ export type OnDeleteCard3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2448,6 +2595,8 @@ export type OnDeleteCard3Subscription = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnCreateUser3Subscription = {
@@ -2473,6 +2622,8 @@ export type OnCreateUser3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2487,6 +2638,8 @@ export type OnCreateUser3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2520,6 +2673,8 @@ export type OnUpdateUser3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2534,6 +2689,8 @@ export type OnUpdateUser3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2567,6 +2724,8 @@ export type OnDeleteUser3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2581,6 +2740,8 @@ export type OnDeleteUser3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -2647,6 +2808,8 @@ export type OnCreateUser3Card3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     users3: {
       __typename: "ModelUser3Card3Connection";
@@ -2656,10 +2819,14 @@ export type OnCreateUser3Card3Subscription = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnUpdateUser3Card3Subscription = {
@@ -2718,6 +2885,8 @@ export type OnUpdateUser3Card3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     users3: {
       __typename: "ModelUser3Card3Connection";
@@ -2727,10 +2896,14 @@ export type OnUpdateUser3Card3Subscription = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnDeleteUser3Card3Subscription = {
@@ -2789,6 +2962,8 @@ export type OnDeleteUser3Card3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     users3: {
       __typename: "ModelUser3Card3Connection";
@@ -2798,10 +2973,14 @@ export type OnDeleteUser3Card3Subscription = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnCreateUser3Video3Subscription = {
@@ -2854,14 +3033,20 @@ export type OnCreateUser3Video3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnUpdateUser3Video3Subscription = {
@@ -2914,14 +3099,20 @@ export type OnUpdateUser3Video3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnDeleteUser3Video3Subscription = {
@@ -2974,47 +3165,59 @@ export type OnDeleteUser3Video3Subscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null;
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   };
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
-export type OnCreateVodAssetSubscription = {
-  __typename: "vodAsset";
-  id: string;
-  title: string;
-  description: string;
-  users3: {
-    __typename: "ModelUser3Video3Connection";
-    items: Array<{
-      __typename: "User3Video3";
-      id: string | null;
-      status: videoStatus | null;
-      score: number | null;
-      _version: number;
-      _deleted: boolean | null;
-      _lastChangedAt: number;
-    } | null> | null;
-    nextToken: string | null;
-    startedAt: number | null;
-  } | null;
-  video: {
-    __typename: "videoObject";
-    id: string;
-    token: string | null;
-    _version: number;
-    _deleted: boolean | null;
-    _lastChangedAt: number;
-  } | null;
-  _version: number;
-  _deleted: boolean | null;
-  _lastChangedAt: number;
-};
+// export type OnCreateVodAssetSubscription = {
+//   __typename: "vodAsset";
+//   id: string;
+//   title: string;
+//   description: string;
+//   users3: {
+//     __typename: "ModelUser3Video3Connection";
+//     items: Array<{
+//       __typename: "User3Video3";
+//       id: string | null;
+//       status: videoStatus | null;
+//       score: number | null;
+//       _version: number;
+//       _deleted: boolean | null;
+//       _lastChangedAt: number;
+//       createdAt: string;
+//       updatedAt: string;
+//     } | null> | null;
+//     nextToken: string | null;
+//     startedAt: number | null;
+//   } | null;
+//   video: {
+//     __typename: "videoObject";
+//     id: string;
+//     token: string | null;
+//     _version: number;
+//     _deleted: boolean | null;
+//     _lastChangedAt: number;
+//     createdAt: string;
+//     updatedAt: string;
+//   } | null;
+//   _version: number;
+//   _deleted: boolean | null;
+//   _lastChangedAt: number;
+//   createdAt: string;
+//   updatedAt: string;
+// };
 
 export type OnUpdateVodAssetSubscription = {
   __typename: "vodAsset";
@@ -3031,6 +3234,8 @@ export type OnUpdateVodAssetSubscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -3042,10 +3247,14 @@ export type OnUpdateVodAssetSubscription = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnDeleteVodAssetSubscription = {
@@ -3063,6 +3272,8 @@ export type OnDeleteVodAssetSubscription = {
       _version: number;
       _deleted: boolean | null;
       _lastChangedAt: number;
+      createdAt: string;
+      updatedAt: string;
     } | null> | null;
     nextToken: string | null;
     startedAt: number | null;
@@ -3074,10 +3285,14 @@ export type OnDeleteVodAssetSubscription = {
     _version: number;
     _deleted: boolean | null;
     _lastChangedAt: number;
+    createdAt: string;
+    updatedAt: string;
   } | null;
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnCreateVideoObjectSubscription = {
@@ -3087,6 +3302,8 @@ export type OnCreateVideoObjectSubscription = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnUpdateVideoObjectSubscription = {
@@ -3096,6 +3313,8 @@ export type OnUpdateVideoObjectSubscription = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type OnDeleteVideoObjectSubscription = {
@@ -3105,6 +3324,8 @@ export type OnDeleteVideoObjectSubscription = {
   _version: number;
   _deleted: boolean | null;
   _lastChangedAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 @Injectable({
@@ -3141,6 +3362,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3148,6 +3371,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -3191,6 +3416,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3198,6 +3425,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -3241,6 +3470,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3248,6 +3479,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -3294,6 +3527,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           users3 {
             __typename
@@ -3305,6 +3540,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3312,6 +3549,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -3358,6 +3597,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           users3 {
             __typename
@@ -3369,6 +3610,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3376,6 +3619,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -3422,6 +3667,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           users3 {
             __typename
@@ -3433,6 +3680,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3440,6 +3689,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -3481,6 +3732,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3495,6 +3748,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3544,6 +3799,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3558,6 +3815,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3607,6 +3866,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3621,6 +3882,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -3703,6 +3966,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             users3 {
               __typename
@@ -3712,10 +3977,14 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -3790,6 +4059,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             users3 {
               __typename
@@ -3799,10 +4070,14 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -3877,6 +4152,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             users3 {
               __typename
@@ -3886,10 +4163,14 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -3958,14 +4239,20 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4034,14 +4321,20 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4110,14 +4403,20 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4151,6 +4450,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -4162,10 +4463,14 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4199,6 +4504,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -4210,10 +4517,14 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4247,6 +4558,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -4258,10 +4571,14 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4287,6 +4604,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4312,6 +4631,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4337,6 +4658,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4377,6 +4700,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -4427,6 +4752,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -4434,6 +4761,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4470,6 +4799,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -4522,6 +4853,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             users3 {
               __typename
@@ -4531,6 +4864,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -4584,6 +4919,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           users3 {
             __typename
@@ -4595,6 +4932,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -4602,6 +4941,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -4611,6 +4952,67 @@ export class APIService {
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
     return <GetCard3Query>response.data.getCard3;
+  }
+  async GetMe(id: string): Promise<GetMeQuery> {
+    const statement = `query GetMe($id: ID!) {
+        getMe(id: $id) {
+          __typename
+          id
+          username
+          firstName
+          lastName
+          email
+          image
+          level
+          progress
+          createdAt
+          updatedAt
+          userState
+          cards3 {
+            __typename
+            items {
+              __typename
+              id
+              status
+              score
+              _version
+              _deleted
+              _lastChangedAt
+              createdAt
+              updatedAt
+            }
+            nextToken
+            startedAt
+          }
+          videos3 {
+            __typename
+            items {
+              __typename
+              id
+              status
+              score
+              _version
+              _deleted
+              _lastChangedAt
+              createdAt
+              updatedAt
+            }
+            nextToken
+            startedAt
+          }
+          _version
+          _deleted
+          _lastChangedAt
+          owner
+        }
+      }`;
+    const gqlAPIServiceArguments: any = {
+      id
+    };
+    const response = (await API.graphql(
+      graphqlOperation(statement, gqlAPIServiceArguments)
+    )) as any;
+    return <GetMeQuery>response.data.getMe;
   }
   async ListCard3s(
     filter?: ModelCard3FilterInput,
@@ -4643,6 +5045,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             users3 {
               __typename
@@ -4652,6 +5056,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -4756,6 +5162,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -4770,6 +5178,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -4787,63 +5197,6 @@ export class APIService {
       graphqlOperation(statement, gqlAPIServiceArguments)
     )) as any;
     return <GetUser3Query>response.data.getUser3;
-  }
-  async GetMe(id: string): Promise<GetMeQuery> {
-    const statement = `query GetMe($id: ID!) {
-        getMe(id: $id) {
-          __typename
-          id
-          username
-          firstName
-          lastName
-          email
-          image
-          level
-          progress
-          createdAt
-          updatedAt
-          userState
-          cards3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          videos3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-      }`;
-    const gqlAPIServiceArguments: any = {
-      id
-    };
-    const response = (await API.graphql(
-      graphqlOperation(statement, gqlAPIServiceArguments)
-    )) as any;
-    return <GetMeQuery>response.data.getMe;
   }
   async ListUser3s(
     filter?: ModelUser3FilterInput,
@@ -4945,10 +5298,14 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -5030,6 +5387,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             users3 {
               __typename
@@ -5039,10 +5398,14 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -5097,10 +5460,14 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -5161,10 +5528,14 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -5240,14 +5611,20 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -5297,10 +5674,14 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -5347,10 +5728,14 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -5391,6 +5776,8 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             nextToken
             startedAt
@@ -5402,10 +5789,14 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -5441,10 +5832,14 @@ export class APIService {
               _version
               _deleted
               _lastChangedAt
+              createdAt
+              updatedAt
             }
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -5481,6 +5876,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -5513,6 +5910,8 @@ export class APIService {
           _version
           _deleted
           _lastChangedAt
+          createdAt
+          updatedAt
         }
       }`;
     const gqlAPIServiceArguments: any = {
@@ -5538,6 +5937,8 @@ export class APIService {
             _version
             _deleted
             _lastChangedAt
+            createdAt
+            updatedAt
           }
           nextToken
           startedAt
@@ -5558,1062 +5959,5 @@ export class APIService {
     )) as any;
     return <ListVideoObjectsQuery>response.data.listVideoObjects;
   }
-  OnCreateLesson3Listener: Observable<
-    OnCreateLesson3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateLesson3 {
-        onCreateLesson3 {
-          __typename
-          id
-          name
-          description
-          section
-          subSection
-          level
-          video
-          keywords
-          cards3 {
-            __typename
-            items {
-              __typename
-              id
-              question
-              answer
-              audio
-              video
-              level
-              order
-              keywords
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnCreateLesson3Subscription>;
-
-  OnUpdateLesson3Listener: Observable<
-    OnUpdateLesson3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateLesson3 {
-        onUpdateLesson3 {
-          __typename
-          id
-          name
-          description
-          section
-          subSection
-          level
-          video
-          keywords
-          cards3 {
-            __typename
-            items {
-              __typename
-              id
-              question
-              answer
-              audio
-              video
-              level
-              order
-              keywords
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnUpdateLesson3Subscription>;
-
-  OnDeleteLesson3Listener: Observable<
-    OnDeleteLesson3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteLesson3 {
-        onDeleteLesson3 {
-          __typename
-          id
-          name
-          description
-          section
-          subSection
-          level
-          video
-          keywords
-          cards3 {
-            __typename
-            items {
-              __typename
-              id
-              question
-              answer
-              audio
-              video
-              level
-              order
-              keywords
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnDeleteLesson3Subscription>;
-
-  OnCreateCard3Listener: Observable<OnCreateCard3Subscription> = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateCard3 {
-        onCreateCard3 {
-          __typename
-          id
-          question
-          answer
-          audio
-          video
-          level
-          order
-          keywords
-          lesson3 {
-            __typename
-            id
-            name
-            description
-            section
-            subSection
-            level
-            video
-            keywords
-            cards3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          users3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnCreateCard3Subscription>;
-
-  OnUpdateCard3Listener: Observable<OnUpdateCard3Subscription> = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateCard3 {
-        onUpdateCard3 {
-          __typename
-          id
-          question
-          answer
-          audio
-          video
-          level
-          order
-          keywords
-          lesson3 {
-            __typename
-            id
-            name
-            description
-            section
-            subSection
-            level
-            video
-            keywords
-            cards3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          users3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnUpdateCard3Subscription>;
-
-  OnDeleteCard3Listener: Observable<OnDeleteCard3Subscription> = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteCard3 {
-        onDeleteCard3 {
-          __typename
-          id
-          question
-          answer
-          audio
-          video
-          level
-          order
-          keywords
-          lesson3 {
-            __typename
-            id
-            name
-            description
-            section
-            subSection
-            level
-            video
-            keywords
-            cards3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          users3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnDeleteCard3Subscription>;
-
-  OnCreateUser3Listener: Observable<OnCreateUser3Subscription> = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateUser3($owner: String) {
-        onCreateUser3(owner: $owner) {
-          __typename
-          id
-          username
-          firstName
-          lastName
-          email
-          image
-          level
-          progress
-          createdAt
-          updatedAt
-          userState
-          cards3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          videos3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-      }`
-    )
-  ) as Observable<OnCreateUser3Subscription>;
-
-  OnUpdateUser3Listener: Observable<OnUpdateUser3Subscription> = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateUser3($owner: String) {
-        onUpdateUser3(owner: $owner) {
-          __typename
-          id
-          username
-          firstName
-          lastName
-          email
-          image
-          level
-          progress
-          createdAt
-          updatedAt
-          userState
-          cards3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          videos3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-      }`
-    )
-  ) as Observable<OnUpdateUser3Subscription>;
-
-  OnDeleteUser3Listener: Observable<OnDeleteUser3Subscription> = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteUser3($owner: String) {
-        onDeleteUser3(owner: $owner) {
-          __typename
-          id
-          username
-          firstName
-          lastName
-          email
-          image
-          level
-          progress
-          createdAt
-          updatedAt
-          userState
-          cards3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          videos3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-          owner
-        }
-      }`
-    )
-  ) as Observable<OnDeleteUser3Subscription>;
-
-  OnCreateUser3Card3Listener: Observable<
-    OnCreateUser3Card3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateUser3Card3 {
-        onCreateUser3Card3 {
-          __typename
-          id
-          status
-          score
-          user3 {
-            __typename
-            id
-            username
-            firstName
-            lastName
-            email
-            image
-            level
-            progress
-            createdAt
-            updatedAt
-            userState
-            cards3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            videos3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-            owner
-          }
-          card3 {
-            __typename
-            id
-            question
-            answer
-            audio
-            video
-            level
-            order
-            keywords
-            lesson3 {
-              __typename
-              id
-              name
-              description
-              section
-              subSection
-              level
-              video
-              keywords
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            users3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnCreateUser3Card3Subscription>;
-
-  OnUpdateUser3Card3Listener: Observable<
-    OnUpdateUser3Card3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateUser3Card3 {
-        onUpdateUser3Card3 {
-          __typename
-          id
-          status
-          score
-          user3 {
-            __typename
-            id
-            username
-            firstName
-            lastName
-            email
-            image
-            level
-            progress
-            createdAt
-            updatedAt
-            userState
-            cards3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            videos3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-            owner
-          }
-          card3 {
-            __typename
-            id
-            question
-            answer
-            audio
-            video
-            level
-            order
-            keywords
-            lesson3 {
-              __typename
-              id
-              name
-              description
-              section
-              subSection
-              level
-              video
-              keywords
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            users3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnUpdateUser3Card3Subscription>;
-
-  OnDeleteUser3Card3Listener: Observable<
-    OnDeleteUser3Card3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteUser3Card3 {
-        onDeleteUser3Card3 {
-          __typename
-          id
-          status
-          score
-          user3 {
-            __typename
-            id
-            username
-            firstName
-            lastName
-            email
-            image
-            level
-            progress
-            createdAt
-            updatedAt
-            userState
-            cards3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            videos3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-            owner
-          }
-          card3 {
-            __typename
-            id
-            question
-            answer
-            audio
-            video
-            level
-            order
-            keywords
-            lesson3 {
-              __typename
-              id
-              name
-              description
-              section
-              subSection
-              level
-              video
-              keywords
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            users3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnDeleteUser3Card3Subscription>;
-
-  OnCreateUser3Video3Listener: Observable<
-    OnCreateUser3Video3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateUser3Video3 {
-        onCreateUser3Video3 {
-          __typename
-          id
-          status
-          score
-          user3 {
-            __typename
-            id
-            username
-            firstName
-            lastName
-            email
-            image
-            level
-            progress
-            createdAt
-            updatedAt
-            userState
-            cards3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            videos3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-            owner
-          }
-          video3 {
-            __typename
-            id
-            title
-            description
-            users3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            video {
-              __typename
-              id
-              token
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnCreateUser3Video3Subscription>;
-
-  OnUpdateUser3Video3Listener: Observable<
-    OnUpdateUser3Video3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateUser3Video3 {
-        onUpdateUser3Video3 {
-          __typename
-          id
-          status
-          score
-          user3 {
-            __typename
-            id
-            username
-            firstName
-            lastName
-            email
-            image
-            level
-            progress
-            createdAt
-            updatedAt
-            userState
-            cards3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            videos3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-            owner
-          }
-          video3 {
-            __typename
-            id
-            title
-            description
-            users3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            video {
-              __typename
-              id
-              token
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnUpdateUser3Video3Subscription>;
-
-  OnDeleteUser3Video3Listener: Observable<
-    OnDeleteUser3Video3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteUser3Video3 {
-        onDeleteUser3Video3 {
-          __typename
-          id
-          status
-          score
-          user3 {
-            __typename
-            id
-            username
-            firstName
-            lastName
-            email
-            image
-            level
-            progress
-            createdAt
-            updatedAt
-            userState
-            cards3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            videos3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-            owner
-          }
-          video3 {
-            __typename
-            id
-            title
-            description
-            users3 {
-              __typename
-              nextToken
-              startedAt
-            }
-            video {
-              __typename
-              id
-              token
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnDeleteUser3Video3Subscription>;
-
-  OnCreateVodAssetListener: Observable<
-    OnCreateVodAssetSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateVodAsset {
-        onCreateVodAsset {
-          __typename
-          id
-          title
-          description
-          users3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          video {
-            __typename
-            id
-            token
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnCreateVodAssetSubscription>;
-
-  OnUpdateVodAssetListener: Observable<
-    OnUpdateVodAssetSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateVodAsset {
-        onUpdateVodAsset {
-          __typename
-          id
-          title
-          description
-          users3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          video {
-            __typename
-            id
-            token
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnUpdateVodAssetSubscription>;
-
-  OnDeleteVodAssetListener: Observable<
-    OnDeleteVodAssetSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteVodAsset {
-        onDeleteVodAsset {
-          __typename
-          id
-          title
-          description
-          users3 {
-            __typename
-            items {
-              __typename
-              id
-              status
-              score
-              _version
-              _deleted
-              _lastChangedAt
-            }
-            nextToken
-            startedAt
-          }
-          video {
-            __typename
-            id
-            token
-            _version
-            _deleted
-            _lastChangedAt
-          }
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnDeleteVodAssetSubscription>;
-
-  OnCreateVideoObjectListener: Observable<
-    OnCreateVideoObjectSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateVideoObject {
-        onCreateVideoObject {
-          __typename
-          id
-          token
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnCreateVideoObjectSubscription>;
-
-  OnUpdateVideoObjectListener: Observable<
-    OnUpdateVideoObjectSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateVideoObject {
-        onUpdateVideoObject {
-          __typename
-          id
-          token
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnUpdateVideoObjectSubscription>;
-
-  OnDeleteVideoObjectListener: Observable<
-    OnDeleteVideoObjectSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteVideoObject {
-        onDeleteVideoObject {
-          __typename
-          id
-          token
-          _version
-          _deleted
-          _lastChangedAt
-        }
-      }`
-    )
-  ) as Observable<OnDeleteVideoObjectSubscription>;
+  
 }

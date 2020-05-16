@@ -32,7 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { VideoJSRecordComponent } from './cards/cards.page';
 // import { TotalScorePipe } from './pipes/totalScore/total-score.pipe';
 
-
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -43,7 +43,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     //AudioContextModule.forRoot("balanced"),
     AppRoutingModule,
     FormsModule,
-    AmplifyAngularModule,
+    // AmplifyAngularModule,
+    AmplifyUIAngularModule, 
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AdminLayoutModule,
@@ -52,7 +53,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     
   ],
   providers: [
-    AmplifyService,
+    // AmplifyService,
     // {
     //   provide: AmplifyService,
     //   useFactory: () => {
@@ -63,7 +64,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     //   }
     // },
     InAppBrowser, SplashScreen, StatusBar,
-    //AmplifyService,
+    AmplifyService,
     APIService,
     MyAPIService,
     AppsyncService,
@@ -75,15 +76,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     // SplashScreen,
     // AppsyncService,
     // AuthGuard,
-    {
-      provide: RouteReuseStrategy, useClass: IonicRouteStrategy, useFactory: () => {
-        return AmplifyModules({
-          Auth
-        });
-      }
-    },
+
+    //Friday afternnon, decided to review???
+    // {
+    //   // provide: RouteReuseStrategy, useClass: IonicRouteStrategy, useFactory: () => {
+    //   provide: RouteReuseStrategy, useClass: IonicRouteStrategy, useFactory: () => {
+    //     return AmplifyModules({
+    //       Auth
+    //     });
+    //   }
+    // },
 
   ],
+  // providers: [AmplifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

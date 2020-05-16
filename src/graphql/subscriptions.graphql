@@ -22,6 +22,8 @@ subscription OnCreateLesson3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -29,6 +31,8 @@ subscription OnCreateLesson3 {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnUpdateLesson3 {
@@ -54,6 +58,8 @@ subscription OnUpdateLesson3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -61,6 +67,8 @@ subscription OnUpdateLesson3 {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnDeleteLesson3 {
@@ -86,6 +94,8 @@ subscription OnDeleteLesson3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -93,6 +103,8 @@ subscription OnDeleteLesson3 {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnCreateCard3 {
@@ -121,6 +133,8 @@ subscription OnCreateCard3 {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     users3 {
       items {
@@ -130,6 +144,8 @@ subscription OnCreateCard3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -137,6 +153,8 @@ subscription OnCreateCard3 {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnUpdateCard3 {
@@ -165,6 +183,8 @@ subscription OnUpdateCard3 {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     users3 {
       items {
@@ -174,6 +194,8 @@ subscription OnUpdateCard3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -181,6 +203,8 @@ subscription OnUpdateCard3 {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnDeleteCard3 {
@@ -209,6 +233,8 @@ subscription OnDeleteCard3 {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     users3 {
       items {
@@ -218,6 +244,8 @@ subscription OnDeleteCard3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -225,6 +253,8 @@ subscription OnDeleteCard3 {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnCreateUser3($owner: String) {
@@ -248,6 +278,8 @@ subscription OnCreateUser3($owner: String) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -260,6 +292,8 @@ subscription OnCreateUser3($owner: String) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -291,6 +325,8 @@ subscription OnUpdateUser3($owner: String) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -303,6 +339,8 @@ subscription OnUpdateUser3($owner: String) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -334,6 +372,8 @@ subscription OnDeleteUser3($owner: String) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -346,6 +386,8 @@ subscription OnDeleteUser3($owner: String) {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -407,6 +449,8 @@ subscription OnCreateUser3Card3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       users3 {
         nextToken
@@ -415,10 +459,14 @@ subscription OnCreateUser3Card3 {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnUpdateUser3Card3 {
@@ -472,6 +520,8 @@ subscription OnUpdateUser3Card3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       users3 {
         nextToken
@@ -480,10 +530,14 @@ subscription OnUpdateUser3Card3 {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnDeleteUser3Card3 {
@@ -537,6 +591,8 @@ subscription OnDeleteUser3Card3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       users3 {
         nextToken
@@ -545,10 +601,14 @@ subscription OnDeleteUser3Card3 {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnCreateUser3Video3 {
@@ -595,14 +655,20 @@ subscription OnCreateUser3Video3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnUpdateUser3Video3 {
@@ -649,14 +715,20 @@ subscription OnUpdateUser3Video3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnDeleteUser3Video3 {
@@ -703,14 +775,20 @@ subscription OnDeleteUser3Video3 {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnCreateVodAsset {
@@ -726,6 +804,8 @@ subscription OnCreateVodAsset {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -736,10 +816,14 @@ subscription OnCreateVodAsset {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnUpdateVodAsset {
@@ -755,6 +839,8 @@ subscription OnUpdateVodAsset {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -765,10 +851,14 @@ subscription OnUpdateVodAsset {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnDeleteVodAsset {
@@ -784,6 +874,8 @@ subscription OnDeleteVodAsset {
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -794,10 +886,14 @@ subscription OnDeleteVodAsset {
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnCreateVideoObject {
@@ -807,6 +903,8 @@ subscription OnCreateVideoObject {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnUpdateVideoObject {
@@ -816,6 +914,8 @@ subscription OnUpdateVideoObject {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 subscription OnDeleteVideoObject {
@@ -825,5 +925,7 @@ subscription OnDeleteVideoObject {
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }

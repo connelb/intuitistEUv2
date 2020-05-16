@@ -25,6 +25,8 @@ mutation CreateLesson3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -32,6 +34,8 @@ mutation CreateLesson3(
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation UpdateLesson3(
@@ -60,6 +64,8 @@ mutation UpdateLesson3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -67,6 +73,8 @@ mutation UpdateLesson3(
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation DeleteLesson3(
@@ -95,6 +103,8 @@ mutation DeleteLesson3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -102,6 +112,8 @@ mutation DeleteLesson3(
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation CreateCard3(
@@ -133,6 +145,8 @@ mutation CreateCard3(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     users3 {
       items {
@@ -142,6 +156,8 @@ mutation CreateCard3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -149,6 +165,8 @@ mutation CreateCard3(
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation UpdateCard3(
@@ -180,6 +198,8 @@ mutation UpdateCard3(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     users3 {
       items {
@@ -189,6 +209,8 @@ mutation UpdateCard3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -196,6 +218,8 @@ mutation UpdateCard3(
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation DeleteCard3(
@@ -227,6 +251,8 @@ mutation DeleteCard3(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     users3 {
       items {
@@ -236,6 +262,8 @@ mutation DeleteCard3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -243,6 +271,8 @@ mutation DeleteCard3(
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation CreateUser3(
@@ -269,6 +299,8 @@ mutation CreateUser3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -281,6 +313,8 @@ mutation CreateUser3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -315,6 +349,8 @@ mutation UpdateUser3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -327,6 +363,8 @@ mutation UpdateUser3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -361,6 +399,8 @@ mutation DeleteUser3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -373,6 +413,8 @@ mutation DeleteUser3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -437,6 +479,8 @@ mutation CreateUser3Card3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       users3 {
         nextToken
@@ -445,10 +489,14 @@ mutation CreateUser3Card3(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation UpdateUser3Card3(
@@ -505,6 +553,8 @@ mutation UpdateUser3Card3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       users3 {
         nextToken
@@ -513,10 +563,14 @@ mutation UpdateUser3Card3(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation DeleteUser3Card3(
@@ -573,6 +627,8 @@ mutation DeleteUser3Card3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       users3 {
         nextToken
@@ -581,10 +637,14 @@ mutation DeleteUser3Card3(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation CreateUser3Video3(
@@ -634,14 +694,20 @@ mutation CreateUser3Video3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation UpdateUser3Video3(
@@ -691,14 +757,20 @@ mutation UpdateUser3Video3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation DeleteUser3Video3(
@@ -748,14 +820,20 @@ mutation DeleteUser3Video3(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation CreateVodAsset(
@@ -774,6 +852,8 @@ mutation CreateVodAsset(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -784,10 +864,14 @@ mutation CreateVodAsset(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation UpdateVodAsset(
@@ -806,6 +890,8 @@ mutation UpdateVodAsset(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -816,10 +902,14 @@ mutation UpdateVodAsset(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation DeleteVodAsset(
@@ -838,6 +928,8 @@ mutation DeleteVodAsset(
         _version
         _deleted
         _lastChangedAt
+        createdAt
+        updatedAt
       }
       nextToken
       startedAt
@@ -848,10 +940,14 @@ mutation DeleteVodAsset(
       _version
       _deleted
       _lastChangedAt
+      createdAt
+      updatedAt
     }
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation CreateVideoObject(
@@ -864,6 +960,8 @@ mutation CreateVideoObject(
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation UpdateVideoObject(
@@ -876,6 +974,8 @@ mutation UpdateVideoObject(
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }
 mutation DeleteVideoObject(
@@ -888,5 +988,7 @@ mutation DeleteVideoObject(
     _version
     _deleted
     _lastChangedAt
+    createdAt
+    updatedAt
   }
 }

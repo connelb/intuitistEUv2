@@ -12,7 +12,7 @@ import { Observer, of } from 'rxjs';
 //import OnUpdateUser3Card3 from './../../graphql/subscriptions/OnUpdateUser3Card3';
 import * as _ from 'lodash';
 import { map } from 'rxjs/operators';
-import { Observable as rxObservable, Subject } from 'rxjs';
+
 import { forkJoin } from 'rxjs';
 import awsconfig from './../../aws-exports';
 //import { VgAPI } from 'videogular2/compiled/src/core/services/vg-api';
@@ -41,7 +41,7 @@ import { ScoreService } from '../providers/score/score.service';
 // import { User3Card3, Lesson3, Card3, User3, User3Video3 } from "./../../models";
 // import { Observable as rxObservable, of } from "rxjs";
 import * as Observable from "zen-observable";
-
+import { Observable as rxObservable, Subject } from 'rxjs';
 
 
 // import {OnUpdateUser3Card3} from './../../graphql/subscriptions.graphql';
@@ -796,6 +796,7 @@ export class CardsPage implements OnInit {
   public slideOptions = {
     slidesPerView: 1.1,
     spaceBetween: 20,
+    speed:300,
     centeredSlides: true,
     pagination: {
       el: ".swiper-pagination",
@@ -1660,6 +1661,8 @@ export class CardsPage implements OnInit {
 
   async segmentUpdatePWA(ev: any, card, i) {
     this.presentLoading();
+// console.log('what is ev.detail.value ??',ev.detail.value );
+
     //score based on event
     if (ev.detail.value == "done") {
       this.score = 1;

@@ -1,47 +1,7 @@
 export const schema = {
     "models": {
         "Lesson3": {
-            "syncable": true,
             "name": "Lesson3",
-            "pluralName": "Lesson3s",
-            "attributes": [
-                {
-                    "type": "model",
-                    "properties": {}
-                },
-                {
-                    "type": "auth",
-                    "properties": {
-                        "rules": [
-                            {
-                                "groupClaim": "cognito:groups",
-                                "provider": "userPools",
-                                "allow": "groups",
-                                "groups": [
-                                    "User"
-                                ],
-                                "operations": [
-                                    "read"
-                                ]
-                            },
-                            {
-                                "groupClaim": "cognito:groups",
-                                "provider": "userPools",
-                                "allow": "groups",
-                                "groups": [
-                                    "Admin"
-                                ],
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ],
             "fields": {
                 "id": {
                     "name": "id",
@@ -112,12 +72,9 @@ export const schema = {
                         "associatedWith": "lesson3"
                     }
                 }
-            }
-        },
-        "Card3": {
+            },
             "syncable": true,
-            "name": "Card3",
-            "pluralName": "Card3s",
+            "pluralName": "Lesson3s",
             "attributes": [
                 {
                     "type": "model",
@@ -135,8 +92,7 @@ export const schema = {
                                     "User"
                                 ],
                                 "operations": [
-                                    "read",
-                                    "update"
+                                    "read"
                                 ]
                             },
                             {
@@ -156,7 +112,10 @@ export const schema = {
                         ]
                     }
                 }
-            ],
+            ]
+        },
+        "Card3": {
+            "name": "Card3",
             "fields": {
                 "id": {
                     "name": "id",
@@ -240,12 +199,9 @@ export const schema = {
                         "associatedWith": "card3"
                     }
                 }
-            }
-        },
-        "User3Card3": {
+            },
             "syncable": true,
-            "name": "User3Card3",
-            "pluralName": "User3Card3s",
+            "pluralName": "Card3s",
             "attributes": [
                 {
                     "type": "model",
@@ -263,10 +219,8 @@ export const schema = {
                                     "User"
                                 ],
                                 "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
+                                    "read",
+                                    "update"
                                 ]
                             },
                             {
@@ -286,7 +240,10 @@ export const schema = {
                         ]
                     }
                 }
-            ],
+            ]
+        },
+        "User3Card3": {
+            "name": "User3Card3",
             "fields": {
                 "id": {
                     "name": "id",
@@ -337,12 +294,9 @@ export const schema = {
                         "targetName": "user3Card3Card3Id"
                     }
                 }
-            }
-        },
-        "User3": {
+            },
             "syncable": true,
-            "name": "User3",
-            "pluralName": "User3s",
+            "pluralName": "User3Card3s",
             "attributes": [
                 {
                     "type": "model",
@@ -353,18 +307,6 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
-                                "provider": "userPools",
-                                "ownerField": "owner",
-                                "allow": "owner",
-                                "operations": [
-                                    "create",
-                                    "update",
-                                    "delete",
-                                    "read"
-                                ],
-                                "identityClaim": "cognito:username"
-                            },
-                            {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
@@ -372,7 +314,9 @@ export const schema = {
                                     "User"
                                 ],
                                 "operations": [
+                                    "create",
                                     "update",
+                                    "delete",
                                     "read"
                                 ]
                             },
@@ -393,7 +337,10 @@ export const schema = {
                         ]
                     }
                 }
-            ],
+            ]
+        },
+        "User3": {
+            "name": "User3",
             "fields": {
                 "id": {
                     "name": "id",
@@ -498,12 +445,9 @@ export const schema = {
                         "associatedWith": "user3"
                     }
                 }
-            }
-        },
-        "User3Video3": {
+            },
             "syncable": true,
-            "name": "User3Video3",
-            "pluralName": "User3Video3s",
+            "pluralName": "User3s",
             "attributes": [
                 {
                     "type": "model",
@@ -514,6 +458,18 @@ export const schema = {
                     "properties": {
                         "rules": [
                             {
+                                "provider": "userPools",
+                                "ownerField": "owner",
+                                "allow": "owner",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ],
+                                "identityClaim": "cognito:username"
+                            },
+                            {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
                                 "allow": "groups",
@@ -521,9 +477,7 @@ export const schema = {
                                     "User"
                                 ],
                                 "operations": [
-                                    "create",
                                     "update",
-                                    "delete",
                                     "read"
                                 ]
                             },
@@ -544,7 +498,10 @@ export const schema = {
                         ]
                     }
                 }
-            ],
+            ]
+        },
+        "User3Video3": {
+            "name": "User3Video3",
             "fields": {
                 "id": {
                     "name": "id",
@@ -595,25 +552,32 @@ export const schema = {
                         "targetName": "user3Video3Video3Id"
                     }
                 }
-            }
-        },
-        "vodAsset": {
+            },
             "syncable": true,
-            "name": "vodAsset",
-            "pluralName": "vodAssets",
+            "pluralName": "User3Video3s",
             "attributes": [
                 {
                     "type": "model",
-                    "properties": {
-                        "subscriptions": {
-                            "level": "public"
-                        }
-                    }
+                    "properties": {}
                 },
                 {
                     "type": "auth",
                     "properties": {
                         "rules": [
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "User"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
                             {
                                 "groupClaim": "cognito:groups",
                                 "provider": "userPools",
@@ -627,17 +591,14 @@ export const schema = {
                                     "delete",
                                     "read"
                                 ]
-                            },
-                            {
-                                "allow": "private",
-                                "operations": [
-                                    "read"
-                                ]
                             }
                         ]
                     }
                 }
-            ],
+            ]
+        },
+        "vodAsset": {
+            "name": "vodAsset",
             "fields": {
                 "id": {
                     "name": "id",
@@ -686,11 +647,66 @@ export const schema = {
                         "targetName": "vodAssetVideoId"
                     }
                 }
-            }
+            },
+            "syncable": true,
+            "pluralName": "vodAssets",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {
+                        "subscriptions": {
+                            "level": "public"
+                        }
+                    }
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "groupClaim": "cognito:groups",
+                                "provider": "userPools",
+                                "allow": "groups",
+                                "groups": [
+                                    "Admin"
+                                ],
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            },
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
         },
         "videoObject": {
-            "syncable": true,
             "name": "videoObject",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "token": {
+                    "name": "token",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
             "pluralName": "videoObjects",
             "attributes": [
                 {
@@ -724,28 +740,12 @@ export const schema = {
                         ]
                     }
                 }
-            ],
-            "fields": {
-                "id": {
-                    "name": "id",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "token": {
-                    "name": "token",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": false,
-                    "attributes": []
-                }
-            }
+            ]
         }
     },
     "enums": {
         "CardStatus": {
-            "name": "cardStatus",
+            "name": "CardStatus",
             "values": [
                 "toDo",
                 "doing",
@@ -753,7 +753,7 @@ export const schema = {
             ]
         },
         "VideoStatus": {
-            "name": "videoStatus",
+            "name": "VideoStatus",
             "values": [
                 "toDo",
                 "doing",
@@ -761,5 +761,6 @@ export const schema = {
             ]
         }
     },
+    "nonModels": {},
     "version": "b8caa4850aaa7d43a6f4e570a40d4265"
 };
