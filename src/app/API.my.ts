@@ -1,37 +1,38 @@
 import {
-    APIService,
-    CreateLesson3Input,
-    ModelLesson3ConditionInput,
-    CreateLesson3Mutation,
-    CreateUser3Card3Input,
-    OnCreateUser3Card3Subscription,
-    OnUpdateUser3Card3Subscription,
-OnDeleteVideoObjectSubscription,
-OnUpdateVideoObjectSubscription,
-OnCreateVideoObjectSubscription,
-OnDeleteVodAssetSubscription,
-OnUpdateVodAssetSubscription,
-// OnCreateVodAssetSubscription,
-OnDeleteUser3Video3Subscription,
-OnUpdateUser3Video3Subscription,
- OnCreateUser3Video3Subscription,
-OnDeleteUser3Card3Subscription,
-OnDeleteUser3Subscription,
-OnUpdateUser3Subscription,
-OnCreateLesson3Subscription,
-OnUpdateLesson3Subscription,
-OnDeleteLesson3Subscription,
-OnCreateCard3Subscription,
-OnUpdateCard3Subscription,
-OnDeleteCard3Subscription,
-OnCreateUser3Subscription
-    
-  } from "./API.service";
+  APIService,
+  CreateLesson3Input,
+  ModelLesson3ConditionInput,
+  CreateLesson3Mutation,
+  CreateUser3Card3Input,
+  OnCreateUser3Card3Subscription,
+  OnUpdateUser3Card3Subscription,
+  OnDeleteVideoObjectSubscription,
+  OnUpdateVideoObjectSubscription,
+  OnCreateVideoObjectSubscription,
+  OnDeleteVodAssetSubscription,
+  OnUpdateVodAssetSubscription,
+  // OnCreateVodAssetSubscription,
+  OnDeleteUser3Video3Subscription,
+  OnUpdateUser3Video3Subscription,
+  OnCreateUser3Video3Subscription,
+  OnDeleteUser3Card3Subscription,
+  OnDeleteUser3Subscription,
+  OnUpdateUser3Subscription,
+  OnCreateLesson3Subscription,
+  OnUpdateLesson3Subscription,
+  OnDeleteLesson3Subscription,
+  OnCreateCard3Subscription,
+  OnUpdateCard3Subscription,
+  OnDeleteCard3Subscription,
+  OnCreateUser3Subscription,
+  GetVodAssetQuery
 
-  import API, { graphqlOperation } from "@aws-amplify/api";
-  import * as Observable from "zen-observable";
-  import { Injectable } from "@angular/core";
-  // import * as Observable from "zen-observable";
+} from "./API.service";
+
+import API, { graphqlOperation } from "@aws-amplify/api";
+import * as Observable from "zen-observable";
+import { Injectable } from "@angular/core";
+// import * as Observable from "zen-observable";
 import { Observable as rxObservable, Subject } from 'rxjs';
 
 
@@ -39,21 +40,53 @@ import { Observable as rxObservable, Subject } from 'rxjs';
 //     providedIn: 'root'
 //   })
 //   export class AdminGuardService implements CanLoad {
-  
-  @Injectable({
-    providedIn: "root"
-  })
 
-  export class MyAPIService extends APIService {
-    constructor() {
-      super();
-    }
+@Injectable({
+  providedIn: "root"
+})
 
-    OnCreateLesson3Listener: Observable<
+export class MyAPIService extends APIService {
+  constructor() {
+    super();
+  }
+
+  // async GetVodAsset(id: string): Promise<GetVodAssetQuery> {
+  //   const statement = `query GetVodAsset($id: ID!) {
+  //       getVodAsset(id: $id) {
+
+
+
+  // async myGetVodAsset(userId,lesson): Observable<T> {
+  //   const statement = `
+  //   query GetVodAsset($user3Video3Video3Id: ID!, $user3Card3User3Id: ID) {
+  //     getVodAsset(id: $user3Video3Video3Id) {
+  //       users3(filter: {user3Video3User3Id: {eq: $user3Card3User3Id}}) {
+  //         items {
+  //           id
+  //           score
+  //         }
+  //       }
+  //     }
+  //   }
+  //   `;
+  //   const gqlAPIServiceArguments: Observable<any>= {
+  //     "user3Card3User3Id": userId,
+  //     "user3Video3Video3Id":lesson
+  //   };
+  //   const response = (await API.graphql(
+  //     graphqlOperation(statement, gqlAPIServiceArguments)
+  //   )) as Observable<any>;
+  //   return <GetVodAssetQuery>response.data.getVodAsset;
+  // }
+
+
+
+
+  OnCreateLesson3Listener: Observable<
     OnCreateLesson3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateLesson3 {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnCreateLesson3 {
         onCreateLesson3 {
           __typename
           id
@@ -92,14 +125,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnUpdateLesson3Listener: Observable<
     OnUpdateLesson3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateLesson3 {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnUpdateLesson3 {
         onUpdateLesson3 {
           __typename
           id
@@ -138,14 +171,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnDeleteLesson3Listener: Observable<
     OnDeleteLesson3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteLesson3 {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnDeleteLesson3 {
         onDeleteLesson3 {
           __typename
           id
@@ -184,8 +217,8 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnCreateCard3Listener: Observable<OnCreateCard3Subscription> = API.graphql(
     graphqlOperation(
@@ -540,9 +573,9 @@ import { Observable as rxObservable, Subject } from 'rxjs';
 
   OnCreateUser3Card3Listener: Observable<
     OnCreateUser3Card3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateUser3Card3 {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnCreateUser3Card3 {
         onCreateUser3Card3 {
           __typename
           id
@@ -620,14 +653,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnUpdateUser3Card3Listener: Observable<
     OnUpdateUser3Card3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateUser3Card3 {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnUpdateUser3Card3 {
         onUpdateUser3Card3 {
           __typename
           id
@@ -635,14 +668,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           score
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnDeleteUser3Card3Listener: Observable<
     OnDeleteUser3Card3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteUser3Card3 {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnDeleteUser3Card3 {
         onDeleteUser3Card3 {
           __typename
           id
@@ -720,14 +753,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnCreateUser3Video3Listener: Observable<
     OnCreateUser3Video3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateUser3Video3 {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnCreateUser3Video3 {
         onCreateUser3Video3 {
           __typename
           id
@@ -794,14 +827,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnUpdateUser3Video3Listener: Observable<
     OnUpdateUser3Video3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateUser3Video3 {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnUpdateUser3Video3 {
         onUpdateUser3Video3 {
           __typename
           id
@@ -868,14 +901,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnDeleteUser3Video3Listener: Observable<
     OnDeleteUser3Video3Subscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteUser3Video3 {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnDeleteUser3Video3 {
         onDeleteUser3Video3 {
           __typename
           id
@@ -942,8 +975,8 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   // OnCreateVodAssetListener: Observable<
   //   OnCreateVodAssetSubscription
@@ -993,9 +1026,9 @@ import { Observable as rxObservable, Subject } from 'rxjs';
 
   OnUpdateVodAssetListener: Observable<
     OnUpdateVodAssetSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateVodAsset {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnUpdateVodAsset {
         onUpdateVodAsset {
           __typename
           id
@@ -1034,14 +1067,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnDeleteVodAssetListener: Observable<
     OnDeleteVodAssetSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteVodAsset {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnDeleteVodAsset {
         onDeleteVodAsset {
           __typename
           id
@@ -1080,14 +1113,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnCreateVideoObjectListener: Observable<
     OnCreateVideoObjectSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnCreateVideoObject {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnCreateVideoObject {
         onCreateVideoObject {
           __typename
           id
@@ -1099,14 +1132,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnUpdateVideoObjectListener: Observable<
     OnUpdateVideoObjectSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnUpdateVideoObject {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnUpdateVideoObject {
         onUpdateVideoObject {
           __typename
           id
@@ -1118,14 +1151,14 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
+      )
+    ) as any;
 
   OnDeleteVideoObjectListener: Observable<
     OnDeleteVideoObjectSubscription
-  > = API.graphql(
-    graphqlOperation(
-      `subscription OnDeleteVideoObject {
+    > = API.graphql(
+      graphqlOperation(
+        `subscription OnDeleteVideoObject {
         onDeleteVideoObject {
           __typename
           id
@@ -1137,6 +1170,6 @@ import { Observable as rxObservable, Subject } from 'rxjs';
           updatedAt
         }
       }`
-    )
-  ) as any;
-      }
+      )
+    ) as any;
+}

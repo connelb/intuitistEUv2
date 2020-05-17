@@ -90,7 +90,9 @@
           </h1>
 
           <ion-text wrap class="ion-text-wrap">{{lesson?.description}}</ion-text>
-   videoScore: {{lesson |videoScore:this.user.attributes.sub}}
+  
+
+  
        <!-- done:{{lesson |totalScore:'done'}}
 doing:{{lesson |totalScore:doing}} -->
           <!-- total:{{lesson |totalScore:'done'}} -->
@@ -103,7 +105,7 @@ doing:{{lesson |totalScore:doing}} -->
                       <!-- <span>{{lesson |videoScore:lesson.id}}</span> -->
                     </ion-col>
                     <ion-col size=5 class="progress">
-                      <ion-progress-bar color="primary" value="{{lesson |totalScore:this.user.attributes.sub:'video'}}"></ion-progress-bar>
+                      <ion-progress-bar color="primary" value="{{lesson |videoScore:this.user.attributes.sub | async}}"></ion-progress-bar>
                     </ion-col>
                   <!-- <ion-col size=4>
                       <ion-chip color="warning">

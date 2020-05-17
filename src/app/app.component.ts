@@ -208,7 +208,7 @@ export class AppComponent implements OnInit {
         optimisticResponse: () => ({
            createUser3: {
             ...user,
-            __typename: 'User'
+            __typename: 'User3'
          }
         }),
 
