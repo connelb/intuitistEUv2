@@ -838,8 +838,15 @@ export class CardsPage implements OnInit {
   ) {}
 
 
-
   async ngOnInit() {
+
+    let sound1 = new Howl({
+      // src: "https://intuitisteuc85246d9d3644fd3868f842cfbbd038f142305-dev.s3-eu-west-1.amazonaws.com/Il+y+a+un+restaurant+italien.mp3",
+      src: "https://d1lutvvxmfx9wo.cloudfront.net/Il+y+a+un+restaurant+italien.mp3",
+    })
+    sound1.once('load', function () {
+      sound1.play();
+    })
 
     await Auth.currentAuthenticatedUser({
       bypassCache: false
@@ -943,7 +950,7 @@ export class CardsPage implements OnInit {
     const loading = await this.loadingController.create({
       spinner: 'dots',
       // message: 'Please wait...',
-      duration: 500
+      duration: 50
     });
     await loading.present();
 
@@ -1121,6 +1128,16 @@ export class CardsPage implements OnInit {
     // this.playAudioToggle();
     this.visible = true;
 
+
+  //   Storage.get(`audio/${audio}${'.mp3'}`, { contentType: "audio/mpeg" })
+  //   .then(result => {
+  //     // this.urlAudio = `https://${awsconfig.aws_user_files_s3_bucket}.s3.amazonaws.com/public/audio/${this.myUuid}.mp3`
+  //     this.urlAudio = result;
+  //   })
+  //   .catch(err => console.log(err));
+
+  // this.bgMusicPlayer = new AudioService([this.urlAudio]);
+
     await Storage.get(`audio/${card.audio}${'.mp3'}`, { contentType: "audio/mpeg" })
       .then(result => {
         this.urlAudio = result;
@@ -1135,8 +1152,12 @@ export class CardsPage implements OnInit {
     //console.log(`https://${awsconfig.aws_user_files_s3_bucket}.s3.amazonaws.com/public/audio/${this.id}.mp3`,"https://intuitist53b02b3475654d4bb2b5df4edb81424372056-dev.s3.amazonaws.com/public/audio/023867a3-46ea-404e-9577-33cedf90081d.mp3",)
 
     //https://intuitist53b02b3475654d4bb2b5df4edb81424372056-dev.s3.amazonaws.com/public/audio/023867a3-46ea-404e-9577-33cedf90081d.mp3
+
+ 
+ 
     let sound = new Howl({
-      src: this.urlAudio,
+      src: `https://d1lutvvxmfx9wo.cloudfront.net/public/audio/${card.audio}${'.mp3'}`,
+      // src: this.urlAudio,
       onend: function () {
         this.visible = false;
       }
@@ -1553,6 +1574,9 @@ export class CardsPage implements OnInit {
 // `
 
     console.log(" myCreateUserCard in progress...")
+
+    this.nextSlide();
+
     this.appsync.hc().then(client => {
       client.mutate({
         mutation: createUserCardId,
@@ -1564,6 +1588,7 @@ export class CardsPage implements OnInit {
             __typename: "User3Card3"
           }
         }),
+        
 
         update: (proxy, { data: { createUser3Card3: _myUser3Card3 } }) => {
 
@@ -1593,7 +1618,7 @@ export class CardsPage implements OnInit {
         //   this.doneScore1 = data[0];
         //   this.totalScore1 = data[1];
         // })
-        this.nextSlide();
+      
       }).catch(err => console.log('Error creating UserCard', err));
     })
   }
@@ -1613,7 +1638,8 @@ export class CardsPage implements OnInit {
       __typename: "User3Card3"
     }
 
-    console.log(" updateUserCard in progress...")
+    // console.log(" updateUserCard in progress...")
+    this.nextSlide();
 
     this.appsync.hc().then(client => {
       client.mutate({
@@ -1653,7 +1679,7 @@ export class CardsPage implements OnInit {
         //   this.doneScore1 = data[0];
         //   this.totalScore1 = data[1];
         // })
-        this.nextSlide();
+       
 
       }).catch(err => console.log('Error updating User3Card3', err));
     })
@@ -2226,6 +2252,7 @@ export class CardsPage implements OnInit {
     }
 
     console.log(" myCreateUserVideo in progress...")
+    this.nextSlide();
     this.appsync.hc().then(client => {
       client.mutate({
         mutation: CreateUser3Video3,
@@ -2266,7 +2293,7 @@ export class CardsPage implements OnInit {
         // })
         
         
-        this.nextSlide();
+       
       }).catch(err => console.log('Error creating UserVideo', err));
     })
 
@@ -2330,6 +2357,7 @@ export class CardsPage implements OnInit {
     }
 
     console.log(" updateUserVideo in progress...")
+    this.nextSlide();
 
     this.appsync.hc().then(client => {
       client.mutate({
@@ -2362,7 +2390,7 @@ export class CardsPage implements OnInit {
         }
       }).then(({ data }) => {
         console.log("updated a User3Video3")
-        this.nextSlide();
+        
       }).catch(err => console.log('Error updating User3Video3', err));
     })
   }

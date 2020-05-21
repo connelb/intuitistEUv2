@@ -9,6 +9,7 @@ import { LoginPageRoutingModule } from './login-routing.module';
 import { LoginPage } from './login.page';
 
 import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService } from 'aws-amplify-angular'
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { AmplifyAngularModule, AmplifyIonicModule, AmplifyService } from 'aws-am
     CommonModule,
     FormsModule,
     IonicModule,
-    AmplifyAngularModule,
+    AmplifyUIAngularModule,
     AmplifyIonicModule, 
     LoginPageRoutingModule
   ],

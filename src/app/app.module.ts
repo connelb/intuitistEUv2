@@ -32,7 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import { VideoJSRecordComponent } from './cards/cards.page';
 // import { TotalScorePipe } from './pipes/totalScore/total-score.pipe';
 
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+//import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,10 +44,11 @@ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
     AppRoutingModule,
     FormsModule,
     // AmplifyAngularModule,
-    AmplifyUIAngularModule, 
+   
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AdminLayoutModule,
+    //AmplifyUIAngularModule, 
     VideoModalPageModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     
