@@ -17,6 +17,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AdminLayoutModule } from './admin-layout/admin-layout.module';
 import { VideoModalPage } from './video-modal/video-modal.page'
 import { VideoModalPageModule } from './video-modal/video-modal.module';
+import { ReviewModalPageModule } from './review-modal/review-modal.module';
 //import { VideoScorePipe } from './pipes/videoScore/video-score.pipe';
 import { AuthGuard } from './providers/auth-guard.service';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
@@ -50,6 +51,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AdminLayoutModule,
     //AmplifyUIAngularModule, 
     VideoModalPageModule,
+    ReviewModalPageModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     
   ],

@@ -27,6 +27,7 @@ import { TotalScorePipe } from '../pipes/totalScore/total-score.pipe';
 import { MyAPIService } from '../API.my';
 import {ModelUser3Video3FilterInput} from "../API.service";
 import { filter } from 'rxjs/operators';
+import { ReviewModalPage } from '../review-modal/review-modal.page';
 
 
 //import Amplify from "@aws-amplify/core";
@@ -227,6 +228,9 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
         __typename
         items {
           id
+          question
+          answer
+          audio
           lesson3 {
             __typename
             id
@@ -258,7 +262,7 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
               id
               score
               status
-              
+              _version
             }
           }
         }
@@ -310,6 +314,9 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
       cards3 {
         items {
           id
+          question
+          answer
+          audio
           lesson3 {
             id
             video
@@ -385,7 +392,7 @@ export class LessonsPage {
     protected network: Network,
     protected amplifyService: AmplifyService,
     private appsync: AppsyncService,
-    //private modalController: ModalController,
+    private modalController: ModalController,
     private router: Router, private platform: Platform,
     public toastController: ToastController,
     private score1: ScoreService,
@@ -504,6 +511,28 @@ export class LessonsPage {
   }
 
 
+  async presentModal(lesson,i){
+    const modal = await this.modalController.create({
+      component: ReviewModalPage,
+      componentProps: {
+        // id: this.modelVideoId,
+        lesson: lesson
+      }
+    });
+    await modal.present();
+    modal.onDidDismiss().then((data) => {
+      // this.videoStatus = data['data'];
+
+      // var x = d3Scale.scaleLinear()
+      //   .domain([0, this.videoStatus.duration])
+      //   .range([0, 30]);
+
+      // let videoScore = Math.ceil(x(this.videoStatus.currentTime));
+      // // this.videoScoreUpdate(videoScore);
+      // this.updateVideoPWA(videoScore);
+
+    }).then(() => console.log('modal closed'));
+  }
 
 
   // getTotal(res) {

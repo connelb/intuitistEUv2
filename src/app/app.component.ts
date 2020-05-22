@@ -77,7 +77,7 @@ export class AppComponent implements OnInit {
       icon: 'calendar'
     },
     {
-      title: 'Profile',
+      title: 'Scoreboard',
       url: '/profile',
       icon: 'information-circle'
     }

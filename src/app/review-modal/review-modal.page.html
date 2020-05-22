@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+    <ion-button slot="end" (click)="dismiss()">Close</ion-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of doing">
+      <ion-item detail (click)="playAudio(item?.audio)">
+        <ion-icon name="caret-forward-circle-outline"></ion-icon> <ion-label>
+          {{item?.question}}
+        </ion-label> <ion-chip>
+          <ion-label>{{item?._version}}</ion-label>
+        </ion-chip>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="success" expandable><ion-icon name="happy-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of done">
+      <ion-item detail (click)="playAudio(item?.audio)">
+        <ion-icon name="caret-forward-circle-outline"></ion-icon> <ion-label>
+          {{item?.question}}
+        </ion-label> <ion-chip>
+          <ion-label>{{item?._version}}</ion-label>
+        </ion-chip>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="success" expandable><ion-icon name="happy-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+
+</ion-content>

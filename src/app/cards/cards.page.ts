@@ -840,13 +840,13 @@ export class CardsPage implements OnInit {
 
   async ngOnInit() {
 
-    let sound1 = new Howl({
-      // src: "https://intuitisteuc85246d9d3644fd3868f842cfbbd038f142305-dev.s3-eu-west-1.amazonaws.com/Il+y+a+un+restaurant+italien.mp3",
-      src: "https://d1lutvvxmfx9wo.cloudfront.net/Il+y+a+un+restaurant+italien.mp3",
-    })
-    sound1.once('load', function () {
-      sound1.play();
-    })
+    // let sound1 = new Howl({
+    //   // src: "https://intuitisteuc85246d9d3644fd3868f842cfbbd038f142305-dev.s3-eu-west-1.amazonaws.com/Il+y+a+un+restaurant+italien.mp3",
+    //   src: "https://d1lutvvxmfx9wo.cloudfront.net/Il+y+a+un+restaurant+italien.mp3",
+    // })
+    // sound1.once('load', function () {
+    //   sound1.play();
+    // })
 
     await Auth.currentAuthenticatedUser({
       bypassCache: false
@@ -864,7 +864,7 @@ export class CardsPage implements OnInit {
     this.route.params.subscribe(p => {
       setTimeout(() => {
         this.ListLessonsByUserByLesson(p.id);
-      }, 700);
+      }, 300);
 
     })
 
@@ -1138,12 +1138,12 @@ export class CardsPage implements OnInit {
 
   // this.bgMusicPlayer = new AudioService([this.urlAudio]);
 
-    await Storage.get(`audio/${card.audio}${'.mp3'}`, { contentType: "audio/mpeg" })
-      .then(result => {
-        this.urlAudio = result;
-        //console.log('this.urlAudio?',this.urlAudio)
-      })
-      .catch(err => console.log(err));
+    // await Storage.get(`audio/${card.audio}${'.mp3'}`, { contentType: "audio/mpeg" })
+    //   .then(result => {
+    //     this.urlAudio = result;
+    //     //console.log('this.urlAudio?',this.urlAudio)
+    //   })
+    //   .catch(err => console.log(err));
     //   if (this.bgMusicPlaying){
     //     this.bgMusicPlayer.pause();
     // }else{
