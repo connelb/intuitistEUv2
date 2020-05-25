@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { API, graphqlOperation, Auth, Storage } from "aws-amplify";
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, ModalController, LoadingController } from '@ionic/angular';
 import { ObservableQuery } from 'apollo-client';
 import gql from 'graphql-tag';
 import { AppsyncService } from '../providers/appsync.service';
@@ -10,6 +10,8 @@ import { cardStatus } from './../API.service';
 import awsconfig from './../../aws-exports';
 import Predictions from '@aws-amplify/predictions';
 import { TextToSpeechOutput } from '@aws-amplify/predictions/lib/types';
+import { Howl, Howler } from 'howler';
+import { trigger, state, group, transition, animate, style } from '@angular/animations';
 
 const getAnswer = `
 query getAnswer($id: ID!) {
@@ -147,8 +149,39 @@ subscription OnUpdateUser3Card3 {
   selector: 'app-card',
   templateUrl: './card.page.html',
   styleUrls: ['./card.page.scss'],
+  animations: [
+    trigger('testYourselfTrigger2', [
+      state('from', style({
+        opacity: 0
+      })),
+      state('to', style({
+        opacity: 1
+      })),
+      transition('from => to', [
+        animate('1s ease', style({ opacity: 0.8 })),
+        animate('1s ease', style({ textShadow: '2px 2px 5px #5ba7e4' })),
+        animate('1s ease', style({ textShadow: '2px 2px 5px #FA4556', })),
+      ]),
+    ]),
+    trigger('animateTrigger', [
+      state('from', style({
+        backgroundColor: 'green',
+        transform: 'scale(1)'
+      })),
+      state('to', style({
+        backgroundColor: 'red',
+        transform: 'scale(1.5)'
+      })),
+      transition('from => to', animate('1000ms')),
+      transition('to=> from', animate('1500ms'))
+    ])
+  ]
 })
 export class CardPage implements OnInit {
+
+  @Input() card: any;
+  visible: boolean = false;
+
   srcLang="fr";
   targetLang="en";
   public textToTranslate  = "Hello";
@@ -185,6 +218,8 @@ export class CardPage implements OnInit {
 
 
   constructor(
+    public modalController: ModalController,
+    public loadingController: LoadingController,
     private router: Router,
     private route: ActivatedRoute,
     public toastController: ToastController,
@@ -200,20 +235,22 @@ export class CardPage implements OnInit {
       
 
       this.route.params.subscribe(p => {
-        this.cardId = p.id;
-        const query = API.graphql(graphqlOperation(getAnswer, { id: this.cardId })) as Promise<any>;
-  
-        query.then(res => {
-          //console.log(res,this.cardId);
-          this.textToTranslate = res.data.getCard3.question;
-          this.flashCardFront = res.data.getCard3.question;
-          this.flashCardBack = res.data.getCard3.answer;
-          this.audio = res.data.getCard3.audio || null;
-          this.lessonName = res.data.getCard3.lesson3.name
-          this.lessonId = res.data.getCard3.lesson3.id
-        });
 
-        this.getUserCardId(user.attributes.sub,p.id);
+
+        // this.cardId = p.id;
+        // const query = API.graphql(graphqlOperation(getAnswer, { id: this.cardId })) as Promise<any>;
+  
+        // query.then(res => {
+        //   //console.log(res,this.cardId);
+        //   this.textToTranslate = res.data.getCard3.question;
+        //   this.flashCardFront = res.data.getCard3.question;
+        //   this.flashCardBack = res.data.getCard3.answer;
+        //   this.audio = res.data.getCard3.audio || null;
+        //   this.lessonName = res.data.getCard3.lesson3.name
+        //   this.lessonId = res.data.getCard3.lesson3.id
+        // });
+
+        // this.getUserCardId(user.attributes.sub,p.id);
       });
     })
 
@@ -385,6 +422,18 @@ export class CardPage implements OnInit {
   //   }
   // }
 
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      spinner: 'dots',
+      // message: 'Please wait...',
+      duration: 50
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+  }
+
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Alert',
@@ -419,4 +468,63 @@ export class CardPage implements OnInit {
   // }
 
   // }
+  dismiss(data) {
+    // let data = { userCardID: x, userCardCardId: this.cardId, status: this.status, score: this.score }
+
+    // this.modalController.dismiss(data);
+    this.modalController.dismiss(data);
+  }
+
+  segmentChanged(event,card){
+    console.log('event.detail.value',event.detail.value,'done?;',event.detail.value == "done",event.detail.value == "doing");
+    if(event.detail.value == "done"){
+      let data = {
+        answer:card.answer,
+        audio:card.audio,
+        question:card.question,
+        order:card.order,
+        cardId: card.cardId,
+        userCardCardId: card.userCardCardId,
+        status:'done',
+        score:1
+      }
+      this.dismiss(data);
+    }
+    
+    if(event.detail.value == "doing"){
+      let data = {
+        answer:card.answer,
+        audio:card.audio,
+        question:card.question,
+        order:card.order,
+        cardId: card.cardId,
+        userCardCardId: card.userCardCardId,
+        status:'doing',
+        score:0
+      }
+      this.dismiss(data);
+    }
+  }
+
+
+  async toggleBgMusicPlaying(event, card) {
+    this.visible = true;
+ 
+    let sound = new Howl({
+      src: `https://d1lutvvxmfx9wo.cloudfront.net/public/audio/${card.audio}${'.mp3'}`,
+      onend: function () {
+        this.visible = false;
+      }
+    })
+
+    sound.once('load', function () {
+      this.visible = true;//show answer
+      sound.play();
+    })
+
+    sound.on('end', function () {
+      this.visible = false;//don't show answer??
+    })
+  }
+
 }

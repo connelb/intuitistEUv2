@@ -1,14 +1,97 @@
-<ion-header no-border>
-  <ion-toolbar color="secondary">
-    <ion-title slot="end">{{lessonName}}</ion-title>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="app/tabs/lessons/{{lessonId}}"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-buttons>
+        <ion-menu-button slot="start">
+        </ion-menu-button>
+        <ion-title>
+          Review Card
+        </ion-title>
+        <!-- <div *ngIf="online$ | async; else offline"></div>
+        <ng-template #offline>
+        </ng-template> -->
+      </ion-buttons>
+  
+      <!-- <div>
+        <ion-progress-bar color="warning" value="{{doingScore}}"></ion-progress-bar>
+      </div>
+      <div>
+        <ion-progress-bar color="success" value="{{doneScore}}"></ion-progress-bar>
+      </div>
+      <div>
+        <ion-progress-bar color="danger" value="{{videoScore}}"></ion-progress-bar>
+      </div> -->
+    </ion-toolbar>
+  </ion-header>
 
 <ion-content>
-  <ion-grid>
+    <ion-grid>
+        <ion-row class="ion-align-items-start">
+          <ion-col size="12" class="ion-align-self-start" class="ion-padding-bottom">
+            <div class="test-yourself"><h1 class="test-yourself2">{{card?.question}}</h1></div>
+          </ion-col>
+        </ion-row>
+        <hr>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" class="ion-align-items-center">
+              <!-- <h1 [@testYourselfTrigger2]="visible ? 'to' : 'from'" class="test-yourself2">{{card?.answer}}</h1> -->
+            <div class="test-yourself"><h1 [@testYourselfTrigger2]="visible ? 'to' : 'from'" class="test-yourself2">{{card?.answer}}</h1></div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-end">
+          <ion-col size="12" class="">
+            <ng-template [ngIf]="!visible" [ngIfElse]="loading">
+              <ion-col size=7>
+                <ion-button size="large" color="primary" disabled>
+                  Translate aloud
+                </ion-button>
+              </ion-col>
+              <ion-col size=5>
+                <ion-button size="large" color="primary" class="ion-activatable ripple-parent" (click)="toggleBgMusicPlaying($event,card)">
+                  Play
+                  <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+                </ion-button>
+              </ion-col>
+            </ng-template>
+
+            <ng-template #loading>
+              <ion-radio-group *ngIf="visible" (ionChange)="segmentChanged($event,card)">
+                <ion-row class="ion-align-items-end">
+                  <ion-col size=6>
+                    <ion-item color="transparent">
+                      <ion-icon color="success" size="large" name="happy-outline"></ion-icon>
+                      <ion-label>
+                        <ion-text color="success">: Got it</ion-text>
+                      </ion-label>
+                      <ion-radio mode="md" item-left value="done">
+                        <ion-icon color="warning" size="large" name="happy-outline"></ion-icon>
+                      </ion-radio>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size=6>
+                    <ion-item color="transparent">
+                      <ion-icon color="warning" size="large" name="sad-outline"></ion-icon>
+                      <ion-label>
+                        <ion-text color="warning">: Later</ion-text>
+                      </ion-label>
+                      <ion-radio mode="md" item-left value="doing">
+                        <ion-icon color="warning" size="large" name="sad-outline"></ion-icon>
+                      </ion-radio>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+              </ion-radio-group>
+            </ng-template>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+
+
+
+
+
+  <!-- <ion-grid>
     <ion-row>
       <ion-col class="ion-align-self-center">
         <ion-card-content>
@@ -23,7 +106,7 @@
         <app-flash-card [frontContent]="flashCardFront" [backContent]="flashCardBack"></app-flash-card>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
   <!-- <ion-card> -->
     <!-- <ion-list> -->
       <!-- <ion-item-sliding> -->

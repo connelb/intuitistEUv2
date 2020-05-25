@@ -50,6 +50,15 @@ const routes: Routes = [
           }
         ]
       },
+      {
+        path: 'lessons/card',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./../card/card.module').then(m => m.CardPageModule)
+          }
+        ]
+      },
 
       // {
       //   path: 'schedule',

@@ -231,6 +231,7 @@ query ListLessonsByUser($user3Card3User3Id: ID!) {
           question
           answer
           audio
+          order
           lesson3 {
             __typename
             id
@@ -521,15 +522,10 @@ export class LessonsPage {
     });
     await modal.present();
     modal.onDidDismiss().then((data) => {
-      // this.videoStatus = data['data'];
 
-      // var x = d3Scale.scaleLinear()
-      //   .domain([0, this.videoStatus.duration])
-      //   .range([0, 30]);
+      
 
-      // let videoScore = Math.ceil(x(this.videoStatus.currentTime));
-      // // this.videoScoreUpdate(videoScore);
-      // this.updateVideoPWA(videoScore);
+      console.log('this is the array to update', data)
 
     }).then(() => console.log('modal closed'));
   }
