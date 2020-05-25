@@ -794,8 +794,8 @@ export class CardsPage implements OnInit {
 
 
   public slideOptions = {
-    slidesPerView: 1.1,
-    spaceBetween: 20,
+    slidesPerView: 1,
+    spaceBetween: 0,
     speed:300,
     centeredSlides: true,
     pagination: {
@@ -1111,7 +1111,7 @@ export class CardsPage implements OnInit {
       // this.videoScoreUpdate(videoScore);
       this.updateVideoPWA(videoScore);
 
-    }).then(() => this.slides.slideTo(1));
+    }).then(() => this.slides.slideTo(1) );
   }
 
   // TO DO - must be a better way

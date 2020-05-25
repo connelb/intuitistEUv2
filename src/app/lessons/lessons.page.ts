@@ -28,6 +28,8 @@ import { MyAPIService } from '../API.my';
 import {ModelUser3Video3FilterInput} from "../API.service";
 import { filter } from 'rxjs/operators';
 import { ReviewModalPage } from '../review-modal/review-modal.page';
+import { TestModalPage } from '../test-modal/test-modal.page';
+import { VideoModalPage } from '../video-modal/video-modal.page';
 
 
 //import Amplify from "@aws-amplify/core";
@@ -511,6 +513,69 @@ export class LessonsPage {
     });
   }
 
+  async presentVideo(lesson) {
+
+    // async getModelVideo(lesson) {
+    //   const [modelVideo] = await Promise.all([
+    //     API.graphql(graphqlOperation(GetModelVideo, { id: lesson.video })) as Promise<any>
+    //   ])
+    //   // console.log('modelVideo',modelVideo)
+    //   this.modelVideoId = modelVideo.data.getVodAsset.video.id;
+    // }
+  
+    // async presentVideo() {
+    //   const modal = await this.modalController.create({
+    //     component: VideoModalPage,
+    //     componentProps: {
+    //       id: this.modelVideoId,
+    //       name: this.lesson.name
+    //     }
+    //   });
+
+
+    const modal = await this.modalController.create({
+      component: VideoModalPage,
+      componentProps: {
+        lesson: lesson
+      }
+    });
+    await modal.present();
+
+    modal.onDidDismiss().then((data) => {
+      // this.videoStatus = data['data'];
+
+      // var x = d3Scale.scaleLinear()
+      //   .domain([0, this.videoStatus.duration])
+      //   .range([0, 30]);
+
+      // let videoScore = Math.ceil(x(this.videoStatus.currentTime));
+      // // this.videoScoreUpdate(videoScore);
+      // this.updateVideoPWA(videoScore);
+
+    }).then(() => {
+      // perhaps open test modal??
+      // or update score?
+     
+    } );
+  }
+  
+  async presentTestModal(lesson,i){
+    const modal = await this.modalController.create({
+      component: TestModalPage,
+      componentProps: {
+        // id: this.modelVideoId,
+        lesson: lesson
+      }
+    });
+    await modal.present();
+    modal.onDidDismiss().then((data) => {
+
+      
+
+      console.log('this is the array to update', data)
+
+    }).then(() => console.log('modal closed'));
+  }
 
   async presentModal(lesson,i){
     const modal = await this.modalController.create({
@@ -523,7 +588,7 @@ export class LessonsPage {
     await modal.present();
     modal.onDidDismiss().then((data) => {
 
-      
+
 
       console.log('this is the array to update', data)
 

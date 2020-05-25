@@ -6,27 +6,7 @@
 </ion-header>
 <ion-content>
 
-  <ion-list>
-    <ion-item-divider>
-      <ion-label>
-        Review
-      </ion-label>
-    </ion-item-divider>
-    <ion-item-sliding *ngFor="let item of (reviewList$ | async)">
-      <ion-item detail (click)="showCard(item)" [class]="item.status">
-        <ion-label>
-          {{item?.question}}
-        </ion-label>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color="success" expandable>
-          <ion-icon name="happy-outline"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
-
-  <!-- <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="isEnd()">
+  <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="isEnd()">
     <ion-slide *ngFor="let card of (reviewList$ | async) ; index as i">
 
       <ion-grid>
@@ -93,5 +73,5 @@
         </ion-row>
       </ion-grid>
     </ion-slide>
-  </ion-slides> -->
+  </ion-slides>
 </ion-content>

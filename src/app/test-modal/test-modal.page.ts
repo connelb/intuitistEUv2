@@ -5,6 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import gql from 'graphql-tag';
 import { AppsyncService } from '../providers/appsync.service';
 import { Auth } from 'aws-amplify';
+import { trigger, state, group, transition, animate, style } from '@angular/animations';
+import { Howl, Howler } from 'howler';
 
 
 const getUserCardId =
@@ -72,11 +74,38 @@ const ListUserCardsByUser = gql
 
 
 @Component({
-  selector: 'app-review-modal',
-  templateUrl: './review-modal.page.html',
-  styleUrls: ['./review-modal.page.scss'],
+  selector: 'app-test-modal',
+  templateUrl: './test-modal.page.html',
+  styleUrls: ['./test-modal.page.scss'],
+  animations: [
+    trigger('testYourselfTrigger2', [
+      state('from', style({
+        opacity: 0
+      })),
+      state('to', style({
+        opacity: 1
+      })),
+      transition('from => to', [
+        animate('1s ease', style({ opacity: 0.8 })),
+        animate('1s ease', style({ textShadow: '2px 2px 5px #5ba7e4' })),
+        animate('1s ease', style({ textShadow: '2px 2px 5px #FA4556', })),
+      ]),
+    ]),
+    trigger('animateTrigger', [
+      state('from', style({
+        backgroundColor: 'green',
+        transform: 'scale(1)'
+      })),
+      state('to', style({
+        backgroundColor: 'red',
+        transform: 'scale(1.5)'
+      })),
+      transition('from => to', animate('1000ms')),
+      transition('to=> from', animate('1500ms'))
+    ])
+  ]
 })
-export class ReviewModalPage implements OnInit {
+export class TestModalPage implements OnInit {
 
   @ViewChild(IonSlides, { static: false }) slides: IonSlides;
 
@@ -100,6 +129,8 @@ export class ReviewModalPage implements OnInit {
       type: "fraction"
     }
   };
+  visible: boolean;
+  animate: boolean;
 
   constructor(public modalController: ModalController, private platform: Platform, private appsync: AppsyncService) { }
 
@@ -134,6 +165,74 @@ export class ReviewModalPage implements OnInit {
       this.width = this.platform.width();
       this.height = this.platform.height();
     });
+  }
+
+  async toggleBgMusicPlaying(event, card) {
+    this.visible = true;
+ 
+    let sound = new Howl({
+      src: `https://d1lutvvxmfx9wo.cloudfront.net/public/audio/${card.audio}${'.mp3'}`,
+      onend: function () {
+        this.visible = false;
+      }
+    })
+
+    sound.once('load', function () {
+      this.visible = true;//show answer
+      sound.play();
+    })
+
+    sound.on('end', function () {
+      this.visible = false;//don't show answer??
+    })
+  }
+
+  segmentChanged(event,card){
+    let data;
+    console.log('event.detail.value',event.detail.value,'done?;',event.detail.value == "done",event.detail.value == "doing");
+    if(event.detail.value == "done"){
+      data = {
+        answer:card.answer,
+        audio:card.audio,
+        question:card.question,
+        order:card.order,
+        cardId: card.cardId,
+        userCardCardId: card.userCardCardId,
+        status:'done',
+        score:1
+      }
+      // this.dismiss(data);
+    }
+    
+    if(event.detail.value == "doing"){
+      data = {
+        answer:card.answer,
+        audio:card.audio,
+        question:card.question,
+        order:card.order,
+        cardId: card.cardId,
+        userCardCardId: card.userCardCardId,
+        status:'doing',
+        score:0
+      }
+      // this.dismiss(data);
+    }
+
+    for (var i = 0; i < this.myCards.length; i++) {
+      if (this.myCards[i].cardId == data['cardId']) {
+        if (data['status'] == "done") {
+          this.myCards[i].status = "done";
+          this.myCards[i].score = 1;
+          this.myCards[i].toUpdate = true;
+        } else {
+          this.myCards[i].status = "doing";
+          this.myCards[i].score = 0;
+          this.myCards[i].toUpdate = true;
+        }
+      }
+    }
+    this.visible = false;
+    this.slides.slideNext();
   }
 
   dismiss() {
