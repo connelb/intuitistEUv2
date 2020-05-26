@@ -1,17 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title></ion-title>
+    <ion-title>
+        Review
+      </ion-title>
     <ion-button slot="end" (click)="dismiss()">Update</ion-button>
   </ion-toolbar>
 </ion-header>
-<ion-content>
 
+<ion-content>
   <ion-list>
-    <ion-item-divider>
-      <ion-label>
-        Review
-      </ion-label>
-    </ion-item-divider>
     <ion-item-sliding *ngFor="let item of (reviewList$ | async)">
       <ion-item detail (click)="showCard(item)" [class]="item.status">
         <ion-label>

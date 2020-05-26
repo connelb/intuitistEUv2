@@ -15,6 +15,10 @@ ion-toolbar ion-menu-button {
   --color: #5ba7e4;
 }
 
+// .item-options-start {
+//   background-color: #5ba7e4;
+// }
+
 video {
     display: block;
     margin: auto;
@@ -53,6 +57,6 @@ video {
 // }
 
 ion-chip ion-label{
-  --background:grey;
+  --background:lightgrey;
   font-size: 0.8rem;
 }

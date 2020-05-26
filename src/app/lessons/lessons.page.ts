@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, ChangeDetectorRef, ViewEncapsulation, Input } from '@angular/core';
-import { Platform, ModalController, AlertController, ToastController } from '@ionic/angular';
+import { Platform, ModalController, AlertController, ToastController, LoadingController } from '@ionic/angular';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { Router } from '@angular/router';
 import { Auth, Storage } from 'aws-amplify';
@@ -399,6 +399,7 @@ export class LessonsPage {
     private router: Router, private platform: Platform,
     public toastController: ToastController,
     private score1: ScoreService,
+    public loadingController: LoadingController,
     private myApi: MyAPIService ) {
 
   }
@@ -471,6 +472,16 @@ export class LessonsPage {
     //   })
     // );
 
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      spinner: 'dots',
+      // message: 'Please wait...',
+      duration: 300
+    });
+    await loading.present();
+    const { role, data } = await loading.onDidDismiss();
   }
 
   // counter;
@@ -553,6 +564,7 @@ export class LessonsPage {
       // this.updateVideoPWA(videoScore);
 
     }).then(() => {
+      this.ListLessonsByUser();
       // perhaps open test modal??
       // or update score?
      
@@ -574,7 +586,10 @@ export class LessonsPage {
 
       console.log('this is the array to update', data)
 
-    }).then(() => console.log('modal closed'));
+    }).then(() => {
+      this.ListLessonsByUser();
+      console.log('modal closed')}
+    );
   }
 
   async presentModal(lesson,i){
@@ -592,7 +607,10 @@ export class LessonsPage {
 
       console.log('this is the array to update', data)
 
-    }).then(() => console.log('modal closed'));
+    }).then(() => {
+      this.ListLessonsByUser();
+      console.log('modal closed')
+    });
   }
 
 
@@ -633,6 +651,7 @@ export class LessonsPage {
   // }
 
   async ListLessonsByUser() {
+    this.presentLoading();
     // await Auth.currentAuthenticatedUser({
     //   bypassCache: false
     // }).then(async user => {
@@ -640,6 +659,7 @@ export class LessonsPage {
     // });
 
     // ListLessonsByUserInitial
+   
 
     await this.appsync.hc().then(client => {
       const observable: ObservableQuery = client.watchQuery({

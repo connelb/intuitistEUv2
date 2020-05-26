@@ -110,6 +110,7 @@ export class VideoModalPage implements OnInit {
 
     // set modelVideoId
     this.getModelVideo(this.lesson);
+    this.getUserVideoId(this.lesson);
 
     this.options = {
       preload: "metadata",
@@ -179,7 +180,7 @@ export class VideoModalPage implements OnInit {
   }
 
   dismiss() {
-    this.getUserVideoId(this.lesson);
+    //this.getUserVideoId(this.lesson);
     let data = { duration: this.duration, currentTime: this.currentTime }
     // updateOrCreate()
 
@@ -197,11 +198,10 @@ export class VideoModalPage implements OnInit {
   }
 
 
-
   async updateVideoPWA(videoScore) {
+    console.log('what is the video score?',videoScore)
     this.presentLoading();
     
-
     this.appsync.hc().then(client => {
       client.query({
         query: GetUser3Video3ById,
@@ -227,6 +227,7 @@ export class VideoModalPage implements OnInit {
     const video = videojs(this.videoElement.nativeElement, this.options);
  
     this.sources = [{
+      //src: `https://dv6ey2dghperj.cloudfront.net/${this.modelVideoId}.m3u8`,
       src: `https://myvodstreams-dev-output-hgbnm075.s3.amazonaws.com/output/${this.modelVideoId}.m3u8`,
       type: 'application/x-mpegURL',
     }]

@@ -169,7 +169,7 @@ doing:{{lesson |totalScore:doing}} -->
 
       </ion-item>
       <ion-item-options side="end">
-          <ion-item-option color="primary" expandable (click)="presentVideo(lesson)">
+          <ion-item-option  color="medium" expandable (click)="presentVideo(lesson)">
               <ion-grid>
                 <ion-row>
                    Video
@@ -181,7 +181,7 @@ doing:{{lesson |totalScore:doing}} -->
                <ion-icon name="sad-outline"></ion-icon> <br>
                <div>{{lesson |totalScore:'doing'}} cards</div> -->
              </ion-item-option>
-          <ion-item-option color="secondary" expandable (click)="presentTestModal(lesson,i)">
+          <ion-item-option expandable (click)="presentTestModal(lesson,i)">
            <ion-grid>
              <ion-row>
                 Test 
@@ -193,16 +193,20 @@ doing:{{lesson |totalScore:doing}} -->
           </ion-item-option>
           </ion-item-options>
           <ion-item-options side="start">
-              <ion-item-option color="warning" expandable (click)="presentModal(lesson,i)">
+              <ion-item-option color="light" expandable (click)="presentModal(lesson,i)">
                <ion-grid>
                  <ion-row>
                     Review 
                  </ion-row>
                  <ion-row>
-                    <ion-icon name="sad-outline"></ion-icon>
+                    <ion-chip color="warning">
+                        <ion-label >{{lesson |totalScore:this.user.attributes.sub:'doing'}}</ion-label>
+                      </ion-chip>
                  </ion-row>
                  <ion-row>
-                    {{lesson |totalScore:this.user.attributes.sub:'doing'}} cards
+                    <ion-chip color="success">
+                        <ion-label  >{{lesson |totalScore:this.user.attributes.sub:'done'}}</ion-label>
+                      </ion-chip>
                  </ion-row>
                </ion-grid>
                 <!-- <div> Review </div><br>
