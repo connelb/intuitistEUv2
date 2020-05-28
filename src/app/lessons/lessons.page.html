@@ -85,7 +85,7 @@
         <ion-label>
           <h1>{{lesson?.name}}
             <ion-chip>
-              <ion-label class="points">{{lesson |totalScore:this.user.attributes.sub:'total'}} points</ion-label>
+              <ion-label class="points">{{lesson |totalScore:this.user.attributes.sub:'total'| async}} points</ion-label>
             </ion-chip>
           </h1>
 
@@ -114,10 +114,10 @@ doing:{{lesson |totalScore:doing}} -->
                         </ion-chip>
                     </ion-col> -->
                     <ion-col size=4 class="progress">
-                        <ion-progress-bar color="success" value="{{lesson |totalScore:this.user.attributes.sub:'done%'}}"></ion-progress-bar>
+                        <ion-progress-bar color="success" value="{{lesson |totalScore:this.user.attributes.sub:'done%'| async}}"></ion-progress-bar>
                       </ion-col>
                   <ion-col size=2>
-                    <div>{{lesson |totalScore:this.user.attributes.sub:'done'}}/{{lesson |totalScore:this.user.attributes.sub:'total'}}</div>
+                    <div>{{lesson |totalScore:this.user.attributes.sub:'done'| async}}/{{lesson |totalScore:this.user.attributes.sub:'total'| async}}</div>
                   </ion-col>
                  
                   
@@ -177,11 +177,8 @@ doing:{{lesson |totalScore:doing}} -->
                 <ion-row>
                 </ion-row>
               </ion-grid>
-               <!-- <div> Review </div><br>
-               <ion-icon name="sad-outline"></ion-icon> <br>
-               <div>{{lesson |totalScore:'doing'}} cards</div> -->
              </ion-item-option>
-          <ion-item-option expandable (click)="presentTestModal(lesson,i)">
+          <ion-item-option expandable (click)="presentTestModal(lesson)">
            <ion-grid>
              <ion-row>
                 Test 
@@ -193,19 +190,19 @@ doing:{{lesson |totalScore:doing}} -->
           </ion-item-option>
           </ion-item-options>
           <ion-item-options side="start">
-              <ion-item-option color="light" expandable (click)="presentModal(lesson,i)">
+              <ion-item-option color="dark" expandable (click)="presentModal(lesson,i)">
                <ion-grid>
                  <ion-row>
                     Review 
                  </ion-row>
                  <ion-row>
-                    <ion-chip color="warning">
-                        <ion-label >{{lesson |totalScore:this.user.attributes.sub:'doing'}}</ion-label>
+                    <ion-chip outline color="warning">
+                        <ion-label >{{lesson |totalScore:this.user.attributes.sub:'doing'| async}}</ion-label>
                       </ion-chip>
                  </ion-row>
                  <ion-row>
-                    <ion-chip color="success">
-                        <ion-label  >{{lesson |totalScore:this.user.attributes.sub:'done'}}</ion-label>
+                    <ion-chip outline color="success">
+                        <ion-label  >{{lesson |totalScore:this.user.attributes.sub:'done'| async}}</ion-label>
                       </ion-chip>
                  </ion-row>
                </ion-grid>

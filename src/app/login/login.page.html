@@ -21,12 +21,12 @@
         </ion-row>
     </ion-grid> -->
     <!-- <amplify-authenticator framework="ionic" [signUpConfig]='signUpConfig'></amplify-authenticator> -->
-    <amplify-authenticator></amplify-authenticator>
+    <amplify-authenticator framework="ionic"><div class="center">
+        <ion-button color="primary" (click)="signInWithFacebook()">Sign In with Facebook</ion-button>
+      </div></amplify-authenticator>
 <br>
 <br>
-    <div class="center">
-            <ion-button color="primary" (click)="signInWithFacebook()">Sign In with Facebook</ion-button>
-          </div>
+    
 
 </ion-content>
 

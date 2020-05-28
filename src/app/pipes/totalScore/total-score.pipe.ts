@@ -1,11 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import * as d3Array from 'd3-array';
 import * as d3Collection from 'd3-collection';
-import { AppsyncService } from '../../providers/appsync.service';
-import { ObservableQuery } from 'apollo-client';
+// import { AppsyncService } from '../../providers/appsync.service';
+// import { ObservableQuery } from 'apollo-client';
 import { API, graphqlOperation } from "aws-amplify";
 import gql from 'graphql-tag';
-import { Auth } from 'aws-amplify';
+// import { Auth } from 'aws-amplify';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 const GetUser3Video3 =
   gql`query GetUser3Video3Id($user3Video3User3Id: ID!, $user3Video3Video3Id: ID!){
@@ -31,55 +32,17 @@ export class TotalScorePipe implements PipeTransform {
   // videoScore:any;
   cachedData: any;
   videoScore: any;
-  constructor(private appsync: AppsyncService) { }
+  result$: BehaviorSubject<any>;
+  constructor() { }
 
-  transform(lesson: any, userId: any, type?: any): any {
+  transform(lesson: any, userId: any, type?: any): Observable<string> {
 
-    // let videoScore = [];
-    // this.lesson = Object.assign({}, lesson);
-
-  //  console.log('lesson.name??????',  lesson.name);
-
-    // Auth.currentAuthenticatedUser({
-    //   bypassCache: false
-    // }).then(user => {
-    //   this.user = user;
-    this.getUserVideoId(userId, lesson.video).then(d=> {
-      // console.log(d);
-      // console.log('d3',d3Collection.entries(d));
-      // this.videoScore = Object.assign({}, d);
-      this.globalVideoArray.push(d);
-
-    })
-    
-
-      // this.appsync.hc().then(client => {
-      //   const observable = client.watchQuery({
-      //     query: GetUser3Video3,
-      //     variables: { user3Video3User3Id: userId, user3Video3Video3Id: lesson.video },
-      //     fetchPolicy: 'cache-and-network'
-      //   });
-  
-      //   observable.subscribe(result => {
-      //     // console.log('result0000',(result.data.listUser3Video3s.items));
-      //     // console.log('result123',(result.data.listUser3Video3s.items.length > 0) ? result.data.listUser3Video3s.items[0].score : 0);
-      //     this.cachedData = (result.data.listUser3Video3s.items.length > 0) ? result.data.listUser3Video3s.items[0].score : 0;
-          
-      //     // this.cachedData = result
-      //   });
-      // })
+    // this.getUserVideoId(userId, lesson.video).then(d=> {
+    //   this.globalVideoArray.push(d);
     // })
-   
-
-    // this.lesson = Object.assign({}, lesson);
-   
-   
-    // let video = 0;
-    // let done = 0;
-    // let doing = 0;
+ 
     let result;
     let temp = [];
-
 
     this.lessonCards = lesson.cards3.items;
 
@@ -104,22 +67,22 @@ export class TotalScorePipe implements PipeTransform {
       })
       .entries(temp);
 
-      // console.log('is lesson this.myLessonScore??', this.myLessonScore, this.videoScore);
+      // console.log('0 toDo 1 doing 2 done???', this.myLessonScore, this.videoScore);
 
     let toDo = (this.myLessonScore[0].value.tally) ? this.myLessonScore[0].value.tally : 0;
-    let doing = (this.myLessonScore[1]) ? this.myLessonScore[1].value.tally : 0;
-    let done = (this.myLessonScore[2]) ? this.myLessonScore[2].value.tally : 0;
+    let doing = (this.myLessonScore[2]) ? this.myLessonScore[2].value.tally : 0;
+    let done = (this.myLessonScore[1]) ? this.myLessonScore[1].value.tally : 0;
     let myTotalArray = [done, doing, toDo];
 
-    let doingScore = (this.myLessonScore[1]) ? this.myLessonScore[1].value.total : 0;
-    let doneScore = (this.myLessonScore[2]) ? this.myLessonScore[2].value.total : 0;
+    // let doingScore = (this.myLessonScore[1]) ? this.myLessonScore[1].value.total : 0;
+    // let doneScore = (this.myLessonScore[2]) ? this.myLessonScore[2].value.total : 0;
 
 
-    let myScoreArray = [done, doing];
+    // let myScoreArray = [done, doing];
 
     let total = myTotalArray.reduce((a, b) => a + b, 0);
 
-    let score = myScoreArray.reduce((a, b) => a + b, 0);
+    // let score = myScoreArray.reduce((a, b) => a + b, 0);
 
     // console.log('myTotalArray=',myTotalArray)
     // console.log('done=',done)
@@ -174,9 +137,9 @@ export class TotalScorePipe implements PipeTransform {
         case 'doing':
         result = doing;
         break;
-      case 'video':
-        result = this.globalVideoArray.reduce((a, b) => a + b, 0);
-        break;
+      // case 'video':
+      //   result = this.globalVideoArray.reduce((a, b) => a + b, 0);
+      //   break;
       case 'total':
         result = total;
         break;
@@ -185,20 +148,14 @@ export class TotalScorePipe implements PipeTransform {
 
     }
     // console.log("result:", done, doing,total,this.globalVideoArray.reduce((a, b) => a + b, 0))
-    return result
+    this.result$ = new BehaviorSubject(result);
+    return this.result$
   }
 
-  async getUserVideoId(userId, lessonVideo) {
-    // console.log('user-',userId,);
-    // console.log('lesson-',lessonVideo);
-    const [userVideo] = await Promise.all([
-      API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: userId, user3Video3Video3Id: lessonVideo })) as Promise<any>
-    ]);
-
-    // console.log('userVideo?',userVideo.data.listUser3Video3s.items[0].score);
-
-
-    // console.log('userVideo?',(userVideo.data.listUser3Video3s.items.length>0)?userVideo.data.listUser3Video3s.items[0].score:0);
-    return (userVideo.data.listUser3Video3s.items.length > 0) ? userVideo.data.listUser3Video3s.items[0].score : 0;
-  }
+  // async getUserVideoId(userId, lessonVideo) {
+  //   const [userVideo] = await Promise.all([
+  //     API.graphql(graphqlOperation(GetUser3Video3, { user3Video3User3Id: userId, user3Video3Video3Id: lessonVideo })) as Promise<any>
+  //   ]);
+  //   return (userVideo.data.listUser3Video3s.items.length > 0) ? userVideo.data.listUser3Video3s.items[0].score : 0;
+  // }
 }

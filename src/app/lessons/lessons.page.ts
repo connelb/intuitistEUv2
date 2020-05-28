@@ -25,7 +25,7 @@ import { ScoreService } from '../providers/score/score.service';
 import { TotalScorePipe } from '../pipes/totalScore/total-score.pipe';
 
 import { MyAPIService } from '../API.my';
-import {ModelUser3Video3FilterInput} from "../API.service";
+import { ModelUser3Video3FilterInput } from "../API.service";
 import { filter } from 'rxjs/operators';
 import { ReviewModalPage } from '../review-modal/review-modal.page';
 import { TestModalPage } from '../test-modal/test-modal.page';
@@ -400,7 +400,8 @@ export class LessonsPage {
     public toastController: ToastController,
     private score1: ScoreService,
     public loadingController: LoadingController,
-    private myApi: MyAPIService ) {
+    // private myApi: MyAPIService 
+  ) {
 
   }
 
@@ -413,64 +414,10 @@ export class LessonsPage {
     });
 
     this.idAdmin = this.user.signInUserSession.accessToken.payload["cognito:groups"][0] == 'Admin';
-    this.upDateScores();
-    // setTimeout(() => {
+    //this.upDateScores();
+    setTimeout(() => {
       this.ListLessonsByUser()
-
-      //getVideoByLesson(userId,videoId)
-      // this.appsync.getVideos("e12517c0-479f-4088-aa10-a2cf57a24ba2", "8dedf06d-79d0-40b4-a65e-a3ca6812ded6")
-      // .subscribe(d=>d)
-
-      // this.appsync.ListUser3Card3s("e12517c0-479f-4088-aa10-a2cf57a24ba2").subscribe(d=>console.log(d))
-
-    // const cognitUser = await Auth.currentAuthenticatedUser();
-    // const videStuu: ModelUser3Video3FilterInput ={
-    //   'id': "285219b3-062c-4a63-968e-04e10fdbff6a"
-    // }
-    // const loginedUser = await this.myApi.ListUser3Video3s(filter:{videStuu})//GetUser(cognitUser.username);
-    // console.log('loginedUser',loginedUser.items);
-    //this.user007 = loginedUser;
-    // }, 500);
-
-
-
-    // let subscription = DataStore.observe(User3Card3, '0524f4f6-b9d7-4fe2-80a7-4bb242b17851').subscribe(msg => {
-    //   console.log("subscription",msg.model, msg.opType, msg.element);
-    // });
-
-    
-    // const post = await DataStore.query(User3Card3, "02311b36-75f8-4fe3-9d94-9bba395d017d");
-    // console.log('post',post);
-
-    // await DataStore.save(
-    //   new Lesson3({
-    //     "name": "testingDatamodels",
-    //     "description": "testingDatamodels"
-    //   })
-    // );
-
-
-    // id: ID
-    // status: videoStatus
-    // score: Int
-    // user3: User3! @connection(name:"UserVideos3")
-    // video3: vodAsset! @connection(name:"VideoUsers3")
-    
-    // id:ID!
-    // title:String!
-    // description:String!
-    // users3: [User3Video3] @connection(name:"VideoUsers3")
-  
-    // #DO NOT EDIT
-    // video:videoObject @connection
-
-    // await DataStore.save(
-    //   new Post({
-    //     title: "My First Post",
-    //     rating: 10,
-    //     status: PostStatus.ACTIVE
-    //   })
-    // );
+    }, 1000)
 
   }
 
@@ -478,7 +425,7 @@ export class LessonsPage {
     const loading = await this.loadingController.create({
       spinner: 'dots',
       // message: 'Please wait...',
-      duration: 300
+      duration: 1000
     });
     await loading.present();
     const { role, data } = await loading.onDidDismiss();
@@ -502,20 +449,20 @@ export class LessonsPage {
   // }
 
 
-  async upDateScores(){
-    this.score1.getGlobalScores(this.user).then(data => {
-      if (!data) { () => console.log("no data") }
+  // async upDateScores() {
+  //   this.score1.getGlobalScores(this.user).then(data => {
+  //     if (!data) { () => console.log("no data") }
 
-      console.log('lessons refresh scores',data);
+  //     console.log('lessons refresh scores', data);
 
-      this.doneScore1 = data[0];//includes video
-      this.totalScore1 = data[1];
-      // this.donePercent = data[2];
-      // this.doingPercent = data[3];
-      // this.videoPercent = data[4];
-     
-    })
-  }
+  //     this.doneScore1 = data[0];//includes video
+  //     this.totalScore1 = data[1];
+  //     // this.donePercent = data[2];
+  //     // this.doingPercent = data[3];
+  //     // this.videoPercent = data[4];
+
+  //   })
+  // }
 
   ngAfterViewInit() {
     this.platform.ready().then(() => {
@@ -525,25 +472,6 @@ export class LessonsPage {
   }
 
   async presentVideo(lesson) {
-
-    // async getModelVideo(lesson) {
-    //   const [modelVideo] = await Promise.all([
-    //     API.graphql(graphqlOperation(GetModelVideo, { id: lesson.video })) as Promise<any>
-    //   ])
-    //   // console.log('modelVideo',modelVideo)
-    //   this.modelVideoId = modelVideo.data.getVodAsset.video.id;
-    // }
-  
-    // async presentVideo() {
-    //   const modal = await this.modalController.create({
-    //     component: VideoModalPage,
-    //     componentProps: {
-    //       id: this.modelVideoId,
-    //       name: this.lesson.name
-    //     }
-    //   });
-
-
     const modal = await this.modalController.create({
       component: VideoModalPage,
       componentProps: {
@@ -553,60 +481,37 @@ export class LessonsPage {
     await modal.present();
 
     modal.onDidDismiss().then((data) => {
-      // this.videoStatus = data['data'];
-
-      // var x = d3Scale.scaleLinear()
-      //   .domain([0, this.videoStatus.duration])
-      //   .range([0, 30]);
-
-      // let videoScore = Math.ceil(x(this.videoStatus.currentTime));
-      // // this.videoScoreUpdate(videoScore);
-      // this.updateVideoPWA(videoScore);
 
     }).then(() => {
       this.ListLessonsByUser();
-      // perhaps open test modal??
-      // or update score?
-     
-    } );
+      this.presentTestModal(lesson);
+    });
   }
-  
-  async presentTestModal(lesson,i){
+
+  async presentTestModal(lesson) {
     const modal = await this.modalController.create({
       component: TestModalPage,
       componentProps: {
-        // id: this.modelVideoId,
         lesson: lesson
       }
     });
     await modal.present();
     modal.onDidDismiss().then((data) => {
-
-      
-
-      console.log('this is the array to update', data)
 
     }).then(() => {
       this.ListLessonsByUser();
-      console.log('modal closed')}
-    );
+    });
   }
 
-  async presentModal(lesson,i){
+  async presentModal(lesson, i) {
     const modal = await this.modalController.create({
       component: ReviewModalPage,
       componentProps: {
-        // id: this.modelVideoId,
         lesson: lesson
       }
     });
     await modal.present();
     modal.onDidDismiss().then((data) => {
-
-
-
-      console.log('this is the array to update', data)
-
     }).then(() => {
       this.ListLessonsByUser();
       console.log('modal closed')
@@ -634,13 +539,9 @@ export class LessonsPage {
   //     .entries(res.data.getUser3.cards3.items);
   // }
 
-  showCards(lessonId) {
-    // this.router.navigate(['/cards', deck.id]);
-    this.router.navigate(['/app/tabs/lessons/', lessonId]);
-    //this.router.navigate(['/app/tabs/lessons']);
-    // this.router.navigate(['app','tabs','lessons', lesson.id]);
-    //this.router.navigateByUrl(`/app/tabs/lessons:${lesson.id}`,{ replaceUrl: true });
-  }
+  // showCards(lessonId) {
+  //   this.router.navigate(['/app/tabs/lessons/', lessonId]);
+  // }
 
   // async presentToast() {
   //   const toast = await this.toastController.create({
@@ -652,15 +553,6 @@ export class LessonsPage {
 
   async ListLessonsByUser() {
     this.presentLoading();
-    // await Auth.currentAuthenticatedUser({
-    //   bypassCache: false
-    // }).then(async user => {
-    //   this.user = user;
-    // });
-
-    // ListLessonsByUserInitial
-   
-
     await this.appsync.hc().then(client => {
       const observable: ObservableQuery = client.watchQuery({
         query: ListLessonsByUser,
@@ -670,9 +562,9 @@ export class LessonsPage {
 
       observable.subscribe(({ data }) => {
         if (!data) { return console.log('ListLessonsByUser: no data'); }
-        
+
         this.lessons = data.listLesson3s.items.sort((a, b) => +a.level - +b.level);
-        console.log('this.lessons',this.lessons)
+        //console.log('lessons been updated, then why not the score???', this.lessons)
         //this.formatListLessonsByUser(data);
       });
 

@@ -9,8 +9,8 @@
   <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="isEnd()">
     <ion-slide *ngFor="let card of (reviewList$ | async) ; index as i">
 
-      <ion-grid>
-        <ion-row class="ion-align-items-start">
+      <ion-grid >
+        <ion-row class="ion-align-items-start" [class]="card.status">
           <ion-col size="12" class="ion-align-self-start" class="ion-padding-bottom">
             <div class="test-yourself">
               <h1 class="test-yourself2">{{card?.question}}</h1>

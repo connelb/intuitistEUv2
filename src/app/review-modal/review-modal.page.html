@@ -8,19 +8,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of (reviewList$ | async)">
+  <ion-list expandable *ngFor="let item of (reviewList$ | async)">
+    <!-- <ion-item-sliding *ngFor="let item of (reviewList$ | async)"> -->
       <ion-item detail (click)="showCard(item)" [class]="item.status">
-        <ion-label>
+        <ion-label>{{item?.status}}
           {{item?.question}}
         </ion-label>
       </ion-item>
-      <ion-item-options side="end">
+      <!-- <ion-item-options side="end">
         <ion-item-option color="success" expandable>
           <ion-icon name="happy-outline"></ion-icon>
         </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
+      </ion-item-options> -->
+    <!-- </ion-item-sliding> -->
   </ion-list>
 
   <!-- <ion-slides [pager]="true" [options]="slideOptions" (ionSlideDidChange)="isEnd()">

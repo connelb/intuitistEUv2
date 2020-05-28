@@ -8,12 +8,31 @@
 
 //#ffce00;
 
-.done {
-  --ion-background-color:#10dc60;
+ion-slides {
+  height: 100%;
 }
-.toDo {
-  --ion-background-color: transparent !important;
+ion-grid {
+  .done {
+  background-color:#10dc60;
+  }
+  .toDo {
+    background-color: transparent !important;
+  }
+  .doing {
+    background-color: #ffce00;
+  }
 }
-.doing {
-  --ion-background-color: #ffce00;
-}
+
+
+// .done {
+//   --ion-background-color:#10dc60;
+// }
+// .toDo {
+//   --ion-background-color: transparent !important;
+// }
+// .doing {
+//   --ion-background-color: #ffce00;
+// }
+
+
+

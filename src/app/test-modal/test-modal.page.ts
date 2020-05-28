@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
-import { ModalController, Platform, IonSlides } from '@ionic/angular';
+import { ModalController, Platform, IonSlides, LoadingController } from '@ionic/angular';
 import { CardPage } from '../card/card.page';
 import { BehaviorSubject } from 'rxjs';
 import gql from 'graphql-tag';
@@ -122,17 +122,20 @@ export class TestModalPage implements OnInit {
   public slideOptions = {
     slidesPerView: 1,
     spaceBetween: 0,
-    speed:300,
+    speed:800,
     centeredSlides: true,
     pagination: {
       el: ".swiper-pagination",
       type: "fraction"
     }
   };
+
+
   visible: boolean;
   animate: boolean;
 
-  constructor(public modalController: ModalController, private platform: Platform, private appsync: AppsyncService) { }
+  constructor(public modalController: ModalController, private platform: Platform, private appsync: AppsyncService,
+    public loadingController: LoadingController) { }
 
   async ngOnInit() {
     await Auth.currentAuthenticatedUser({
@@ -165,6 +168,16 @@ export class TestModalPage implements OnInit {
       this.width = this.platform.width();
       this.height = this.platform.height();
     });
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      spinner: 'dots',
+      // message: 'Please wait...',
+      duration: 300
+    });
+    await loading.present();
+    const { role, data } = await loading.onDidDismiss();
   }
 
   async toggleBgMusicPlaying(event, card) {
@@ -294,8 +307,11 @@ export class TestModalPage implements OnInit {
         })
           .then(data => {
             if ((data.data.listUser3Card3s.items.length) ? true : false) {
+              console.log("need to create a new UserCard",card)
               this.myUpdateUserCard(data, card)
+            
             } else {
+              console.log("need to create a new UserCard",card)
               this.myCreateUserCard(card);
             }
           })
@@ -315,7 +331,7 @@ export class TestModalPage implements OnInit {
         _version: 1
       }
 
-  
+      this.presentLoading();
       this.appsync.hc().then(client => {
         client.mutate({
           mutation: createUserCardId,
@@ -327,7 +343,7 @@ export class TestModalPage implements OnInit {
               __typename: "User3Card3"
             }
           }),
-          
+         
   
           update: (proxy, { data: { createUser3Card3: _myUser3Card3 } }) => {
   
@@ -377,7 +393,7 @@ export class TestModalPage implements OnInit {
         __typename: "User3Card3"
       }
   
-  
+      this.presentLoading();
       this.appsync.hc().then(client => {
         client.mutate({
           mutation: updateUserCard,

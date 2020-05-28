@@ -225,9 +225,9 @@ export class VideoModalPage implements OnInit {
   playVideo() {
     this.presentLoading();
     const video = videojs(this.videoElement.nativeElement, this.options);
- 
+ //  src: `https://d1lutvvxmfx9wo.cloudfront.net/public/audio/${card.audio}${'.mp3'}`,
     this.sources = [{
-      //src: `https://dv6ey2dghperj.cloudfront.net/${this.modelVideoId}.m3u8`,
+      // src: `https://dv6ey2dghperj.cloudfront.net/output/${this.modelVideoId}.m3u8`,
       src: `https://myvodstreams-dev-output-hgbnm075.s3.amazonaws.com/output/${this.modelVideoId}.m3u8`,
       type: 'application/x-mpegURL',
     }]
