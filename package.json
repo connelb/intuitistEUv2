@@ -72,7 +72,7 @@
     "tslib": "^1.11.1",
     "uuid": "^8.1.0",
     "uuidv4": "^6.0.2",
-    "video.js": "^7.7.5",
+    "video.js": "^7.8.2",
     "videojs-contrib-hls": "^5.15.0",
     "zone.js": "~0.10.3"
   },

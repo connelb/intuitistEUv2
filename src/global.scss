@@ -39,28 +39,33 @@
 //       url('https://vjs.zencdn.net/f/1/vjs.ttf') format('truetype');
 //   }
 
-  @font-face {
-    font-family: 'VideoJS';
-    src: url(https://vjs.zencdn.net/f/1/vjs.eot);
-    src: url(https://vjs.zencdn.net/f/1/vjs.eot?#iefix) format('embedded-opentype'), 
-      url(https://vjs.zencdn.net/f/1/vjs.woff) format('woff'),     
-      url(https://vjs.zencdn.net/f/1/vjs.ttf) format('truetype');
-  }
+  // @font-face {
+  //   font-family: 'VideoJS';
+  //   src: url(https://vjs.zencdn.net/f/1/vjs.eot);
+  //   src: url(https://vjs.zencdn.net/f/1/vjs.eot?#iefix) format('embedded-opentype'), 
+  //     url(https://vjs.zencdn.net/f/1/vjs.woff) format('woff'),     
+  //     url(https://vjs.zencdn.net/f/1/vjs.ttf) format('truetype');
+  // }
+
+
+@import "~video.js/dist/video-js.css";
+@import "@videojs/themes/dist/city/index.css";
 
 @import "~aws-amplify-angular/ionic.css";
 
 // @import"~video.js/dist/video-js.css";
 // @import"~video.js/dist/video-js.min.css";
-@import 'video.js/dist/video-js.css';
+// @import 'video.js/dist/video-js.css';
 
 // City
-@import '@videojs/themes/dist/city/index.css';
+// @import '@videojs/themes/dist/city/index.css';
 // @import"~videojs-font/css/videojs-icons.css";
 //which is:
 // @import "~@aws-amplify/ui/src/Theme.css";
 // @import "~@aws-amplify/ui/src/Angular.css";
 
 //@import "~@aws-amplify/ui/src/Angular.css";
+// @import "video.js/dist/video-js.css";
 @import "theme/amplify.scss";
 
 // @import url(https://animejs.com/documentation/assets/css/animejs.css);
@@ -69,7 +74,7 @@
 //@import url(https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans&display=swap);
 
-// @import url(https://vjs.zencdn.net/f/1/vjs.woff);// format('woff')
+@import url("http://vjs.zencdn.net/5.9.2/video-js.css");// format('woff')
 
 //@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 //'Open Sans', sans-serif;

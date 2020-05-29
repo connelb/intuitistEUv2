@@ -5,13 +5,15 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-grid *ngIf='modelVideoId'>
+  <ion-grid>
     <ion-row>
-        <ion-col class="ion-align-items-center">
-        <video #video class="video-js vjs-default-skin" controls></video>
+      <ion-col class="ion-align-items-center" *ngIf="modelVideoId">
+        <video #video autoplay="true" poster="./../../../assets/images/logo.png" class="video-js vjs-city-sea"></video>
+        <!-- <video #video1 autoplay></video> -->
+<!-- <video-js #video autoplay ></video-js> -->
         <!-- <video #video class="video-js vjs-theme-city" controls></video> -->
-        </ion-col>
-        <!-- <video #video class="video-js vjs-default-skin vjs-big-play-centered" controls></video> -->
+      </ion-col>
+      <!-- <video #video class="video-js vjs-default-skin vjs-big-play-centered" controls></video> -->
     </ion-row>
   </ion-grid>
 </ion-content>

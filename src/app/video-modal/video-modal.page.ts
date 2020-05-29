@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, ViewEncapsulation } from '@angular/core';
 import { ModalController, Platform, LoadingController } from '@ionic/angular';
 import videojs from 'video.js';
 import { Auth, API, graphqlOperation } from 'aws-amplify';
@@ -42,7 +42,7 @@ const CreateUser3Video3 =
     }
  }`
 
- const GetUser3Video3ById =
+const GetUser3Video3ById =
   gql`query GetUser3Video3Id($id: ID!){
   getUser3Video3(id:$id){
       id
@@ -72,11 +72,12 @@ const UpdateUser3Video3 =
   selector: 'app-video-modal',
   templateUrl: './video-modal.page.html',
   styleUrls: ['./video-modal.page.scss'],
+  // encapsulation: ViewEncapsulation.None,
 })
 export class VideoModalPage implements OnInit {
+  // player: videojs.Player;
+
   @ViewChild('video', { static: false }) videoElement: ElementRef;
-  // @Input() id: string;
-  // @Input() name: string;
   @Input() lesson;
 
   seekbarTracker: any = {
@@ -96,12 +97,23 @@ export class VideoModalPage implements OnInit {
   modelVideoId: any;
   user: any;
 
-  constructor(public modalController: ModalController,
+  constructor(
+    public modalController: ModalController,
     private platform: Platform,
     public loadingController: LoadingController,
-    private appsync: AppsyncService) { }
+    private appsync: AppsyncService
+  ) { }
 
   async ngOnInit() {
+    // this.player = videojs(this.videoElement.nativeElement, this.options, function onPlayerReady() {
+    //   console.log('onPlayerReady', this);
+    // });
+
+    setTimeout(() => {
+      this.getModelVideo(this.lesson);
+      this.getUserVideoId(this.lesson);
+    }, 1000)
+
     await Auth.currentAuthenticatedUser({
       bypassCache: false
     }).then(async user => {
@@ -109,11 +121,8 @@ export class VideoModalPage implements OnInit {
     })
 
     // set modelVideoId
-    setTimeout(() => {
-      this.getModelVideo(this.lesson);
-      this.getUserVideoId(this.lesson);
-    }, 1000)
-  
+
+
 
     this.options = {
       preload: "metadata",
@@ -135,13 +144,19 @@ export class VideoModalPage implements OnInit {
   }
 
   ngAfterViewInit() {
+
+
+
     this.platform.ready().then(() => {
       this.width = this.platform.width();
       this.height = this.platform.height();
     });
 
+    // setTimeout(() => {
+    //   console.log('modelVideo', this.modelVideoId)
+
+    // }, 2000);
     setTimeout(() => {
-      console.log('modelVideo', this.modelVideoId)
       this.playVideo();
     }, 2000);
   }
@@ -196,15 +211,15 @@ export class VideoModalPage implements OnInit {
     let videoScore = Math.ceil(x(data.currentTime));
     // // this.videoScoreUpdate(videoScore);
     this.updateVideoPWA(videoScore);
-    
+
     this.modalController.dismiss(data);
   }
 
 
   async updateVideoPWA(videoScore) {
-    console.log('what is the video score?',videoScore)
+    // console.log('what is the video score?',videoScore)
     this.presentLoading();
-    
+
     this.appsync.hc().then(client => {
       client.query({
         query: GetUser3Video3ById,
@@ -212,7 +227,7 @@ export class VideoModalPage implements OnInit {
         fetchPolicy: 'network-only'
       })
         .then(data => {
-          console.log('GetUser3Video3ById data ???',(data.data.getUser3Video3) ? true : false)
+          console.log('GetUser3Video3ById data ???', (data.data.getUser3Video3) ? true : false)
           if ((data.data.getUser3Video3) ? true : false) {
             this.myUpdateUserVideo(data, videoScore)
           } else {
@@ -228,7 +243,34 @@ export class VideoModalPage implements OnInit {
   playVideo() {
     this.presentLoading();
     const video = videojs(this.videoElement.nativeElement, this.options);
- //  src: `https://d1lutvvxmfx9wo.cloudfront.net/public/audio/${card.audio}${'.mp3'}`,
+
+    // video.scrubbing. 
+
+    //     var player = videojs('player');
+
+    // player.ready(function() {
+    //   var promise = player.play();
+
+    //   if (promise !== undefined) {
+    //     promise.then(function() {
+    //       // Autoplay started!
+    //     }).catch(function(error) {
+    //       // Autoplay was prevented.
+    //     });
+    //   }
+    // });
+
+
+
+    // Register the middleware with the player
+    // videojs.use('*', this.disableForwardScrubbing);
+
+
+    // if (player.browser.IS_IOS ) {
+    //   console.log ("video on iOS device")
+    //   // fullScreenElement.parentNode.removeChild(fullScreenElement);
+    // }
+    //  src: `https://d1lutvvxmfx9wo.cloudfront.net/public/audio/${card.audio}${'.mp3'}`,
     this.sources = [{
       // src: `https://dv6ey2dghperj.cloudfront.net/output/${this.modelVideoId}.m3u8`,
       src: `https://myvodstreams-dev-output-hgbnm075.s3.amazonaws.com/output/${this.modelVideoId}.m3u8`,
@@ -261,15 +303,19 @@ export class VideoModalPage implements OnInit {
       }
     }
 
+
+
     function attemptAutoplay() {
       var promise = video.play();
       if (promise !== undefined) {
 
         promise.then(function () {
           // Autoplay started!
-          //   videojs('my-video-id').ready(function() {
-          //     this.play();
-          // });
+          console.log("video attemptAutoplay()??")
+          video.ready(function () {
+            // console.log("video ready OK??")
+            // this.play();
+          });
         }).
           catch(function (error) {
             // Autoplay was prevented.
@@ -277,6 +323,30 @@ export class VideoModalPage implements OnInit {
       }
     }
   }
+
+  disableForwardScrubbing (player) {
+    return {
+      // +++ Implement setSource() +++
+      setSource: function setSource(srcObj, next) {
+        next(null, srcObj);
+      },
+      // +++ Alter the setCurrentTime method +++
+      setCurrentTime: function setCurrentTime(ct) {
+        var percentAllowForward = 50,
+          // Determine percentage of video played
+          percentPlayed = player.currentTime() / player.duration() * 100;
+        // Check if the time scrubbed to is less than the current time
+        // or if passed scrub forward percentage
+        if (ct < player.currentTime() || percentPlayed > percentAllowForward) {
+          // If true, move playhead to desired time
+          return ct;
+        }
+        // If time scrubbed to is past current time and not passed percentage
+        // leave playhead at current time
+        return player.currentTime();
+      }
+    }
+  };
 
   getDuration(player) {
     var seekable = player.seekable();
@@ -339,7 +409,7 @@ export class VideoModalPage implements OnInit {
 
 
   myUpdateUserVideo(res, videoScore) {
- 
+
     const UserVideoToUpdate = {
       id: res.data.getUser3Video3.id,
       status: 'done',
@@ -385,7 +455,7 @@ export class VideoModalPage implements OnInit {
         }
       }).then(({ data }) => {
         console.log("updated a User3Video3")
-        
+
       }).catch(err => console.log('Error updating User3Video3', err));
     })
   }
