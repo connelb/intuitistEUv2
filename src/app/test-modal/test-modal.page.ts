@@ -7,6 +7,7 @@ import { AppsyncService } from '../providers/appsync.service';
 import { Auth } from 'aws-amplify';
 import { trigger, state, group, transition, animate, style } from '@angular/animations';
 import { Howl, Howler } from 'howler';
+import { v4 as uuidv4 } from 'uuid';
 
 
 const getUserCardId =
@@ -49,6 +50,10 @@ mutation createUser3Card3($user3Card3User3Id: ID,$user3Card3Card3Id: ID, $status
       id
       status
       score
+      card3 {
+        id
+        __typename
+     }
       user3 {
         __typename
         id
@@ -307,11 +312,11 @@ export class TestModalPage implements OnInit {
         })
           .then(data => {
             if ((data.data.listUser3Card3s.items.length) ? true : false) {
-              console.log("need to create a new UserCard",card)
+              // console.log("need to update existing UserCard",card)
               this.myUpdateUserCard(data, card)
             
             } else {
-              console.log("need to create a new UserCard",card)
+              // console.log("need to create a new UserCard",this.user.attributes.sub,card.cardId, card)
               this.myCreateUserCard(card);
             }
           })
@@ -321,10 +326,13 @@ export class TestModalPage implements OnInit {
 
     myCreateUserCard(card) {
 
+const id = `${uuidv4()}`;
+
       const myUser3Card3 = {
+        id:id,
         user3Card3User3Id: this.user.attributes.sub,
         user3: { id: this.user.attributes.sub, username: this.user.username, __typename: "User3" },
-        user3Card3Card3Id: card.user3Card3Card3Id,
+        user3Card3Card3Id: card.cardId,
         card3: { id: card.cardId, __typename: "Card3" },
         status: card.status,
         score: card.score,
@@ -346,6 +354,8 @@ export class TestModalPage implements OnInit {
          
   
           update: (proxy, { data: { createUser3Card3: _myUser3Card3 } }) => {
+
+           
   
             const options = {
               //   //getUserCard
@@ -357,6 +367,7 @@ export class TestModalPage implements OnInit {
               },
               //__typename: "ModelUser3Card3Connection"//{ conversationId: this.conversation.id, first: constants.messageFirst }
             };
+
             proxy.writeQuery({
               ...options, data: {
                 listUser3Card3s: {

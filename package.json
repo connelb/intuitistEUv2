@@ -70,6 +70,7 @@
     "ng2-file-upload": "^1.4.0",
     "rxjs": "~6.5.5",
     "tslib": "^1.11.1",
+    "uuid": "^8.1.0",
     "uuidv4": "^6.0.2",
     "video.js": "^7.7.5",
     "videojs-contrib-hls": "^5.15.0",

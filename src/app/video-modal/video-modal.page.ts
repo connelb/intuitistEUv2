@@ -109,8 +109,11 @@ export class VideoModalPage implements OnInit {
     })
 
     // set modelVideoId
-    this.getModelVideo(this.lesson);
-    this.getUserVideoId(this.lesson);
+    setTimeout(() => {
+      this.getModelVideo(this.lesson);
+      this.getUserVideoId(this.lesson);
+    }, 1000)
+  
 
     this.options = {
       preload: "metadata",
