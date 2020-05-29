@@ -207,7 +207,7 @@ export class TestModalPage implements OnInit {
 
   segmentChanged(event,card){
     let data;
-    console.log('event.detail.value',event.detail.value,'done?;',event.detail.value == "done",event.detail.value == "doing");
+    // console.log('event.detail.value',event.detail.value,'done?;',event.detail.value == "done",event.detail.value == "doing");
     if(event.detail.value == "done"){
       data = {
         answer:card.answer,

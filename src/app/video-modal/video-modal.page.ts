@@ -143,7 +143,7 @@ export class VideoModalPage implements OnInit {
     setTimeout(() => {
       console.log('modelVideo', this.modelVideoId)
       this.playVideo();
-    }, 1000);
+    }, 2000);
   }
 
   async presentLoading() {
