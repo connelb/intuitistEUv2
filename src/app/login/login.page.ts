@@ -3,6 +3,7 @@
 // import { AmplifyService } from 'aws-amplify-angular';
 // import { Router } from '@angular/router';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
+import { FormFieldTypes } from '@aws-amplify/ui-components';
 // import { Storage } from '@ionic/storage';
 // import { Hub } from '@aws-amplify/core';
 
@@ -22,7 +23,7 @@ import { AppsyncService } from './../providers/appsync.service';
 import { Hub } from '@aws-amplify/core';
 import Auth, { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 
-import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
+// import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
 
 
 
@@ -52,6 +53,10 @@ export class LoginPage {
   registered: any;
   // authState: any;
   authService: AuthGuard
+  formFields: FormFieldTypes;
+  formFields1: FormFieldTypes;
+
+
 
   public signUpConfig = {
     header: 'Sign up to get access code via email',
@@ -98,6 +103,63 @@ export class LoginPage {
     public amplify: AmplifyService,
   ) {
 
+    // export interface FormFieldType {
+    //   type: string;
+    //   label?: string;
+    //   placeholder?: string;
+    //   hint?: string | FunctionalComponent | null;
+    //   required?: boolean;
+    //   handleInputChange?: (inputEvent: Event) => void;
+    //   value?: string;
+    //   inputProps?: object;
+    //   disabled?: boolean;
+    // }
+
+    this.formFields = [
+      {
+        type: "email",
+        label: "Email",
+        placeholder: "xxxxx@xxxx.com",
+        required: true,
+      },
+      {
+        type: "password",
+        label: "Password",
+        placeholder: "create a password",
+        required: true,
+      }
+    ];
+
+    this.formFields1 = [
+      {
+        type: "username",
+        label: "User name",
+        placeholder: "username",
+        required: true,
+      },
+      {
+        type: "password",
+        label: "Password",
+        placeholder: "password",
+        required: true,
+      }
+    ];
+
+
+
+    // constructor( public amplify:AmplifyService ) {
+    //   // handle auth state changes
+    //   this.amplify.authStateChange$
+    //     .subscribe(authState => {
+    //       this.authenticated = authState.state === 'signedIn';
+    //       if (!authState.user) {
+    //         this.user = null;
+    //       } else {
+    //         this.user = authState.user;
+    //       }
+    //   });
+    // }
+
     this.authState = { loggedIn: false };
     this.authService = guard;
     this.amplifyService = amplify;
@@ -105,7 +167,9 @@ export class LoginPage {
       .subscribe(authState => {
         this.authState.loggedIn = authState.state === 'signedIn';
         //this.events.publish('data:AuthState', this.authState)
-
+        if(!authState.user){
+          this.user = null;
+        }
         if (authState.state === 'signedIn') {
           this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
         }

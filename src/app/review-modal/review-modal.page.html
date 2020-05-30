@@ -11,7 +11,7 @@
   <ion-list expandable *ngFor="let item of (reviewList$ | async)">
     <!-- <ion-item-sliding *ngFor="let item of (reviewList$ | async)"> -->
       <ion-item detail (click)="showCard(item)" [class]="item.status">
-        <ion-label>{{item?.status}}
+        <ion-label>
           {{item?.question}}
         </ion-label>
       </ion-item>

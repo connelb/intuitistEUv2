@@ -42,6 +42,19 @@
             </ng-template>
 
             <ng-template #loading>
+              <ion-row>
+                <ion-col><ion-button size="large" color="success" class="ion-activatable ripple-parent" (click)="done(card)">
+                    <ion-icon color="dark" size="large" name="happy-outline"></ion-icon>
+                    <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+                  </ion-button></ion-col>
+                <ion-col><ion-button size="large" color="warning" class="ion-activatable ripple-parent" (click)="doing(card)">
+                    <ion-icon color="dark" size="large" name="sad-outline"></ion-icon>
+                    <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+                  </ion-button></ion-col>
+              </ion-row>
+            </ng-template>
+
+            <!-- <ng-template #loading>
               <ion-radio-group *ngIf="visible" (ionChange)="segmentChanged($event,card,i)">
                 <ion-row class="ion-align-items-end">
                   <ion-col size=6>
@@ -68,7 +81,7 @@
                   </ion-col>
                 </ion-row>
               </ion-radio-group>
-            </ng-template>
+            </ng-template> -->
           </ion-col>
         </ion-row>
       </ion-grid>

@@ -72,7 +72,7 @@ const UpdateUser3Video3 =
   selector: 'app-video-modal',
   templateUrl: './video-modal.page.html',
   styleUrls: ['./video-modal.page.scss'],
-  // encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None,
 })
 export class VideoModalPage implements OnInit {
   // player: videojs.Player;
@@ -243,6 +243,7 @@ export class VideoModalPage implements OnInit {
   playVideo() {
     this.presentLoading();
     const video = videojs(this.videoElement.nativeElement, this.options);
+ 
 
     // video.scrubbing. 
 
@@ -281,6 +282,13 @@ export class VideoModalPage implements OnInit {
       this.sources
     );
 
+    // video.on('', (e) => { e.preventDefault() },{passive: false});
+
+    // video.ready(function() {
+    //   video.requestFullscreen();
+    // });
+
+    // video.on('touchstart', (e) => { e.preventDefault() },{passive: false});
     video.on('timeupdate', () => {
       let hasDVR = false;
       this.duration = Math.floor(this.getDuration(video));
@@ -293,6 +301,9 @@ export class VideoModalPage implements OnInit {
     video.on(autoPlayEvents, autoplayableListener);
 
     function autoplayableListener(event) {
+      console.log('video event? even working??',event);
+      // event.preventDefault();
+     
       if (event.type === 'durationchange' && video.duration() === Infinity) {
         attemptAutoplay();
         video.off(autoPlayEvents, autoplayableListener);

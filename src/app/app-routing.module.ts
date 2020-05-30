@@ -3,6 +3,13 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { CheckTutorial } from './providers/check-tutorial.service';
 import { AdminGuardService } from './providers/admin-guard/admin-guard.service';
 import { AuthGuard } from './providers/auth-guard.service'
+// import { SignInComponent } from './auth/sign-in/sign-in.component';
+// import { SignUpComponent } from './auth/sign-up/sign-up.component';
+// import { ConfirmCodeComponent } from './auth/confirm-code/confirm-code.component';
+// import { ProfileComponent } from './auth/profile/profile.component';
+// import { AuthComponent } from './auth/auth.component';
+// import { UnauthGuard } from './auth/unauth.guard';
+// import { authAuthGuard } from './auth/auth.guard';
 
 
 const routes: Routes = [
@@ -50,6 +57,31 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
+  
+  // { path: 'auth', component: AuthComponent, children: [
+  //   {
+  //     path: 'signin',
+  //     // loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+  //     component: SignInComponent,
+  //     canActivate: [UnauthGuard]
+  //   },
+  //   {
+  //     path: 'signup',
+  //     component: SignUpComponent,
+  //     canActivate: [UnauthGuard]
+  //   },
+  //   {
+  //     path: 'confirm',
+  //     component: ConfirmCodeComponent,
+  //     canActivate: [UnauthGuard]
+  //   },
+  //   {
+  //     path: 'profile',
+  //     component: ProfileComponent,
+  //     canActivate: [authAuthGuard]
+  //   }
+  // ]}
+  
   {
     path: 'admin',
     loadChildren: () => import('./admin-layout/admin-layout.module').then(m => m.AdminLayoutModule),

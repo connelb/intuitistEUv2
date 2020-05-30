@@ -10,23 +10,50 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="no-padding">
+    <ion-grid class="no-padding">
+        <ion-row class="no-padding">
+            <ion-col size="12" class="no-padding">
+                <amplify-authenticator usernameAlias="email">
+                    <amplify-sign-up slot="sign-up" usernameAlias="email" [formFields]="formFields"></amplify-sign-up>
+                    <amplify-sign-in slot="sign-in" username="username"  [formFields]="formFields1"></amplify-sign-in>
+                    <!-- <amplify-sign-out button-text="Log out"></amplify-sign-out> -->
+                    <!-- <amplify-greetings></amplify-greetings> -->
+                </amplify-authenticator>
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
 
 
+
+    <!-- <amplify-authenticator>
+                <amplify-sign-in header-text="My Custom Sign In Text" slot="sign-in"></amplify-sign-in>
+              
+                <div>
+                  My App
+                  <amplify-sign-out></amplify-sign-out>
+                </div>
+              </amplify-authenticator> -->
+
+    <!-- <amplify-authenticator usernameAlias="email">
+
+                <amplify-sign-in slot="sign-in" usernameAlias="email"></amplify-sign-in>
+              </amplify-authenticator> -->
     <!-- <ion-grid>
         <ion-row class="ion-align-items-center">
             <ion-col size="12" class="ion-padding"> expand="block"  -->
-                
-            <!-- </ion-col>
+
+    <!-- </ion-col>
         </ion-row>
     </ion-grid> -->
     <!-- <amplify-authenticator framework="ionic" [signUpConfig]='signUpConfig'></amplify-authenticator> -->
-    <amplify-authenticator framework="ionic"><div class="center">
+    <!-- <amplify-authenticator framework="ionic"><div class="center">
         <ion-button color="primary" (click)="signInWithFacebook()">Sign In with Facebook</ion-button>
-      </div></amplify-authenticator>
-<br>
-<br>
-    
+      </div></amplify-authenticator> -->
+    <!-- <br>
+    <br> -->
+
 
 </ion-content>
 

@@ -266,7 +266,7 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.amplifyService.auth().signOut().then(() => {
-      return this.router.navigateByUrl('/about');
+      return this.router.navigateByUrl('/login');
     });
 
     // this.userData.logout().then(() => {

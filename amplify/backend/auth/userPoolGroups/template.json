@@ -5,10 +5,12 @@
             "Type": "String",
             "Default": "authintuitisteu503f9258UserPoolId"
         },
+        
         "authintuitisteu503f9258IdentityPoolId": {
             "Type": "String",
             "Default": "authintuitisteu503f9258IdentityPoolId"
         },
+        
         "authintuitisteu503f9258AppClientID": {
             "Type": "String",
             "Default": "authintuitisteu503f9258AppClientID"
@@ -44,17 +46,20 @@
           "Properties" : {
               "GroupName" : "User",
               "Precedence" : 1,
+              
               "RoleArn" : {
                 "Fn::GetAtt": [
                     "UserGroupRole",
                     "Arn"
                 ]
               },
+              
               "UserPoolId" : {
                 "Ref": "authintuitisteu503f9258UserPoolId"
               } 
             }
         },
+        
         "UserGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -88,23 +93,27 @@
                 }
             }
         },
+     
     
         "AdminGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
               "GroupName" : "Admin",
               "Precedence" : 2,
+              
               "RoleArn" : {
                 "Fn::GetAtt": [
                     "AdminGroupRole",
                     "Arn"
                 ]
               },
+              
               "UserPoolId" : {
                 "Ref": "authintuitisteu503f9258UserPoolId"
               } 
             }
         },
+        
         "AdminGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
@@ -138,6 +147,8 @@
                 }
             }
         },
+     
+    
     
         "LambdaExecutionRole": {
             "Type": "AWS::IAM::Role",
@@ -333,7 +344,9 @@
             },
             "DependsOn": ["RoleMapFunction"]
         }
+   
     },
+    
     "Outputs": {
       
         "UserGroupRole": {
@@ -359,4 +372,5 @@
         
       
     }
+    
 }

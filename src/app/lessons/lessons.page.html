@@ -59,7 +59,7 @@
   </ion-segment> -->
 
 
-<!-- 
+  <!-- 
   <ion-item-sliding *ngFor="let card of cards; index as i">
       <ion-item>
         <ion-badge slot="start">{{i+1}}</ion-badge>
@@ -81,7 +81,7 @@
   <ion-list #scheduleList>
     <ion-item-sliding *ngFor="let lesson of lessons">
       <!-- <ion-item-divider sticky>  /-->
-      <ion-item detail (click)="presentVideo(lesson)" *ngIf=!lesson._deleted>
+      <ion-item detail (click)="presentVideo(lesson,true)" *ngIf=!lesson._deleted>
         <ion-label>
           <h1>{{lesson?.name}}
             <ion-chip>
@@ -90,44 +90,45 @@
           </h1>
 
           <ion-text wrap class="ion-text-wrap">{{lesson?.description}}</ion-text>
-  
 
-  
-       <!-- done:{{lesson |totalScore:'done'}}
+
+
+          <!-- done:{{lesson |totalScore:'done'}}
 doing:{{lesson |totalScore:doing}} -->
           <!-- total:{{lesson |totalScore:'done'}} -->
           <!-- video: {{lesson | totalScore:this.user:'video'}} -->
           <!-- video: {{lesson |'videoScore'}} -->
           <ion-grid>
-              <ion-row>
-                  <ion-col size=1>
-                      <ion-icon name="film-outline"></ion-icon>:
-                      <!-- <span>{{lesson |videoScore:lesson.id}}</span> -->
-                    </ion-col>
-                    <ion-col size=5 class="progress">
-                      <ion-progress-bar color="primary" value="{{lesson |videoScore:this.user.attributes.sub | async}}"></ion-progress-bar>
-                    </ion-col>
-                  <!-- <ion-col size=4>
+            <ion-row>
+              <ion-col size=1>
+                <ion-icon name="film-outline"></ion-icon>:
+                <!-- <span>{{lesson |videoScore:lesson.id}}</span> -->
+              </ion-col>
+              <ion-col size=5 class="progress">
+                <ion-progress-bar color="primary" value="{{lesson |videoScore:this.user.attributes.sub | async}}"></ion-progress-bar>
+              </ion-col>
+              <!-- <ion-col size=4>
                       <ion-chip color="warning">
                           <ion-icon name="sad-outline"></ion-icon>
                           <ion-label>{{lesson |totalScore:'doing'}}</ion-label>
                         </ion-chip>
                     </ion-col> -->
-                    <ion-col size=4 class="progress">
-                        <ion-progress-bar color="success" value="{{lesson |totalScore:this.user.attributes.sub:'done%'| async}}"></ion-progress-bar>
-                      </ion-col>
-                  <ion-col size=2>
-                    <div>{{lesson |totalScore:this.user.attributes.sub:'done'| async}}/{{lesson |totalScore:this.user.attributes.sub:'total'| async}}</div>
-                  </ion-col>
-                 
-                  
-                    <!-- <ion-col size=3 class="progress"> -->
-                        
-                      <!-- <ion-progress-bar color="warning" value="{{lesson |totalScore:'doing%'}}"></ion-progress-bar> -->
-                    <!-- </ion-col> -->
+              <ion-col size=4 class="progress">
+                <ion-progress-bar color="success" value="{{lesson |totalScore:this.user.attributes.sub:'done%'| async}}"></ion-progress-bar>
+              </ion-col>
+              <ion-col size=2>
+                <div>{{lesson |totalScore:this.user.attributes.sub:'done'| async}}/{{lesson |totalScore:this.user.attributes.sub:'total'|
+                  async}}</div>
+              </ion-col>
 
 
-                </ion-row>
+              <!-- <ion-col size=3 class="progress"> -->
+
+              <!-- <ion-progress-bar color="warning" value="{{lesson |totalScore:'doing%'}}"></ion-progress-bar> -->
+              <!-- </ion-col> -->
+
+
+            </ion-row>
 
             <!-- <ion-row>
               <ion-col size=1>
@@ -169,48 +170,50 @@ doing:{{lesson |totalScore:doing}} -->
 
       </ion-item>
       <ion-item-options side="end">
-          <ion-item-option  color="medium" expandable (click)="presentVideo(lesson)">
-              <ion-grid>
-                <ion-row>
-                   Video
-                </ion-row>
-                <ion-row>
-                </ion-row>
-              </ion-grid>
-             </ion-item-option>
-          <ion-item-option expandable (click)="presentTestModal(lesson)">
-           <ion-grid>
-             <ion-row>
-                Test 
-             </ion-row>
-             <ion-row>
-                Yourself 
-             </ion-row>
-           </ion-grid>
-          </ion-item-option>
-          </ion-item-options>
-          <ion-item-options side="start">
-              <ion-item-option color="dark" expandable (click)="presentModal(lesson,i)">
-               <ion-grid>
-                 <ion-row>
-                    Review 
-                 </ion-row>
-                 <ion-row>
-                    <ion-chip outline color="warning">
-                        <ion-label >{{lesson |totalScore:this.user.attributes.sub:'doing'| async}}</ion-label>
-                      </ion-chip>
-                 </ion-row>
-                 <ion-row>
-                    <ion-chip outline color="success">
-                        <ion-label  >{{lesson |totalScore:this.user.attributes.sub:'done'| async}}</ion-label>
-                      </ion-chip>
-                 </ion-row>
-               </ion-grid>
-                <!-- <div> Review </div><br>
+
+        <ion-item-option expandable (click)="presentTestModal(lesson)">
+          <ion-grid>
+            <ion-row>
+              Test
+            </ion-row>
+            <ion-row>
+              Yourself
+            </ion-row>
+          </ion-grid>
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item-options side="start">
+        <ion-item-option color="dark" expandable (click)="presentModal(lesson,i)">
+          <ion-grid>
+            <ion-row>
+              Review Test
+            </ion-row>
+            <ion-row>
+              <ion-chip outline color="warning">
+                <ion-label>{{lesson |totalScore:this.user.attributes.sub:'doing'| async}}</ion-label>
+              </ion-chip>
+            </ion-row>
+            <ion-row>
+              <ion-chip outline color="success">
+                <ion-label>{{lesson |totalScore:this.user.attributes.sub:'done'| async}}</ion-label>
+              </ion-chip>
+            </ion-row>
+          </ion-grid>
+          <!-- <div> Review </div><br>
                 <ion-icon name="sad-outline"></ion-icon> <br>
                 <div>{{lesson |totalScore:'doing'}} cards</div> -->
-              </ion-item-option>
-              </ion-item-options>
+        </ion-item-option>
+        <ion-item-option color="medium" expandable (click)="presentVideo(lesson,false)">
+          <ion-grid>
+            <ion-row>
+              Review
+            </ion-row>
+            <ion-row>
+              Video
+            </ion-row>
+          </ion-grid>
+        </ion-item-option>
+      </ion-item-options>
 
       <!-- </ion-item-divider> -->
 

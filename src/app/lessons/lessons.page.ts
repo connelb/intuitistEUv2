@@ -424,8 +424,8 @@ export class LessonsPage {
   async presentLoading() {
     const loading = await this.loadingController.create({
       spinner: 'dots',
-      // message: 'Please wait...',
-      duration: 1000
+      message: 'hang tight, updating your score...',
+      duration: 2000
     });
     await loading.present();
     const { role, data } = await loading.onDidDismiss();
@@ -471,7 +471,9 @@ export class LessonsPage {
     });
   }
 
-  async presentVideo(lesson) {
+  async presentVideo(lesson,test?:boolean) {
+    console.log('what is test', test);
+
     const modal = await this.modalController.create({
       component: VideoModalPage,
       componentProps: {
@@ -484,7 +486,10 @@ export class LessonsPage {
 
     }).then(() => {
       this.ListLessonsByUser();
-      this.presentTestModal(lesson);
+      if(test){
+        this.presentTestModal(lesson);
+      }
+      
     });
   }
 
