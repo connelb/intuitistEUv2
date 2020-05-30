@@ -75,5 +75,5 @@
         "Facebook"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8100/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"],\"LogoutURLs\":[\"http://localhost:8100/app/tabs/lessons/\",\"https://d1pu0ufzhnvzil.cloudfront.net/app/tabs/lessons/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8100/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"],\"LogoutURLs\":[\"http://localhost:8100/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"]}"
 }
