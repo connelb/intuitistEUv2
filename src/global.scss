@@ -80,10 +80,10 @@
 //'Open Sans', sans-serif;
 
 // *:not(ion-icon) {
-*:not(ion-icon,video) {
-//   font-family: 'IBM Plex Sans', sans-serif!important;
-  font-family: 'Open Sans', sans-serif!important;
-}
+// *:not(ion-icon,video) {
+// //   font-family: 'IBM Plex Sans', sans-serif!important;
+//   font-family: 'Open Sans', sans-serif!important;
+// }
 
 /* Core CSS required for Ionic components to work properly */
 @import "~@ionic/angular/css/core.css";

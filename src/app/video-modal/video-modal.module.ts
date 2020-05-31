@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { VideoModalPageRoutingModule } from './video-modal-routing.module';
 
 import { VideoModalPage } from './video-modal.page';
+// import { VjsPlayerComponent } from './vjs-player.component';
 
 @NgModule({
   imports: [

@@ -1,6 +1,13 @@
 //#FA4556
 //#5ba7e4
 
+
+.support-logo {
+  padding: 20px 0;
+  min-height: 200px;
+  text-align: center;
+}
+
 ion-toolbar {
   // position: absolute;
 
@@ -81,9 +88,9 @@ ion-button{
   // display: inline;
 }
 
-ion-radio-group{
-  align-content: center;
-}
+// ion-radio-group{
+//   align-content: center;
+// }
 
 
 .test-yourself{

@@ -75,9 +75,9 @@ const UpdateUser3Video3 =
   encapsulation: ViewEncapsulation.None,
 })
 export class VideoModalPage implements OnInit {
-  // player: videojs.Player;
+  video: videojs.Player;
 
-  @ViewChild('video', { static: false }) videoElement: ElementRef;
+  @ViewChild('video', { static: true }) videoElement: ElementRef;
   @Input() lesson;
 
   seekbarTracker: any = {
@@ -91,11 +91,12 @@ export class VideoModalPage implements OnInit {
   sources: any;
   public width: number = 0;
   public height: number = 0;
-  duration: number;
-  currentTime: any;
+  duration: number = 0;
+  currentTime: any = 0;
   userVideo: any;
   modelVideoId: any;
   user: any;
+  autoPlayEvents: string[];
 
   constructor(
     public modalController: ModalController,
@@ -238,12 +239,10 @@ export class VideoModalPage implements OnInit {
     });
   }
 
-
-
   playVideo() {
     this.presentLoading();
-    const video = videojs(this.videoElement.nativeElement, this.options);
- 
+    this.video = videojs(this.videoElement.nativeElement, this.options);
+
 
     // video.scrubbing. 
 
@@ -278,64 +277,81 @@ export class VideoModalPage implements OnInit {
       type: 'application/x-mpegURL',
     }]
 
-    video.src(
+    this.video.src(
       this.sources
     );
 
+    this.video.ready(function () {
+      this.requestFullscreen()
+      
+
+    })
+    this.disableForwardScrubbing(this.video);
+
+    this.video.on('timeupdate', () => {
+      // let hasDVR = false;
+      this.duration = Math.floor(this.getDuration(this.video));
+      this.currentTime = Math.floor(this.video.currentTime());
+      // let time;
+      // let seekPercent;
+    });
+
     // video.on('', (e) => { e.preventDefault() },{passive: false});
 
-    // video.ready(function() {
-    //   video.requestFullscreen();
+    // this.video.ready(function() {
+
     // });
 
     // video.on('touchstart', (e) => { e.preventDefault() },{passive: false});
-    video.on('timeupdate', () => {
-      let hasDVR = false;
-      this.duration = Math.floor(this.getDuration(video));
-      this.currentTime = Math.floor(video.currentTime());
-      let time;
-      let seekPercent;
-    });
-
-    var autoPlayEvents = ['loadedmetadata', 'durationchange'];
-    video.on(autoPlayEvents, autoplayableListener);
-
-    function autoplayableListener(event) {
-      console.log('video event? even working??',event);
-      // event.preventDefault();
-     
-      if (event.type === 'durationchange' && video.duration() === Infinity) {
-        attemptAutoplay();
-        video.off(autoPlayEvents, autoplayableListener);
-      }
-      if (event.type === 'loadedmetadata') {
-        attemptAutoplay();
-        video.off(autoPlayEvents, autoplayableListener);
-      }
-    }
 
 
+    // this.autoPlayEvents = ['loadedmetadata', 'durationchange'];
+    // this.video.on(this.autoPlayEvents, this.autoplayableListener)
 
-    function attemptAutoplay() {
-      var promise = video.play();
-      if (promise !== undefined) {
+  }
 
-        promise.then(function () {
-          // Autoplay started!
-          console.log("video attemptAutoplay()??")
-          video.ready(function () {
-            // console.log("video ready OK??")
-            // this.play();
+  attemptAutoplay() {
+    var promise = this.video.play();
+    if (promise !== undefined) {
+
+      promise.then(function () {
+        // Autoplay started!
+        console.log("video attemptAutoplay()??")
+        this.video.ready(function () {
+          // console.log("video ready OK??")
+          // this.play();
+          this.requestFullscreen();
+          this.video.on('timeupdate', (e) => {
+            console.log(e);
+            // let hasDVR = false;
+            this.duration = Math.floor(this.getDuration(this.video));
+            this.currentTime = Math.floor(this.video.currentTime());
+            // let time;
+            // let seekPercent;
           });
-        }).
-          catch(function (error) {
-            // Autoplay was prevented.
-          });
-      }
+        });
+      }).
+        catch(function (error) {
+          // Autoplay was prevented.
+        });
     }
   }
 
-  disableForwardScrubbing (player) {
+  autoplayableListener(event) {
+    console.log('video event? even working??', event);
+    // event.preventDefault();
+
+    if (event.type === 'durationchange' && this.video.duration() === Infinity) {
+      // this.attemptAutoplay();
+      this.video.off(this.autoPlayEvents, this.autoplayableListener);
+    }
+    if (event.type === 'loadedmetadata') {
+      // this.attemptAutoplay();
+      this.video.off(this.autoPlayEvents, this.autoplayableListener);
+    }
+  }
+
+  disableForwardScrubbing(player) {
     return {
       // +++ Implement setSource() +++
       setSource: function setSource(srcObj, next) {

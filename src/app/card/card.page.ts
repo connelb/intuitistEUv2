@@ -475,6 +475,71 @@ export class CardPage implements OnInit {
     this.modalController.dismiss(data);
   }
 
+  myDoing(card){
+    let data = {
+      answer:card.answer,
+      audio:card.audio,
+      question:card.question,
+      order:card.order,
+      cardId: card.cardId,
+      userCardCardId: card.userCardCardId,
+      status:'doing',
+      score:0
+    }
+
+    this.dismiss(data);
+  
+    // for (var i = 0; i < this.myCards.length; i++) {
+    //   if (this.myCards[i].cardId == data['cardId']) {
+    //     if (data['status'] == "done") {
+    //       this.myCards[i].status = "done";
+    //       this.myCards[i].score = 1;
+    //       this.myCards[i].toUpdate = true;
+    //     } else {
+    //       this.myCards[i].status = "doing";
+    //       this.myCards[i].score = 0;
+    //       this.myCards[i].toUpdate = true;
+    //     }
+    //   }
+    // }
+    // this.visible = false;
+    // this.slides.slideNext();
+  
+  }
+  
+  myDone(card){
+        let data = {
+          answer:card.answer,
+          audio:card.audio,
+          question:card.question,
+          order:card.order,
+          cardId: card.cardId,
+          userCardCardId: card.userCardCardId,
+          status:'done',
+          score:1
+        }
+
+        this.dismiss(data);
+
+        // for (var i = 0; i < this.myCards.length; i++) {
+        //   if (this.myCards[i].cardId == data['cardId']) {
+        //     if (data['status'] == "done") {
+        //       this.myCards[i].status = "done";
+        //       this.myCards[i].score = 1;
+        //       this.myCards[i].toUpdate = true;
+        //     } else {
+        //       this.myCards[i].status = "doing";
+        //       this.myCards[i].score = 0;
+        //       this.myCards[i].toUpdate = true;
+        //     }
+        //   }
+        // }
+        // this.visible = false;
+        // this.slides.slideNext();
+  }
+
+  
+
   segmentChanged(event,card){
     console.log('event.detail.value',event.detail.value,'done?;',event.detail.value == "done",event.detail.value == "doing");
     if(event.detail.value == "done"){

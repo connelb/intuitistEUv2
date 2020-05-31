@@ -5,10 +5,12 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+    <!-- <app-vjs-player [options]="{ autoplay: true, poster:'./../../../assets/images/logo.png', controls: true, sources: sources}"></app-vjs-player> -->
+    <!--  -->
   <ion-grid>
     <ion-row>
-      <ion-col class="ion-align-items-center" *ngIf="modelVideoId">
-        <video #video autoplay="true" poster="./../../../assets/images/logo.png" class="video-js vjs-city-sea"></video>
+      <ion-col class="ion-align-items-center" >
+        <video #video playsinline autoplay="true" poster="./../../../assets/images/logo.png" class="video-js vjs-city-sea"></video>
         <!-- <video #video1 autoplay></video> -->
 <!-- <video-js #video autoplay ></video-js> -->
         <!-- <video #video class="video-js vjs-theme-city" controls></video> -->
