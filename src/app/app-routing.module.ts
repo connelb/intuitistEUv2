@@ -24,33 +24,39 @@ const routes: Routes = [
   },
   {
     path: 'lesson-create',
-    loadChildren: () => import('./admin-layout/lesson-create/lesson-create.module').then(m => m.LessonCreatePageModule)
+    loadChildren: () => import('./admin-layout/lesson-create/lesson-create.module').then(m => m.LessonCreatePageModule),
+    canActivate: [AuthGuard]
     //loadChildren: './lesson-create/lesson-create.module#LessonCreatePageModule'
   },
   {
     path: 'card-create',
-    loadChildren: () => import('./admin-layout/card-create/card-create.module').then(m => m.CardCreatePageModule)
+    loadChildren: () => import('./admin-layout/card-create/card-create.module').then(m => m.CardCreatePageModule),
+    canActivate: [AuthGuard]
     //loadChildren: './card-create/card-create.module#CardCreatePageModule'
   },
   {
     path: 'card-update',
-    loadChildren: () => import('./admin-layout/card-update/card-update.module').then(m => m.CardUpdatePageModule)
+    loadChildren: () => import('./admin-layout/card-update/card-update.module').then(m => m.CardUpdatePageModule),
+    canActivate: [AuthGuard]
     //loadChildren: './card-update/card-update.module#CardUpdatePageModule'
   },
   {
     path: 'lesson-update',
-    loadChildren: () => import('./admin-layout/lesson-update/lesson-update.module').then(m => m.LessonUpdatePageModule)
+    loadChildren: () => import('./admin-layout/lesson-update/lesson-update.module').then(m => m.LessonUpdatePageModule),
+    canActivate: [AuthGuard]
     //loadChildren: './lesson-update/lesson-update.module#LessonUpdatePageModule'
   },
   {
     path: 'lesson-delete',
-    loadChildren: () => import('./admin-layout/lesson-delete/lesson-delete.module').then(m => m.LessonDeletePageModule)
+    loadChildren: () => import('./admin-layout/lesson-delete/lesson-delete.module').then(m => m.LessonDeletePageModule),
+    canActivate: [AuthGuard]
     //loadChildren: './lesson-update/lesson-update.module#LessonUpdatePageModule'
   }
   ,
   {
     path: 'card-modal',
-    loadChildren: () => import('./admin-layout/card-modal/card-modal.module').then( m => m.CardModalPageModule)
+    loadChildren: () => import('./admin-layout/card-modal/card-modal.module').then( m => m.CardModalPageModule),
+    canActivate: [AuthGuard]
     //loadChildren: '../admin-layout/card-modal/card-modal.module#CardModalPageModule'
   },
   {
@@ -88,6 +94,11 @@ const routes: Routes = [
     canLoad: [AdminGuardService]
   },
   {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'app',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
@@ -95,10 +106,6 @@ const routes: Routes = [
     path: 'tutorial',
     loadChildren: () => import('./tutorial/tutorial.module').then(m => m.TutorialPageModule),
     canLoad: [CheckTutorial]
-  },
-  {
-    path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   }
 ];
 

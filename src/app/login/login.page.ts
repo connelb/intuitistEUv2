@@ -47,7 +47,7 @@ query getUser($id:ID!){
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
 
   authState: any;
   registered: any;
@@ -55,8 +55,6 @@ export class LoginPage {
   authService: AuthGuard
   formFields: FormFieldTypes;
   formFields1: FormFieldTypes;
-
-
 
   public signUpConfig = {
     header: 'Sign up to get access code via email',
@@ -103,6 +101,19 @@ export class LoginPage {
     public amplify: AmplifyService,
   ) {
 
+    Hub.listen('auth', (data) => {
+      const { payload } = data
+      console.log('A new auth event has happened: ', data)
+      if (payload.event === 'signIn') {
+        console.log('a user has signed in!')
+        this.router.navigateByUrl('/app/tabs/lessons');
+      }
+      if (payload.event === 'signOut') {
+        console.log('a user has signed out!')
+        this.router.navigateByUrl('/login');
+      }
+    })
+
     // export interface FormFieldType {
     //   type: string;
     //   label?: string;
@@ -117,9 +128,9 @@ export class LoginPage {
 
     this.formFields = [
       {
-        type: "email",
-        label: "Email",
-        placeholder: "xxxxx@xxxx.com",
+        type: "username",
+        label: "User name",
+        placeholder: "username",
         required: true,
       },
       {
@@ -160,24 +171,7 @@ export class LoginPage {
     //   });
     // }
 
-    this.authState = { loggedIn: false };
-    this.authService = guard;
-    this.amplifyService = amplify;
-    this.amplifyService.authStateChange$
-      .subscribe(authState => {
-        this.authState.loggedIn = authState.state === 'signedIn';
-        //this.events.publish('data:AuthState', this.authState)
-        if(!authState.user){
-          this.user = null;
-        }
-        if (authState.state === 'signedIn') {
-          this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
-        }
 
-        if (authState.state !== 'signedIn' && !authState.user) {
-          this.router.navigateByUrl('/login', { replaceUrl: true });
-        }
-      });
 
 
 
@@ -229,6 +223,28 @@ export class LoginPage {
 
   }
 
+  ngOnInit() {
+    this.authState = { loggedIn: false };
+    this.authService = this.guard;
+    this.amplifyService = this.amplify;
+    this.amplifyService.authStateChange$
+      .subscribe(authState => {
+        console.log('authState??????',authState);
+        this.authState.loggedIn = authState.state === 'signedIn';
+        //this.events.publish('data:AuthState', this.authState)
+        if (!authState.user) {
+          this.user = null;
+        }
+        if (authState.state === 'signedIn') {
+          this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
+        }
+
+        if (authState.state !== 'signedIn' && !authState.user) {
+          this.router.navigateByUrl('/login', { replaceUrl: true });
+        }
+      });
+  }
+
   async firstTimeCaller(userId, username) {
     const [user] = await Promise.all([
       API.graphql(graphqlOperation(FirstTimeCaller, { id: userId, username: username })) as Promise<any>
@@ -237,7 +253,7 @@ export class LoginPage {
 
   cancel() {
     this.amplifyService.auth().signOut().then(() => {
-      return this.router.navigateByUrl('/tutorial', { replaceUrl: true });
+      return this.router.navigateByUrl('/login');
       // return this.router.navigateByUrl('/app/tabs/schedule');
     });
 

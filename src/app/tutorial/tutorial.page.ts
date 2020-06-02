@@ -49,7 +49,8 @@ export class TutorialPage implements OnInit {
       this.storage.set('hasSignedUp', this.authState.idToken.payload.email_verified);
     }).catch(err => {
       this.storage.set('hasLoggedIn', false).then(res => this.isLoggedIn = false);
-      console.log("err:", err)
+      this.router.navigateByUrl('/login', { replaceUrl: true });
+      console.log("tutorial constructor err:", err)
     });
 }
 

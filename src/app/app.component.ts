@@ -136,14 +136,14 @@ export class AppComponent implements OnInit {
       this.session = session;
       this.register();
       setImmediate(() => this.createUser());
-    });
+    }).catch(err => console.log('app.component',err));
 
 
     await Auth.currentAuthenticatedUser({
       bypassCache: false
     }).then(async user => {
       this.isAdmin = user.signInUserSession.accessToken.payload["cognito:groups"][0] == 'Admin';
-    });
+    }).catch(err => console.log('app.component isAdmin?',err));
 
     // After retrieving the confirmation code from the user
 // Auth.confirmSignUp(username, code, {
@@ -182,13 +182,13 @@ export class AppComponent implements OnInit {
   }
 
   logInfoToConsole(session) {
-    // console.log(session);
-    // console.log(`ID Token: <${session.idToken.jwtToken}>`);
-    // console.log(`Access Token: <${session.accessToken.jwtToken}>`);
-    // console.log('Decoded ID Token:');
-    // console.log(JSON.stringify(session.idToken.payload, null, 2));
-    // console.log('Decoded Acess Token:');
-    // console.log(JSON.stringify(session.accessToken.payload, null, 2));
+    console.log(session);
+    console.log(`ID Token: <${session.idToken.jwtToken}>`);
+    console.log(`Access Token: <${session.accessToken.jwtToken}>`);
+    console.log('Decoded ID Token:');
+    console.log(JSON.stringify(session.idToken.payload, null, 2));
+    console.log('Decoded Acess Token:');
+    console.log(JSON.stringify(session.accessToken.payload, null, 2));
   }
 
   createUser() {

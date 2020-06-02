@@ -5,26 +5,24 @@
         </ion-buttons>
         <ion-title>Intuitist</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="cancel()">Cancel</ion-button>
+            <ion-button (click)="cancel()">Sign Out</ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content class="no-padding">
     <ion-grid class="no-padding">
-        <ion-row class="no-padding">
+        <ion-row class="no-padding"  class="ion-align-items-center">
             <ion-col size="12" class="no-padding">
-                <amplify-authenticator usernameAlias="email">
-                    <amplify-sign-up slot="sign-up" usernameAlias="email" [formFields]="formFields"></amplify-sign-up>
-                    <amplify-sign-in slot="sign-in" username="username"  [formFields]="formFields1"></amplify-sign-in>
+                <amplify-authenticator username="username" >
+                    <!-- <amplify-sign-up slot="sign-up" username="username" [formFields]="formFields"></amplify-sign-up>
+                    <amplify-sign-in slot="sign-in" username="username"  [formFields]="formFields1"></amplify-sign-in> -->
                     <!-- <amplify-sign-out button-text="Log out"></amplify-sign-out> -->
                     <!-- <amplify-greetings></amplify-greetings> -->
                 </amplify-authenticator>
             </ion-col>
-
         </ion-row>
     </ion-grid>
-
 
 
     <!-- <amplify-authenticator>

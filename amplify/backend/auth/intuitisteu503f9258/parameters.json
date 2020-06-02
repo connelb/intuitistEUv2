@@ -48,7 +48,6 @@
     "hostedUI": true,
     "triggers": "{\"PostConfirmation\":[\"add-to-group\"]}",
     "userPoolGroupList": [
-        "User",
         "Admin"
     ],
     "parentStack": {
@@ -75,5 +74,5 @@
         "Facebook"
     ],
     "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8100/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"],\"LogoutURLs\":[\"http://localhost:8100/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"]}"
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8100/login/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"],\"LogoutURLs\":[\"http://localhost:8100/login/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"]}"
 }
