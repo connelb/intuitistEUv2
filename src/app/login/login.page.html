@@ -3,78 +3,39 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
-        <ion-title>Intuitist</ion-title>
-        <ion-buttons slot="end">
+        <ion-title>Sign in</ion-title>
+        <!-- <ion-buttons slot="end" *ngIf="isLoggedIn">
             <ion-button (click)="cancel()">Sign Out</ion-button>
-        </ion-buttons>
+        </ion-buttons> -->
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="no-padding">
-    <ion-grid class="no-padding">
-        <ion-row class="no-padding"  class="ion-align-items-center">
-            <ion-col size="12" class="no-padding">
-                <amplify-authenticator username="username" >
-                    <!-- <amplify-sign-up slot="sign-up" username="username" [formFields]="formFields"></amplify-sign-up>
-                    <amplify-sign-in slot="sign-in" username="username"  [formFields]="formFields1"></amplify-sign-in> -->
-                    <!-- <amplify-sign-out button-text="Log out"></amplify-sign-out> -->
-                    <!-- <amplify-greetings></amplify-greetings> -->
-                </amplify-authenticator>
+<ion-content>
+    <ion-grid>
+        <ion-row>
+                <ion-col size="1"></ion-col>
+            <ion-col>
+                <form [formGroup]="signinForm">
+                    <h2>Sign in</h2>
+                    <ion-item>
+                        <ion-label>Username</ion-label>
+                        <ion-input type="text" name="username" formControlName="username" placeholder="username"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Password</ion-label>
+                        <ion-input type="password" name="password" formControlName="password" placeholder="password"></ion-input>
+                    </ion-item>
+                    <ion-button slot="end" color="primary" (click)="signIn()" [disabled]="!signinForm.valid">Sign In</ion-button>
+                    <!-- <p style="text-align:center;">or</p> -->
+                    <!-- <ion-button color="primary" (click)="signInWithFacebook()">Sign In with Facebook</ion-button> -->
+                    <!-- <br/> -->
+                    <br/>
+                    <p>Don't have an account?
+                        <a routerLink="/signup">Sign up</a>
+                    </p>
+                </form>
             </ion-col>
+            <ion-col size="1"></ion-col>
         </ion-row>
     </ion-grid>
-
-
-    <!-- <amplify-authenticator>
-                <amplify-sign-in header-text="My Custom Sign In Text" slot="sign-in"></amplify-sign-in>
-              
-                <div>
-                  My App
-                  <amplify-sign-out></amplify-sign-out>
-                </div>
-              </amplify-authenticator> -->
-
-    <!-- <amplify-authenticator usernameAlias="email">
-
-                <amplify-sign-in slot="sign-in" usernameAlias="email"></amplify-sign-in>
-              </amplify-authenticator> -->
-    <!-- <ion-grid>
-        <ion-row class="ion-align-items-center">
-            <ion-col size="12" class="ion-padding"> expand="block"  -->
-
-    <!-- </ion-col>
-        </ion-row>
-    </ion-grid> -->
-    <!-- <amplify-authenticator framework="ionic" [signUpConfig]='signUpConfig'></amplify-authenticator> -->
-    <!-- <amplify-authenticator framework="ionic"><div class="center">
-        <ion-button color="primary" (click)="signInWithFacebook()">Sign In with Facebook</ion-button>
-      </div></amplify-authenticator> -->
-    <!-- <br>
-    <br> -->
-
-
 </ion-content>
-
-<!-- <form [formGroup]="signinForm">
-        <h2>Sign in to your account</h2>
-        <mat-form-field>
-            <input matInput placeholder="Email" type="email" formControlName="email" autocomplete="email" required>
-            <mat-hint *ngIf="!emailInput.value">Enter your email address</mat-hint>
-            <mat-error *ngIf="!emailInput.valid">
-                {{getEmailInputError()}}
-            </mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password" required>
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            <mat-hint *ngIf="!passwordInput.value">Enter your password</mat-hint>
-            <mat-error *ngIf="!passwordInput.valid">
-                {{getPasswordInputError()}}
-            </mat-error>
-        </mat-form-field>
-        <button mat-raised-button color="primary" (click)="signIn()" [disabled]="!signinForm.valid">Sign In</button>
-        <p style="text-align:center;">or</p>
-        <button mat-raised-button color="primary" (click)="signInWithFacebook()">Sign In with Facebook</button><br/><br/>
-        <button mat-raised-button color="primary" (click)="signInWithGoogle()">Sign In with Google</button>
-        <p>Don't have an account? <a routerLink="/auth/signup">Sign up</a></p>
-      </form> -->

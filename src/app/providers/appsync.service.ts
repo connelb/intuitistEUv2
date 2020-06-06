@@ -17,8 +17,15 @@ import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import { Observable, BehaviorSubject, from, of, iif, EmptyError } from 'rxjs';
 import { defaultIfEmpty, tap, map, flatMap, mergeMap, takeWhile } from 'rxjs/operators';
 import gql from 'graphql-tag';
+import { CognitoUser } from 'amazon-cognito-identity-js';
 
-
+export interface NewUser {
+  email: string,
+  phone: string,
+  password: string,
+  firstName: string,
+  lastName: string
+};
 
 @Injectable()
 export class AppsyncService {
@@ -42,6 +49,19 @@ export class AppsyncService {
     return this._hc.hydrated();
   }
 
+
+  signUp(user: NewUser): Promise<CognitoUser|any> {
+    return Auth.signUp({
+      "username": user.email,
+      "password": user.password,
+      "attributes": {
+        "email": user.email,
+        "given_name": user.firstName,
+        "family_name": user.lastName,
+        "phone_number": user.phone
+      }
+    });
+  }
 
   public UpdateUser3Card3(): Observable<object> {
     return from(API.graphql(graphqlOperation(`mutation UpdateUser3Card3($input: UpdateUser3Card3Input!, $condition: ModelUser3Card3ConditionInput) {

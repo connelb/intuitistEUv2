@@ -69,10 +69,8 @@
     ],
     "userPoolGroups": false,
     "adminQueries": false,
-    "hostedUIDomainName": "intuitisteub8ecec41-b8ecec41",
-    "authProvidersUserPool": [
-        "Facebook"
-    ],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8100/login/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"],\"LogoutURLs\":[\"http://localhost:8100/login/\",\"https://d1pu0ufzhnvzil.cloudfront.net/\"]}"
+    "hostedUIDomainName": "intuitisteu3075379e-3075379e",
+    "authProvidersUserPool": [],
+    "hostedUIProviderMeta": "[]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"http://localhost:8100/\"],\"LogoutURLs\":[\"http://localhost:8100/\"]}"
 }

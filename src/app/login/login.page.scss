@@ -9,6 +9,18 @@
     display:none;
 }
 
-.sign-in-button{
-    display:none;
+button .sign-in-button.oauth.sc-amplify-sign-in-button button.sc-amplify-sign-in-button {
+    display: none;
+    background-color: var(--oauth-button-background);
+    color: var(--oauth--button-color);
 }
+
+// ion-grid {
+//     height: 100%;
+//     justify-content: center;
+// }
+
+// #signinForm {
+//     position: relative; 
+//     top: 15vh;
+//   }

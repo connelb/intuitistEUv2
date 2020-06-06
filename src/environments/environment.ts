@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   confirm: {
-    email: "",
+    email:"",
+    username: "",
     password: ""
   }
 };

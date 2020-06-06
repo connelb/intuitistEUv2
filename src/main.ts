@@ -22,7 +22,7 @@ import { environment } from './environments/environment';
 //import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
 //import API from '@aws-amplify/api';
 import Amplify, { Auth } from 'aws-amplify';
-import { ClientMetaData, SignInOpts } from '@aws-amplify/auth/src/types/Auth';
+// import { ClientMetaData, SignInOpts } from '@aws-amplify/auth/src/types/Auth';
 
 // import awsconfig from "./aws-exports";
 //Amplify.configure(awsconfig);

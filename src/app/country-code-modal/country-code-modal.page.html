@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Review
+    </ion-title>
+    <!-- <ion-button slot="end" (click)="dismiss()">Update</ion-button> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-input [(ngModel)]="searchText" placeholder="Filter Countries"></ion-input>
+  <ion-list *ngFor="let code of countryCodes | filter : searchText" (click)="selectCountry(code)">
+    <ion-item detail (click)="showCard(item)" [class]="item.status">
+      <span>{{ code.name }}</span>
+      <span>{{ code.dial_code }}</span>
+    </ion-item>
+  </ion-list>
+</ion-content>

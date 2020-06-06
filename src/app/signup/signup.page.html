@@ -1,0 +1,59 @@
+<ion-header no-border>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Sign Up</ion-title>
+        <!-- <ion-buttons slot="end">
+            <ion-button (click)="cancel()">Sign Out</ion-button>
+        </ion-buttons> -->
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="1"></ion-col>
+            <ion-col>
+                <form [formGroup]="signupForm">
+                    <h2>Create a new account</h2>
+                    <ion-item>
+                            <ion-label>User name</ion-label>
+                            <ion-input type="text" name="username" formControlName="username" placeholder="Username"></ion-input>
+                        </ion-item>
+                    <ion-item>
+                        <ion-label>Email</ion-label>
+                        <ion-input type="email" name="email" formControlName="email" placeholder="Email"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                            <span >{{ countryCode }} &nbsp;</span>
+                            <input type="tel" placeholder="Telephone" formControlName="phone" autocomplete="tel">
+                            <ion-icon name="pencil-outline" (click)="selectCountryCode()">mode_edit</ion-icon>
+                            <ion-icon name="create-outline" (click)="selectCountryCode()">Edit</ion-icon>
+                          </ion-item>
+                    <ion-item>
+                        <ion-label>Phone</ion-label>
+                        <ion-input type="text" name="phone" formControlName="phone" placeholder="Phone number"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>First Name</ion-label>
+                        <ion-input type="text" name="fname" formControlName="fname" placeholder="First name"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Last Name</ion-label>
+                        <ion-input type="text" name="lname" formControlName="lname" placeholder="Last Name"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Password</ion-label>
+                        <ion-input type="text" name="password" formControlName="password" placeholder="Password"></ion-input>
+                    </ion-item>
+                    <ion-button slot="end" color="primary" (click)="signUp()" [disabled]="shouldEnableSubmit()">Sign up</ion-button>
+                    <p class="center">Already have an account?
+                        <a routerLink="/login">Sign In</a>
+                    </p>
+                </form>
+            </ion-col>
+            <ion-col size="1"></ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

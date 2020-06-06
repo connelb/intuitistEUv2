@@ -161,16 +161,16 @@ export class ProfilePage implements OnInit {
 
     this.getUserCards();
 
-    this.score.getGlobalScores(this.user).then(data => {
-      if (!data) { () => console.log("no data") }
-      // return [done / total, doing / total, score, total, videoScore]
+    // this.score.getGlobalScores(this.user).then(data => {
+    //   if (!data) { () => console.log("no data") }
+    //   // return [done / total, doing / total, score, total, videoScore]
 
-      this.doneScore = data[0];
-      this.doingScore = data[1];
-      this.currentScore = data[2];
-      this.totalScore = data[3];
-      this.videoScore = data[4];
-    })
+    //   this.doneScore = data[0];
+    //   this.doingScore = data[1];
+    //   this.currentScore = data[2];
+    //   this.totalScore = data[3];
+    //   this.videoScore = data[4];
+    // })
   }
 
     // someFunction2(data){

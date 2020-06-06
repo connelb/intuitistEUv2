@@ -17,7 +17,7 @@ import * as d3Array from 'd3-array';
 import * as d3Hierachy from 'd3-hierarchy';
 import * as d3Collection from 'd3-collection';
 
-import { DataStore, Predicates } from "@aws-amplify/datastore";
+//import { DataStore, Predicates } from "@aws-amplify/datastore";
 import { User3Card3, Lesson3, Card3, User3, User3Video3 } from "./../../models";
 import { from } from 'rxjs';
 import { Network } from '@ngx-pwa/offline';
@@ -569,7 +569,7 @@ export class LessonsPage {
         if (!data) { return console.log('ListLessonsByUser: no data'); }
 
         this.lessons = data.listLesson3s.items.sort((a, b) => +a.level - +b.level);
-        //console.log('lessons been updated, then why not the score???', this.lessons)
+        // console.log('does facebook login have any lessons???', this.lessons)
         //this.formatListLessonsByUser(data);
       });
 

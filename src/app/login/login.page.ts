@@ -3,7 +3,7 @@
 // import { AmplifyService } from 'aws-amplify-angular';
 // import { Router } from '@angular/router';
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { FormFieldTypes } from '@aws-amplify/ui-components';
+// import { FormFieldTypes } from '@aws-amplify/ui-components';
 // import { Storage } from '@ionic/storage';
 // import { Hub } from '@aws-amplify/core';
 
@@ -21,7 +21,11 @@ import { Storage } from '@ionic/storage';
 import { AppsyncService } from './../providers/appsync.service';
 // import { Auth } from 'aws-amplify';
 import { Hub } from '@aws-amplify/core';
-import Auth, { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import Auth, { CognitoHostedUIIdentityProvider, CognitoUser } from '@aws-amplify/auth';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NotificationService } from '../providers/notification/notification.service';
+import { AuthService } from '../providers/auth/auth.service';
+import { environment } from '../../environments/environment';
 
 // import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
 
@@ -49,12 +53,27 @@ query getUser($id:ID!){
 })
 export class LoginPage implements OnInit {
 
+  
+  signinForm: FormGroup = new FormGroup({
+    // email: new FormControl('',[ Validators.email, Validators.required ]),
+    username: new FormControl('',[ Validators.required, Validators.required ]),
+    password: new FormControl('', [ Validators.required, Validators.min(6) ])
+  });
+  
+  hide = true;
+
+
+  // get emailInput() { return this.signinForm.get('email'); }
+  get usernameInput() { return this.signinForm.get('username'); }
+  get passwordInput() { return this.signinForm.get('password'); }
+
+
   authState: any;
   registered: any;
   // authState: any;
   authService: AuthGuard
-  formFields: FormFieldTypes;
-  formFields1: FormFieldTypes;
+  // formFields: FormFieldTypes;
+  // formFields1: FormFieldTypes;
 
   public signUpConfig = {
     header: 'Sign up to get access code via email',
@@ -99,6 +118,9 @@ export class LoginPage implements OnInit {
     public storage: Storage,
     public guard: AuthGuard,
     public amplify: AmplifyService,
+    public auth: AuthService, 
+    private _notification: NotificationService, 
+    private _router: Router,
   ) {
 
     Hub.listen('auth', (data) => {
@@ -126,35 +148,35 @@ export class LoginPage implements OnInit {
     //   disabled?: boolean;
     // }
 
-    this.formFields = [
-      {
-        type: "username",
-        label: "User name",
-        placeholder: "username",
-        required: true,
-      },
-      {
-        type: "password",
-        label: "Password",
-        placeholder: "create a password",
-        required: true,
-      }
-    ];
+    // this.formFields = [
+    //   {
+    //     type: "username",
+    //     label: "User name",
+    //     placeholder: "username",
+    //     required: true,
+    //   },
+    //   {
+    //     type: "password",
+    //     label: "Password",
+    //     placeholder: "create a password",
+    //     required: true,
+    //   }
+    // ];
 
-    this.formFields1 = [
-      {
-        type: "username",
-        label: "User name",
-        placeholder: "username",
-        required: true,
-      },
-      {
-        type: "password",
-        label: "Password",
-        placeholder: "password",
-        required: true,
-      }
-    ];
+    // this.formFields1 = [
+    //   {
+    //     type: "username",
+    //     label: "User name",
+    //     placeholder: "username",
+    //     required: true,
+    //   },
+    //   {
+    //     type: "password",
+    //     label: "Password",
+    //     placeholder: "password",
+    //     required: true,
+    //   }
+    // ];
 
 
 
@@ -273,6 +295,63 @@ export class LoginPage implements OnInit {
       'provider': provider
     });
   }
+
+
+  // getEmailInputError() {
+  //   if (this.emailInput.hasError('email')) {
+  //     return 'Please enter a valid email address.';
+  //   }
+  // }
+  // getEmailInputError() {
+  //   if (this.emailInput.hasError('required')) {
+  //     return 'An Email is required.';
+  //   }
+  // }
+
+  getPasswordInputError() {
+    if (this.passwordInput.hasError('required')) {
+      return 'A password is required.';
+    }
+  }
+
+  getUsernameInputError() {
+    if (this.usernameInput.hasError('required')) {
+      return 'A username is required.';
+    }
+  }
+
+  signIn() {
+    // this._loader.show();
+    this.auth.signIn(this.usernameInput.value, this.passwordInput.value)
+      .then((user: CognitoUser|any) => {
+        // this._loader.hide();
+        this._router.navigate(['']);
+      })
+      .catch((error: any) => {
+        // this._loader.hide();
+        this._notification.show(error.message);
+        switch (error.code) {
+          case "UserNotConfirmedException":
+            environment.confirm.username= this.usernameInput.value;
+            environment.confirm.password = this.passwordInput.value;
+            this._router.navigate(['confirm']);
+            break;
+          case "UsernameExistsException":
+            this._router.navigate(['signin']);
+            break;
+        }
+      })
+  }
+
+  async signInWithFacebook1() {
+    const socialResult = await this.auth.socialSignIn(AuthService.FACEBOOK);
+    console.log('fb Result:', socialResult);
+  }
+
+  // async signInWithGoogle() {
+  //   const socialResult = await this.auth.socialSignIn(AuthService.GOOGLE);
+  //   console.log('google Result:', socialResult);
+  // }
 }
 
 
