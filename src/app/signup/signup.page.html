@@ -11,49 +11,51 @@
 </ion-header>
 
 <ion-content>
-    <ion-grid>
-        <ion-row>
-            <ion-col size="1"></ion-col>
-            <ion-col>
-                <form [formGroup]="signupForm">
-                    <h2>Create a new account</h2>
-                    <ion-item>
-                            <ion-label>User name</ion-label>
-                            <ion-input type="text" name="username" formControlName="username" placeholder="Username"></ion-input>
-                        </ion-item>
-                    <ion-item>
-                        <ion-label>Email</ion-label>
-                        <ion-input type="email" name="email" formControlName="email" placeholder="Email"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                            <span >{{ countryCode }} &nbsp;</span>
-                            <input type="tel" placeholder="Telephone" formControlName="phone" autocomplete="tel">
-                            <ion-icon name="pencil-outline" (click)="selectCountryCode()">mode_edit</ion-icon>
-                            <ion-icon name="create-outline" (click)="selectCountryCode()">Edit</ion-icon>
-                          </ion-item>
-                    <ion-item>
-                        <ion-label>Phone</ion-label>
-                        <ion-input type="text" name="phone" formControlName="phone" placeholder="Phone number"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>First Name</ion-label>
-                        <ion-input type="text" name="fname" formControlName="fname" placeholder="First name"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>Last Name</ion-label>
-                        <ion-input type="text" name="lname" formControlName="lname" placeholder="Last Name"></ion-input>
-                    </ion-item>
-                    <ion-item>
-                        <ion-label>Password</ion-label>
-                        <ion-input type="text" name="password" formControlName="password" placeholder="Password"></ion-input>
-                    </ion-item>
-                    <ion-button slot="end" color="primary" (click)="signUp()" [disabled]="shouldEnableSubmit()">Sign up</ion-button>
-                    <p class="center">Already have an account?
-                        <a routerLink="/login">Sign In</a>
-                    </p>
-                </form>
-            </ion-col>
-            <ion-col size="1"></ion-col>
-        </ion-row>
-    </ion-grid>
+    <form [formGroup]="signupForm" novalidate>
+        <ion-list lines="none">
+            <ion-item>
+                <ion-label position="stacked" color="primary">Username</ion-label>
+                <ion-input type="text" name="username" formControlName="username" placeholder="Username" required>
+                </ion-input>
+                <!-- type="text" name="username" formControlName="username" placeholder="Username" -->
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked" color="primary">Phone</ion-label>
+                <p>country code:{{ countryCode }} &nbsp;
+                    <span>
+                        <ion-icon size="small" name="pencil-outline" (click)="selectCountryCode()">mode_edit</ion-icon>
+                    </span>
+                </p>
+                <ion-input type="tel" placeholder="Telephone" formControlName="phone" autocomplete="tel"></ion-input>
+                <ion-text color="danger">
+                    <!-- <p [hidden]="username.valid || submitted == false" class="ion-padding-start">
+                      Username is required
+                    </p> -->
+                </ion-text>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked" color="primary">Email</ion-label>
+                <ion-input type="email" name="email" formControlName="email" placeholder="Email" required>
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked" color="primary">Password</ion-label>
+                <ion-input type="password" name="password" formControlName="password" placeholder="Password" required>
+                </ion-input>
+            </ion-item>
+            <ion-text color="danger">
+                <!-- <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
+                      Password is required
+                    </p> -->
+            </ion-text>
+        </ion-list>
+
+        <div class="ion-padding">
+            <ion-button (click)="signUp()" type="submit" expand="block" [disabled]="shouldEnableSubmit()">Create</ion-button>
+        </div>
+        <p class="center">Already have an account?
+            <a routerLink="/login">Sign In</a>
+        </p>
+    </form>
 </ion-content>

@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import { AppsyncService } from '../providers/appsync.service';
 import { Auth } from 'aws-amplify';
 import { CountryCode, CountryCodes } from "./country-codes";
-import { FilterPipe } from '../country-code-modal/filter.pipe'
+// import { FilterPipe } from '../country-code-modal/filter.pipe'
 
 
 @Component({

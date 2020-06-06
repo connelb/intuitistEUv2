@@ -55,6 +55,7 @@ query getUser($id:ID!){
 })
 export class SignupPage implements OnInit {
   hide = true;
+  submitted = false;
   signupForm: FormGroup = new FormGroup({
     email: new FormControl("", [Validators.email, Validators.required]),
     username: new FormControl("", [Validators.required]),
@@ -64,7 +65,7 @@ export class SignupPage implements OnInit {
     lname: new FormControl("", [Validators.min(2)])
   });
 
-  countryCode = "+1";
+  countryCode = "+353";
 
   get emailInput() {
     return this.signupForm.get("email");
@@ -90,7 +91,8 @@ export class SignupPage implements OnInit {
     //private _bottomSheet: MatBottomSheet,
     private _authService: AuthService,
     private _router: Router,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public toastCtrl: ToastController
   ) {}
 
   ngOnInit() {}
@@ -99,7 +101,7 @@ export class SignupPage implements OnInit {
     const presentModel = await this.modalCtrl.create({
       component: CountryCodeModalPage,
       componentProps: {
-        title: 'Billing Address',
+        title: 'Country Codes',
         type:'billing',
       },
       showBackdrop: true,
@@ -108,7 +110,8 @@ export class SignupPage implements OnInit {
     });
 
     presentModel.onWillDismiss().then((data)=>{
-      console.log(data);
+      // console.log(data.data.dial_code);
+      this.countryCode = data.data ? data.data['dial_code'] : this.countryCode;
       //custom code
     });
 
@@ -143,6 +146,7 @@ export class SignupPage implements OnInit {
   shouldEnableSubmit() {
     return (
       !this.emailInput.valid ||
+      !this.usernameInput.valid ||
       !this.passwordInput.valid ||
       !this.fnameInput.valid ||
       !this.lnameInput.valid ||
@@ -151,19 +155,31 @@ export class SignupPage implements OnInit {
   }
 
   signUp() {
+    this.submitted = true;
     this._authService
       .signUp({
         email: this.emailInput.value,
+        username: this.usernameInput.value,
         password: this.passwordInput.value,
-        firstName: this.fnameInput.value,
-        lastName: this.lnameInput.value,
+        // firstName: this.fnameInput.value,
+        // lastName: this.lnameInput.value,
         phone: this.countryCode + this.phoneInput.value
       })
       .then(data => {
-        environment.confirm.username = this.emailInput.value;
+        environment.confirm.username = this.usernameInput.value;
+        environment.confirm.email = this.emailInput.value;
         environment.confirm.password = this.passwordInput.value;
         this._router.navigate(["confirm"]);
       })
-      .catch(error => console.log(error));
+      .catch(error => this.createToast(error));
+  }
+
+  async createToast(error) {
+    // console.log('what is message',error)
+    const toast = await this.toastCtrl.create({
+      message: error.message,
+      duration: 4000
+    });
+    await toast.present();
   }
 }

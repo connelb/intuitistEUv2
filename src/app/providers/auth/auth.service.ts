@@ -6,10 +6,11 @@ import { CognitoUser } from 'amazon-cognito-identity-js';
 
 export interface NewUser {
   email: string,
+  username:string,
   phone: string,
   password: string,
-  firstName: string,
-  lastName: string
+  // firstName: string,
+  // lastName: string
 };
 
 @Injectable({
@@ -37,12 +38,13 @@ export class AuthService {
   
   signUp(user: NewUser): Promise<CognitoUser|any> {
     return Auth.signUp({
-      "username": user.email,
+      // "email": user.email,
+      "username": user.username,
       "password": user.password,
       "attributes": {
         "email": user.email,
-        "given_name": user.firstName,
-        "family_name": user.lastName,
+        // "given_name": user.firstName,
+        // "family_name": user.lastName,
         "phone_number": user.phone
       }
     });

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { CountryCodeModalPageRoutingModule } from './country-code-modal-routing.module';
 
 import { CountryCodeModalPage } from './country-code-modal.page';
+import { FilterPipe} from './filter.pipe'
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { CountryCodeModalPage } from './country-code-modal.page';
     IonicModule,
     CountryCodeModalPageRoutingModule
   ],
-  declarations: [CountryCodeModalPage]
+  declarations: [CountryCodeModalPage,FilterPipe]
 })
 export class CountryCodeModalPageModule {}

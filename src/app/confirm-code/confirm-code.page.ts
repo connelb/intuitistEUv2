@@ -36,14 +36,17 @@ import { NotificationService } from '../providers/notification/notification.serv
 export class ConfirmCodePage implements OnInit {
   
   email = environment.confirm.email;
+  username = environment.confirm.username;
+
   confirmForm: FormGroup = new FormGroup({
     email: new FormControl({value: this.email, disabled: true}),
+    username: new FormControl({value: environment.confirm.username, disabled: true}),
     code: new FormControl('', [ Validators.required, Validators.min(3) ])
   });
   
   get codeInput() { return this.confirmForm.get('code'); }
 
-  constructor( private _router: Router, private _notification: NotificationService ) { }
+  constructor( private _router: Router, private _notification: NotificationService,public toastCtrl: ToastController ) { }
 
   ngOnInit() {
     if (!this.email) {
@@ -54,21 +57,25 @@ export class ConfirmCodePage implements OnInit {
   }
 
   sendAgain() {
-    Auth.resendSignUp(this.email)
+    Auth.resendSignUp(this.username)
       .then(() => this._notification.show('A code has been emailed to you'))
       .catch(() => this._notification.show('An error occurred'));
   }
 
   confirmCode() {
-    Auth.confirmSignUp(this.email, this.codeInput.value)
+    console.log('what is username, and code?',environment.confirm.username, this.username, this.codeInput.value)
+    Auth.confirmSignUp(environment.confirm.username, this.codeInput.value)
       .then((data: any) => {
-        console.log(data);
+        console.log('Auth.confirmSignUp  SUCCESS??',data);
         if (data === 'SUCCESS' &&
+            environment.confirm.username &&
             environment.confirm.email && 
             environment.confirm.password) {
-          Auth.signIn(this.email, environment.confirm.password)
+          Auth.signIn(this.username, environment.confirm.password)
             .then(() => {
               this._router.navigate(['']);
+
+
             }).catch((error: any) => {
               this._router.navigate(['/login']);
             })
@@ -78,6 +85,15 @@ export class ConfirmCodePage implements OnInit {
         console.log(error);
         this._notification.show(error.message);
       })
+  }
+
+  async createToast() {
+    // console.log('what is message',error)
+    const toast = await this.toastCtrl.create({
+      message: 'Thanks for registering, creating your new account now',
+      duration: 4000
+    });
+    await toast.present();
   }
 
 }
