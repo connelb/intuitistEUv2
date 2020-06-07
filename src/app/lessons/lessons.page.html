@@ -118,7 +118,8 @@ doing:{{lesson |totalScore:doing}} -->
               </ion-col>
               <ion-col size=2>
                 <div>{{lesson |totalScore:this.user.attributes.sub:'done'| async}}/{{lesson |totalScore:this.user.attributes.sub:'total'|
-                  async}}</div>
+                  async}}
+                </div>
               </ion-col>
 
 
@@ -179,25 +180,34 @@ doing:{{lesson |totalScore:doing}} -->
             <ion-row>
               Yourself
             </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-icon size="large" name="school-outline"></ion-icon>
+              </ion-col>
+            </ion-row>
           </ion-grid>
         </ion-item-option>
       </ion-item-options>
       <ion-item-options side="start">
-        <ion-item-option color="dark" expandable (click)="presentModal(lesson,i)">
+        <ion-item-option class='myHover' color="dark" expandable (click)="presentModal(lesson,i)">
           <ion-grid>
             <ion-row>
-              Review Test
+              Status
             </ion-row>
             <ion-row>
-              <ion-chip outline color="warning">
-                <ion-label>{{lesson |totalScore:this.user.attributes.sub:'doing'| async}}</ion-label>
-              </ion-chip>
+              <ion-col>
+                <ion-label color="warning">{{lesson |totalScore:this.user.attributes.sub:'doing'| async}}</ion-label>
+              </ion-col>
+              <ion-col>
+                <ion-label color="success">{{lesson |totalScore:this.user.attributes.sub:'done'| async}}</ion-label>
+              </ion-col>
             </ion-row>
             <ion-row>
-              <ion-chip outline color="success">
-                <ion-label>{{lesson |totalScore:this.user.attributes.sub:'done'| async}}</ion-label>
-              </ion-chip>
+              <ion-col>
+                <ion-icon size="large" name="reader-outline"></ion-icon>
+              </ion-col>
             </ion-row>
+
           </ion-grid>
           <!-- <div> Review </div><br>
                 <ion-icon name="sad-outline"></ion-icon> <br>
@@ -210,6 +220,11 @@ doing:{{lesson |totalScore:doing}} -->
             </ion-row>
             <ion-row>
               Video
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-icon size="large" name="play-circle-outline"></ion-icon>
+              </ion-col>
             </ion-row>
           </ion-grid>
         </ion-item-option>

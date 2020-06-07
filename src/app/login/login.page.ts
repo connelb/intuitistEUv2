@@ -127,69 +127,69 @@ export class LoginPage implements OnInit {
     private _router: Router,
   ) {
 
-    Hub.listen('auth', (data) => {
-      const { payload } = data
-      console.log('A new auth event has happened: ', data)
-      if (payload.event === 'signIn') {
-        console.log('a user has signed in!')
-        this.router.navigateByUrl('/app/tabs/lessons');
-      }
-      if (payload.event === 'signOut') {
-        console.log('a user has signed out!')
-        this.router.navigateByUrl('/login');
-      }
-    })
+    // Hub.listen('auth', (data) => {
+    //   const { payload } = data
+    //   console.log('A new auth event has happened: ', data)
+    //   if (payload.event === 'signIn') {
+    //     console.log('a user has signed in!')
+    //     this.router.navigateByUrl('/app/tabs/lessons');
+    //   }
+    //   if (payload.event === 'signOut') {
+    //     console.log('a user has signed out!')
+    //     this.router.navigateByUrl('/login');
+    //   }
+    // })
 
 
-    const formFields= {
-      header: 'Welcome!',
-      defaultCountryCode: '46',
-      hideDefaults: true,
-      signUpFields: [
-        {
-          label: 'Username',
-          key: 'username',
-          required: true,
-          displayOrder: 1,
-          type: 'string',
-        },
-        {
-          label: 'Password',
-          key: 'password',
-          required: true,
-          displayOrder: 2,
-          type: 'password',
-        },
-        {
-          label: 'Email',
-          key: 'email',
-          required: true,
-          displayOrder: 3,
-          type: 'email',
-        },
-        {
-          label: 'Name',
-          key: 'name',
-          required: true,
-          displayOrder: 4,
-          type: 'string',
-        },
-        {
-          label: 'Family name',
-          key: 'family_name',
-          required: true,
-          displayOrder: 5,
-          type: 'string',
-        },
-        {
-          label: 'Phone number',
-          key: 'phone_number',
-          required: false,
-          displayOrder: 6,
-          type: 'string',
-        }
-      ]
-    };
+    // const formFields= {
+    //   header: 'Welcome!',
+    //   defaultCountryCode: '46',
+    //   hideDefaults: true,
+    //   signUpFields: [
+    //     {
+    //       label: 'Username',
+    //       key: 'username',
+    //       required: true,
+    //       displayOrder: 1,
+    //       type: 'string',
+    //     },
+    //     {
+    //       label: 'Password',
+    //       key: 'password',
+    //       required: true,
+    //       displayOrder: 2,
+    //       type: 'password',
+    //     },
+    //     {
+    //       label: 'Email',
+    //       key: 'email',
+    //       required: true,
+    //       displayOrder: 3,
+    //       type: 'email',
+    //     },
+    //     {
+    //       label: 'Name',
+    //       key: 'name',
+    //       required: true,
+    //       displayOrder: 4,
+    //       type: 'string',
+    //     },
+    //     {
+    //       label: 'Family name',
+    //       key: 'family_name',
+    //       required: true,
+    //       displayOrder: 5,
+    //       type: 'string',
+    //     },
+    //     {
+    //       label: 'Phone number',
+    //       key: 'phone_number',
+    //       required: false,
+    //       displayOrder: 6,
+    //       type: 'string',
+    //     }
+    //   ]
+    // };
 
 
     // export interface FormFieldType {

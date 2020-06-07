@@ -1,3 +1,23 @@
+// button.botton-native:hover {
+//   --background: yellow;
+// }
+
+// #css
+// :host {
+//   ion-item:hover { 
+//     --background-hover: #000000 #color of choice 
+//   }
+// }
+
+
+:host {
+  ion-item-option {
+    &:hover {
+      --background-hover: yellow;
+    }
+  }
+}
+
 ion-toolbar {
   // position: absolute;
 
