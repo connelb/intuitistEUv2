@@ -26,6 +26,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NotificationService } from '../providers/notification/notification.service';
 import { AuthService } from '../providers/auth/auth.service';
 import { environment } from '../../environments/environment';
+import { FormFieldTypes } from '@aws-amplify/ui-components';
 
 // import { ɵINTERNAL_BROWSER_DYNAMIC_PLATFORM_PROVIDERS } from '@angular/platform-browser-dynamic';
 
@@ -52,6 +53,7 @@ query getUser($id:ID!){
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  submitted = false;
 
   
   signinForm: FormGroup = new FormGroup({
@@ -61,6 +63,8 @@ export class LoginPage implements OnInit {
   });
   
   hide = true;
+  formFields: FormFieldTypes;
+  // formFields: { type: string; label: string; placeholder: string; required: boolean; }[];
 
 
   // get emailInput() { return this.signinForm.get('email'); }
@@ -136,6 +140,58 @@ export class LoginPage implements OnInit {
       }
     })
 
+
+    const formFields= {
+      header: 'Welcome!',
+      defaultCountryCode: '46',
+      hideDefaults: true,
+      signUpFields: [
+        {
+          label: 'Username',
+          key: 'username',
+          required: true,
+          displayOrder: 1,
+          type: 'string',
+        },
+        {
+          label: 'Password',
+          key: 'password',
+          required: true,
+          displayOrder: 2,
+          type: 'password',
+        },
+        {
+          label: 'Email',
+          key: 'email',
+          required: true,
+          displayOrder: 3,
+          type: 'email',
+        },
+        {
+          label: 'Name',
+          key: 'name',
+          required: true,
+          displayOrder: 4,
+          type: 'string',
+        },
+        {
+          label: 'Family name',
+          key: 'family_name',
+          required: true,
+          displayOrder: 5,
+          type: 'string',
+        },
+        {
+          label: 'Phone number',
+          key: 'phone_number',
+          required: false,
+          displayOrder: 6,
+          type: 'string',
+        }
+      ]
+    };
+
+
     // export interface FormFieldType {
     //   type: string;
     //   label?: string;
@@ -148,20 +204,33 @@ export class LoginPage implements OnInit {
     //   disabled?: boolean;
     // }
 
-    // this.formFields = [
-    //   {
-    //     type: "username",
-    //     label: "User name",
-    //     placeholder: "username",
-    //     required: true,
-    //   },
-    //   {
-    //     type: "password",
-    //     label: "Password",
-    //     placeholder: "create a password",
-    //     required: true,
-    //   }
-    // ];
+    this.formFields = [
+      {
+        type: "username",
+        label: "User name",
+        placeholder: "username",
+        required: true
+      },
+      {
+        type: "email",
+        label: "Email",
+        placeholder: "Email",
+        required: true
+      },
+      {
+        type: "phone_number",
+        label: "Phone number",
+        placeholder: "Phone number",
+        required: true
+      },
+      {
+        type: "password",
+        label: "Password",
+        placeholder: "create a password",
+        hint:"At least 8 characters",
+        required: true,
+      }
+    ];
 
     // this.formFields1 = [
     //   {
@@ -321,6 +390,7 @@ export class LoginPage implements OnInit {
   }
 
   signIn() {
+    this.submitted = true;
     // this._loader.show();
     this.auth.signIn(this.usernameInput.value, this.passwordInput.value)
       .then((user: CognitoUser|any) => {
@@ -342,6 +412,8 @@ export class LoginPage implements OnInit {
         }
       })
   }
+
+  get f() { return this.signinForm.controls; }
 
   async signInWithFacebook1() {
     const socialResult = await this.auth.socialSignIn(AuthService.FACEBOOK);

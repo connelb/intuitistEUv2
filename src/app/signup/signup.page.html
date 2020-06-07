@@ -41,8 +41,12 @@
 
             <ion-item>
                 <ion-label position="stacked" color="primary">Password</ion-label>
-                <ion-input type="password" name="password" formControlName="password" placeholder="Password" required>
+                <ion-input type="password" name="password" formControlName="password" placeholder="Password" required [ngClass]="{ 'is-invalid': submitted && f.password.errors }" >
                 </ion-input>
+                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Password is required</div>
+                        <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                    </div>
             </ion-item>
             <ion-text color="danger">
                 <!-- <p [hidden]="password.valid || submitted == false" class="ion-padding-start">
@@ -58,4 +62,6 @@
             <a routerLink="/login">Sign In</a>
         </p>
     </form>
+
+
 </ion-content>

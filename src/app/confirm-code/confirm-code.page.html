@@ -13,6 +13,12 @@
 <ion-content class="no-padding">
     <form [formGroup]="confirmForm" novalidate>
         <ion-list lines="none">
+                <ion-item>
+                        <ion-label position="stacked" color="primary">Email</ion-label>
+                        <ion-input placeholder="email" type="text" formControlName="email" required>
+                        </ion-input>
+                       
+                    </ion-item>
             <ion-item>
                 <ion-label position="stacked" color="primary">Confirmation code</ion-label>
                 <ion-input placeholder="Confirmation Code" type="text" formControlName="code" required>

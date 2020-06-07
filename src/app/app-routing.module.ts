@@ -73,6 +73,11 @@ const routes: Routes = [
     loadChildren: () => import('./confirm-code/confirm-code.module').then(m => m.LoginPageModule),
     // canActivate: [AuthGuard]
   },
+  {
+    path: 'forgot',
+    loadChildren: () => import('./forgot/forgot.module').then(m => m.ForgotPageModule),
+    // canActivate: [AuthGuard]
+  },
   
   // { path: 'auth', component: AuthComponent, children: [
   //   {

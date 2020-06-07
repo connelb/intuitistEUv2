@@ -29,34 +29,39 @@ import Amplify, { Auth } from 'aws-amplify';
 
 import awsconfig from "./aws-exports"
 
-var urlsIn = awsconfig.oauth.redirectSignIn.split(",");
-var urlsOut = awsconfig.oauth.redirectSignOut.split(",");
-const oauth = {
-  domain: awsconfig.oauth.domain,
-  scope: awsconfig.oauth.scope,
-  redirectSignIn: awsconfig.oauth.redirectSignIn,
-  redirectSignOut: awsconfig.oauth.redirectSignOut,
-  responseType: awsconfig.oauth.responseType
-};
-var hasLocalhost  = (hostname) => Boolean(hostname.match(/localhost/) || hostname.match(/127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/));
-var hasHostname   = (hostname) => Boolean(hostname.includes(window.location.hostname));
-var isLocalhost   = hasLocalhost(window.location.hostname);
-if (isLocalhost) {
-  console.log('isLocalhost',isLocalhost);
-  urlsIn.forEach((e) =>   { if (hasLocalhost(e)) { oauth.redirectSignIn = e; }});
-  urlsOut.forEach((e) =>  { if (hasLocalhost(e)) { oauth.redirectSignOut = e; }});
-}
-else {
-  urlsIn.forEach((e) =>   { if (hasHostname(e)) { oauth.redirectSignIn = e; }});
-  urlsOut.forEach((e) =>  { if (hasHostname(e)) { oauth.redirectSignOut = e; }});
-}
-var configUpdate = awsconfig;
-configUpdate.oauth = oauth;
+// var urlsIn = awsconfig.oauth.redirectSignIn.split(",");
+// var urlsOut = awsconfig.oauth.redirectSignOut.split(",");
+// const oauth = {
+//   domain: awsconfig.oauth.domain,
+//   scope: awsconfig.oauth.scope,
+//   redirectSignIn: awsconfig.oauth.redirectSignIn,
+//   redirectSignOut: awsconfig.oauth.redirectSignOut,
+//   responseType: awsconfig.oauth.responseType
+// };
+// var hasLocalhost  = (hostname) => Boolean(hostname.match(/localhost/) || hostname.match(/127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}/));
+// var hasHostname   = (hostname) => Boolean(hostname.includes(window.location.hostname));
+// var isLocalhost   = hasLocalhost(window.location.hostname);
+// if (isLocalhost) {
+//   console.log('isLocalhost',isLocalhost);
+//   urlsIn.forEach((e) =>   { if (hasLocalhost(e)) { oauth.redirectSignIn = e; }});
+//   urlsOut.forEach((e) =>  { if (hasLocalhost(e)) { oauth.redirectSignOut = e; }});
+// }
+// else {
+//   urlsIn.forEach((e) =>   { if (hasHostname(e)) { oauth.redirectSignIn = e; }});
+//   urlsOut.forEach((e) =>  { if (hasHostname(e)) { oauth.redirectSignOut = e; }});
+// }
+// var configUpdate = awsconfig;
+// configUpdate.oauth = oauth;
 
-console.log('fixed?,configUpdate ',configUpdate);
+// console.log('fixed?,configUpdate ',configUpdate);
 
-Amplify.configure(configUpdate);
-// Amplify.configure(awsconfig);
+// Amplify.configure(configUpdate);
+Amplify.configure(awsconfig);
+
+// Amplify.configure({
+//   Auth: {
+    
+//   })
 
 
 if (environment.production) {

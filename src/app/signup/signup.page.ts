@@ -59,13 +59,16 @@ export class SignupPage implements OnInit {
   signupForm: FormGroup = new FormGroup({
     email: new FormControl("", [Validators.email, Validators.required]),
     username: new FormControl("", [Validators.required]),
-    password: new FormControl("", [Validators.required]),
+    password: new FormControl("", [Validators.required, Validators.minLength(8)]),
     phone: new FormControl("", [Validators.min(10)]),
     fname: new FormControl("", [Validators.min(2)]),
     lname: new FormControl("", [Validators.min(2)])
   });
 
   countryCode = "+353";
+
+      // convenience getter for easy access to form fields
+      get f() { return this.signupForm.controls; }
 
   get emailInput() {
     return this.signupForm.get("email");

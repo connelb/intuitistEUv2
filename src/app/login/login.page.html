@@ -10,12 +10,25 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-grid>
+<!-- <ion-content> -->
+
+        <ion-content>
+                <div class="fullheight xc">
+                  <amplify-authenticator usernameAlias="username">
+                        <amplify-sign-up
+                          slot="sign-up"
+                          usernameAlias="username"
+                          [formFields]="formFields"
+                        ></amplify-sign-up>
+                        <amplify-sign-in slot="sign-in" usernameAlias="username"></amplify-sign-in>
+                      </amplify-authenticator>
+                </div>
+              </ion-content>
+    <!-- <ion-grid>
         <ion-row>
                 <ion-col size="1"></ion-col>
             <ion-col>
-                <form [formGroup]="signinForm">
+                <form [formGroup]="signinForm" novalidate>
                     <h2>Sign in</h2>
                     <ion-item>
                         <ion-label>Username</ion-label>
@@ -26,16 +39,73 @@
                         <ion-input type="password" name="password" formControlName="password" placeholder="password"></ion-input>
                     </ion-item>
                     <ion-button slot="end" color="primary" (click)="signIn()" [disabled]="!signinForm.valid">Sign In</ion-button>
-                    <!-- <p style="text-align:center;">or</p> -->
-                    <!-- <ion-button color="primary" (click)="signInWithFacebook()">Sign In with Facebook</ion-button> -->
-                    <!-- <br/> -->
-                    <br/>
+                 
+                 
                     <p>Don't have an account?
                         <a routerLink="/signup">Sign up</a>
                     </p>
+                    <p>Forgot password?
+                            <a routerLink="/forgot">Reset password</a>
+                        </p>
                 </form>
             </ion-col>
             <ion-col size="1"></ion-col>
         </ion-row>
-    </ion-grid>
-</ion-content>
+    </ion-grid> -->
+
+
+    <!-- <form [formGroup]="signinForm" novalidate>
+            <ion-list lines="none">
+                <ion-item>
+                    <ion-label position="stacked" color="primary">Username</ion-label>
+                    <ion-input type="text" name="username" formControlName="username" placeholder="Username" required>
+                    </ion-input>
+                   
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked" color="primary">Password</ion-label>
+                    <ion-input type="password" name="password" formControlName="password" placeholder="Password" required [ngClass]="{ 'is-invalid': submitted && f.password.errors }" >
+                    </ion-input>
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                            <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+                        </div>
+                </ion-item>
+                <ion-text color="danger">
+                    
+                </ion-text>
+            </ion-list>
+
+
+    
+            <div class="ion-padding">
+            
+                <ion-button color="primary" (click)="signIn()" type="submit" expand="block" [disabled]="!signinForm.valid">Sign In</ion-button>
+            </div>
+            <p>Don't have an account?
+                    <a routerLink="/signup">Sign up</a>
+                </p>
+                <p>Forgot password?
+                        <a routerLink="/forgot">Reset password</a>
+                    </p>
+        </form> -->
+
+        <!-- <amplify-authenticator [options]="{ signInConfig: { isSignUpDisplayed: false } }" >
+            </amplify-authenticator> -->
+
+            <!-- <amplify-authenticator [hide]="['ForgotPassword', 'SignUp']"></amplify-authenticator> -->
+
+          
+
+
+                  <!-- <amplify-authenticator [signUpConfig]="signUpConfig" ></amplify-authenticator> -->
+
+    <!-- <amplify-authenticator>
+            <amplify-forgot-password header-text="My Custom Forgot Password Text" slot="forgot-password"></amplify-forgot-password>
+          
+            <div>
+              My App
+              <amplify-sign-out></amplify-sign-out>
+            </div>
+          </amplify-authenticator> -->
+<!-- </ion-content> -->
