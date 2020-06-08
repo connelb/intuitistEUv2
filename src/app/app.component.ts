@@ -143,7 +143,10 @@ export class AppComponent implements OnInit {
       bypassCache: false
     }).then(async user => {
       this.isAdmin = user.signInUserSession.accessToken.payload["cognito:groups"][0] == 'Admin';
-    }).catch(err => console.log('app.component isAdmin?',err));
+    }).catch(err => {
+      console.log('app.component isAdmin?',err);
+      this.router.navigateByUrl('/login');
+    });
 
     // After retrieving the confirmation code from the user
 // Auth.confirmSignUp(username, code, {

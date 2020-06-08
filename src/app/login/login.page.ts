@@ -325,6 +325,7 @@ export class LoginPage implements OnInit {
         //this.events.publish('data:AuthState', this.authState)
         if (!authState.user) {
           this.user = null;
+          this.router.navigateByUrl('/login', { replaceUrl: true });
         }
         if (authState.state === 'signedIn') {
           this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
@@ -389,31 +390,31 @@ export class LoginPage implements OnInit {
     }
   }
 
-  signIn() {
-    this.submitted = true;
-    // this._loader.show();
-    this.auth.signIn(this.usernameInput.value, this.passwordInput.value)
-      .then((user: CognitoUser|any) => {
-        // this._loader.hide();
-        this._router.navigate(['']);
-      })
-      .catch((error: any) => {
-        // this._loader.hide();
-        this._notification.show(error.message);
-        switch (error.code) {
-          case "UserNotConfirmedException":
-            environment.confirm.username= this.usernameInput.value;
-            environment.confirm.password = this.passwordInput.value;
-            this._router.navigate(['confirm']);
-            break;
-          case "UsernameExistsException":
-            this._router.navigate(['signin']);
-            break;
-        }
-      })
-  }
+  // signIn() {
+  //   this.submitted = true;
+  //   // this._loader.show();
+  //   this.auth.signIn(this.usernameInput.value, this.passwordInput.value)
+  //     .then((user: CognitoUser|any) => {
+  //       // this._loader.hide();
+  //       this._router.navigate(['']);
+  //     })
+  //     .catch((error: any) => {
+  //       // this._loader.hide();
+  //       this._notification.show(error.message);
+  //       switch (error.code) {
+  //         case "UserNotConfirmedException":
+  //           environment.confirm.username= this.usernameInput.value;
+  //           environment.confirm.password = this.passwordInput.value;
+  //           this._router.navigate(['confirm']);
+  //           break;
+  //         case "UsernameExistsException":
+  //           this._router.navigate(['signin']);
+  //           break;
+  //       }
+  //     })
+  // }
 
-  get f() { return this.signinForm.controls; }
+  // get f() { return this.signinForm.controls; }
 
   async signInWithFacebook1() {
     const socialResult = await this.auth.socialSignIn(AuthService.FACEBOOK);

@@ -472,7 +472,7 @@ export class LessonsPage {
   }
 
   async presentVideo(lesson,test?:boolean) {
-    console.log('what is test', test);
+    // console.log('what is test', test);
 
     const modal = await this.modalController.create({
       component: VideoModalPage,
