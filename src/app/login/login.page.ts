@@ -79,34 +79,34 @@ export class LoginPage implements OnInit {
   // formFields: FormFieldTypes;
   // formFields1: FormFieldTypes;
 
-  public signUpConfig = {
-    header: 'Sign up to get access code via email',
-    defaultCountryCode: '1',
-    hideAllDefaults: true,
-    signUpFields: [
-      {
-        label: 'Username',
-        key: 'username',
-        required: true,
-        displayOrder: 1,
-        type: 'string',
-      },
-      {
-        label: 'Password  (>8 letters, incl. upper & lowercase)',
-        key: 'password',
-        required: true,
-        displayOrder: 2,
-        type: 'password',
-      },
-      {
-        label: 'Email',
-        key: 'email',
-        required: true,
-        displayOrder: 3,
-        type: 'email',
-      }
-    ]
-  };
+  // public signUpConfig = {
+  //   header: 'Sign up to get access code via email',
+  //   defaultCountryCode: '1',
+  //   hideAllDefaults: true,
+  //   signUpFields: [
+  //     {
+  //       label: 'Username',
+  //       key: 'username',
+  //       required: true,
+  //       displayOrder: 1,
+  //       type: 'string',
+  //     },
+  //     {
+  //       label: 'Password  (>8 letters, incl. upper & lowercase)',
+  //       key: 'password',
+  //       required: true,
+  //       displayOrder: 2,
+  //       type: 'password',
+  //     },
+  //     {
+  //       label: 'Email',
+  //       key: 'email',
+  //       required: true,
+  //       displayOrder: 3,
+  //       type: 'email',
+  //     }
+  //   ]
+  // };
   user: any;
   userId: any;
   username: any;
@@ -123,22 +123,25 @@ export class LoginPage implements OnInit {
     public guard: AuthGuard,
     public amplify: AmplifyService,
     public auth: AuthService, 
-    private _notification: NotificationService, 
-    private _router: Router,
+    // private _notification: NotificationService, 
+    // private _router: Router,
   ) {
 
-    // Hub.listen('auth', (data) => {
-    //   const { payload } = data
-    //   console.log('A new auth event has happened: ', data)
-    //   if (payload.event === 'signIn') {
-    //     console.log('a user has signed in!')
-    //     this.router.navigateByUrl('/app/tabs/lessons');
-    //   }
-    //   if (payload.event === 'signOut') {
-    //     console.log('a user has signed out!')
-    //     this.router.navigateByUrl('/login');
-    //   }
-    // })
+    Hub.listen('auth', (data) => {
+      const { payload } = data
+      // console.log('A new auth event has happened: ', data)
+      if (payload.event === 'signIn') {
+        this.storage.set('hasLoggedIn', true);
+        // console.log('a user has signed in!')
+        this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
+        // this.router.navigateByUrl('/app/tabs/lessons');
+      }
+      if (payload.event === 'signOut') {
+        this.storage.set('hasLoggedIn', false);
+        // console.log('a user has signed out!')
+        this.router.navigateByUrl('/login', { replaceUrl: true });
+      }
+    })
 
 
     // const formFields= {
@@ -320,19 +323,21 @@ export class LoginPage implements OnInit {
     this.amplifyService = this.amplify;
     this.amplifyService.authStateChange$
       .subscribe(authState => {
-        console.log('authState??????',authState);
+        // console.log('authState??????',authState);
         this.authState.loggedIn = authState.state === 'signedIn';
         //this.events.publish('data:AuthState', this.authState)
-        if (!authState.user) {
-          this.user = null;
-          this.router.navigateByUrl('/login', { replaceUrl: true });
-        }
+        // if (!authState.user) {
+        //   this.user = null;
+        //   this.router.navigateByUrl('/login', { replaceUrl: true });
+        // }
         if (authState.state === 'signedIn') {
+          this.storage.set('hasLoggedIn', true);
           this.router.navigateByUrl('/app/tabs/lessons', { replaceUrl: true });
         }
 
         if (authState.state !== 'signedIn' && !authState.user) {
-          this.router.navigateByUrl('/login', { replaceUrl: true });
+          this.storage.set('hasLoggedIn', false);
+          this.router.navigateByUrl('');
         }
       });
   }
@@ -345,6 +350,7 @@ export class LoginPage implements OnInit {
 
   cancel() {
     this.amplifyService.auth().signOut().then(() => {
+      this.storage.set('hasLoggedIn', false);
       return this.router.navigateByUrl('/login');
       // return this.router.navigateByUrl('/app/tabs/schedule');
     });
@@ -355,16 +361,16 @@ export class LoginPage implements OnInit {
     // });
   }
 
-  async signInWithFacebook() {
-    const socialResult = await this.socialSignIn(CognitoHostedUIIdentityProvider.Facebook);
-    console.log('fb Result:', socialResult);
-  }
+  // async signInWithFacebook() {
+  //   const socialResult = await this.socialSignIn(CognitoHostedUIIdentityProvider.Facebook);
+  //   console.log('fb Result:', socialResult);
+  // }
 
-  socialSignIn(provider: CognitoHostedUIIdentityProvider): Promise<any> {
-    return Auth.federatedSignIn({
-      'provider': provider
-    });
-  }
+  // socialSignIn(provider: CognitoHostedUIIdentityProvider): Promise<any> {
+  //   return Auth.federatedSignIn({
+  //     'provider': provider
+  //   });
+  // }
 
 
   // getEmailInputError() {
@@ -416,10 +422,10 @@ export class LoginPage implements OnInit {
 
   // get f() { return this.signinForm.controls; }
 
-  async signInWithFacebook1() {
-    const socialResult = await this.auth.socialSignIn(AuthService.FACEBOOK);
-    console.log('fb Result:', socialResult);
-  }
+  // async signInWithFacebook1() {
+  //   const socialResult = await this.auth.socialSignIn(AuthService.FACEBOOK);
+  //   console.log('fb Result:', socialResult);
+  // }
 
   // async signInWithGoogle() {
   //   const socialResult = await this.auth.socialSignIn(AuthService.GOOGLE);

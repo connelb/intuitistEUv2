@@ -1,7 +1,7 @@
 {
-  "name": "app",
-  "short_name": "app",
-  "theme_color": "#3880ff",
+  "name": "Intuitist",
+  "short_name": "Intuitist",
+  "theme_color": "#5ba7e4",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",

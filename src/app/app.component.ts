@@ -84,7 +84,6 @@ export class AppComponent implements OnInit {
   ];
 
 
-
   loggedIn = false;
   dark = false;
   isAdmin: boolean = false;
@@ -118,8 +117,10 @@ export class AppComponent implements OnInit {
     this.amplifyService.authStateChange$.subscribe(authState => {
       const isLoggedIn = authState.state === 'signedIn' || authState.state === 'confirmSignIn';
       if (this.loggedIn && !isLoggedIn) {
+        this.storage.set('hasLoggedIn', false);
         router.navigate(['']);
       } else if (!this.loggedIn && isLoggedIn) {
+        this.storage.set('hasLoggedIn', true);
         router.navigateByUrl('/app/tabs/lessons');
       }
       this.loggedIn = isLoggedIn;
@@ -132,7 +133,7 @@ export class AppComponent implements OnInit {
 
 
     Auth.currentSession().then(session => {
-      this.logInfoToConsole(session);
+      // this.logInfoToConsole(session);
       this.session = session;
       this.register();
       setImmediate(() => this.createUser());
@@ -142,6 +143,7 @@ export class AppComponent implements OnInit {
     await Auth.currentAuthenticatedUser({
       bypassCache: false
     }).then(async user => {
+      this.storage.set('hasLoggedIn', true);
       this.isAdmin = user.signInUserSession.accessToken.payload["cognito:groups"][0] == 'Admin';
     }).catch(err => {
       console.log('app.component isAdmin?',err);
@@ -184,15 +186,15 @@ export class AppComponent implements OnInit {
     });
   }
 
-  logInfoToConsole(session) {
-    console.log(session);
-    console.log(`ID Token: <${session.idToken.jwtToken}>`);
-    console.log(`Access Token: <${session.accessToken.jwtToken}>`);
-    console.log('Decoded ID Token:');
-    console.log(JSON.stringify(session.idToken.payload, null, 2));
-    console.log('Decoded Acess Token:');
-    console.log(JSON.stringify(session.accessToken.payload, null, 2));
-  }
+  // logInfoToConsole(session) {
+  //   console.log(session);
+  //   console.log(`ID Token: <${session.idToken.jwtToken}>`);
+  //   console.log(`Access Token: <${session.accessToken.jwtToken}>`);
+  //   console.log('Decoded ID Token:');
+  //   console.log(JSON.stringify(session.idToken.payload, null, 2));
+  //   console.log('Decoded Acess Token:');
+  //   console.log(JSON.stringify(session.accessToken.payload, null, 2));
+  // }
 
   createUser() {
     //createUser3
@@ -269,6 +271,7 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.amplifyService.auth().signOut().then(() => {
+      this.storage.set('hasLoggedIn', false);
       return this.router.navigateByUrl('/login');
     });
 
